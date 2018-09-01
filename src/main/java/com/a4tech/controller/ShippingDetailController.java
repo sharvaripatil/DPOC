@@ -1,23 +1,19 @@
 package com.a4tech.controller;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.a4tech.map.service.MapService;
 import com.a4tech.mapper.ShippingMapping;
@@ -27,7 +23,7 @@ import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 
 import saveShipping.StoreSpDetails;
 
-@RestController
+@Controller
 public class ShippingDetailController {
   
 	ShippingMapping shippingMapping;
@@ -47,6 +43,15 @@ public class ShippingDetailController {
 		shippingMapping.mapper();
 		System.out.println("Test");
   }
+	@RequestMapping("/algorithmProcess")
+	public String algorithmProcess(){
+		return "algorithm_process";
+  }
+	@RequestMapping("/intellShip")
+	public String intellShip(){
+		return "intellShip";
+  }
+	
 	public String getDistence(String orderNo){
 		ShortestDistLantiAndLongti shortestDetails = new ShortestDistLantiAndLongti();
 		  StoreSpDetails sd = new StoreSpDetails();
