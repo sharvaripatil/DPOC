@@ -32,63 +32,21 @@
 				p:readTimeout="90000" p:connectTimeout="90000" />
 		</constructor-arg>
 	</bean>  
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-  		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-  		<property name="url" value="jdbc:sqlserver://192.168.1.10;databaseName=a4datapro;" />
-     	<property name="username" value="sa" />
-  		<property name="password" value="P@$$w0rd123" />
-  	</bean> --> 
-	 <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${mysql.db.driverClassName}" />
-		<property name="url" value="${mysql.db.url}" />
-		<property name="username" value="${mysql.db.username}" />
-		<property name="password" value="${mysql.db.password}" />
-	</bean>
-
-	<bean id="hibernate3AnnotatedSessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<property name="annotatedClasses">
-			<list>
-				<value>com.a4tech.product.dao.entity.ProductEntity</value>
-				<value>com.a4tech.product.dao.entity.ErrorEntity</value>
-				<value>com.a4tech.product.dao.entity.BatchEntity</value>
-				<value>com.a4tech.product.dao.entity.FtpServerFileEntity</value>
-				<value>com.a4tech.product.dao.entity.SupplierLoginDetails</value>				
-				<value>com.a4tech.product.dao.entity.ProductionSupplierLoginDetails</value>
-				<value>com.a4tech.product.dao.entity.BaseSupplierLoginDetails</value>
-				<value>com.a4tech.product.dao.entity.SupplierColumnsEntity</value>
-				<value>parser.highcaliberline.HighCalColorEntity</value>
-			</list>
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				  <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-			<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop> 
-				<prop key="hibernate.current_session_context_class">thread</prop>
-				<prop key="show_sql">true</prop>
-				<prop key="hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-
-	</bean>
-	 -->
-	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 	
 	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-  		<property name="url" value="jdbc:mysql://localhost:3306" />
+  		<property name="url" value="jdbc:mysql://localhost:3306/shipdetail" />
      	<property name="username" value="root" />
   		<property name="password" value="root" />
   	</bean> 
 
-	<bean id="hibernate3AnnotatedSessionFactory"
+		<bean id="hibernate3AnnotatedSessionFactory"
 		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.a4tech.dao.entity.ShippingEntity</value>
+				<!-- <value>com.a4tech.dao.entity.ShippingEntity</value> -->
+				<value>com.a4tech.dao.entity.OrderEntity</value>
 			</list>
 		</property>
 		
@@ -106,18 +64,22 @@
    
 	
 	
-	<bean id="ShippingMapping" name="ShippingMapping"
+	<!-- <bean id="ShippingMapping" name="ShippingMapping"
 		class="com.a4tech.mapper.ShippingMapping">
 
 		<property name="shippingDao" ref="shippingDaoId"></property>
 		
-	</bean>
+	</bean> -->
 	
-	<bean id="shippingDaoId" name="ShippingDao"
+	<!-- <bean id="shippingDaoId" name="ShippingDao"
 		class="com.a4tech.daoService.ShippingDao">
 		<property name="sessionFactory" ref="hibernate3AnnotatedSessionFactory"></property>
-	</bean>
+	</bean> -->
 	
+	<bean id="orderDaoId" name="orderDao" class="com.a4tech.daoService.OrdersDao">
+		<property name="sessionFactory" ref="hibernate3AnnotatedSessionFactory"></property>
+		
+	</bean>
 	
 	
 	</beans>
