@@ -1,6 +1,15 @@
 package com.a4tech.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -13,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.a4tech.map.service.MapService;
 import com.a4tech.shipping.model.PlantDetails;
 import com.a4tech.shipping.model.ShippingDetails;
+import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 
 import saveShipping.StoreSpDetails;
 
@@ -26,9 +36,10 @@ public class ShippingDetailController {
   }
 	@RequestMapping("/getAllShortestDistence/")
 	public String getAllShortDistence(){
-	  return getAllDistence();
+	  return getAllDistence1();
   }
 	public String getDistence(String orderNo){
+		ShortestDistLantiAndLongti shortestDetails = new ShortestDistLantiAndLongti();
 		  StoreSpDetails sd = new StoreSpDetails();
 		  MapService gmapDist = new MapService();
 		  List<ShippingDetails> shippingDetailsList = sd.getAllShippingDetails();
@@ -42,8 +53,8 @@ public class ShippingDetailController {
 		  Map<Double, String> distences = new LinkedHashMap<>();
 		  double initialDistence = 0.0;
 		  Map<String, StringBuilder> shortDist = new HashMap<>();
-		  String plantLangitude = "";
-		  String plantLatitude = "";
+		  double plantLangitude = 0.0;
+		  double plantLatitude = 0.0;
 		  int intitialDist = 1;
 			  for (PlantDetails plantDetails : plantDetailsList) {
 				/*double distence =	distance(Double.parseDouble(shippingdetail.getLatitude()),
@@ -62,14 +73,19 @@ public class ShippingDetailController {
 	            }
 				if(distence<initialDistence) {
 					initialDistence = distence;
-					plantLangitude = plantDetails.getPlantName();
-					plantLatitude = plantDetails.getPlantState();
+					plantLangitude = plantDetails.getLongitude();
+					plantLatitude = plantDetails.getLatitude();
 				}
 				StringBuilder ord = new StringBuilder();
 				ord.append("PlantName:"+plantDetails.getPlantName()).append("_").append(plantDetails.getPlantState());
 				distences.put(distence, ord.toString());
 				intitialDist++;
 			}
+			  shortestDetails.setPlantLatitude(plantLatitude);
+			  shortestDetails.setPlantLongitude(plantLangitude);
+			  shortestDetails.setShortestDist(initialDistence);
+			  shortestDetails.setOrderLatitude(shippingDetail.getLatitude());
+			  shortestDetails.setOrderLongitude(shippingDetail.getLongitude());
 			  StringBuilder allDetails = new StringBuilder();
 				/*allDetails.append(initialDistence).append("##")
 						.append("Plant Latitude & Longitude:").append("Latitude: " + plantLatitude).append(":")
@@ -95,6 +111,7 @@ public class ShippingDetailController {
 			System.out.println("Order No: "+dist.getKey()+"::"+"Shortest Distence:"+dist.getValue());
 			allData.append("Order No: "+dist.getKey()).append("::").append("Shortest Distence:"+dist.getValue());
 		}
+		  shortestDetails.setOrderNo(orderNo);
 		return allData.toString();
 		
 	}
@@ -173,6 +190,95 @@ public class ShippingDetailController {
 		return allData.toString();
 		
 	}
+	public String getAllDistence1(){
+		  StoreSpDetails sd = new StoreSpDetails();
+		  MapService gmapDist = new MapService();
+		  List<ShippingDetails> shippingDetailsList = sd.getAllShippingDetails();
+		  List<PlantDetails> plantDetailsList = sd.getAllPlantDetails();
+			Map<String, ShippingDetails> shippingDetailsMap = sd.getAllShippingDetailsMap();
+		  //List<Double> distences = new ArrayList<>();
+		//	ShippingDetails shippingDetail = shippingDetailsMap.get();
+			/*if(shippingDetail == null){
+				return "Invaild OrderNo,Please enter vaild OrderNo";
+			}*/
+		  Map<Double, String> distences = new LinkedHashMap<>();
+		  double initialDistence = 0.0;
+		  Map<String, StringBuilder> shortDist = new HashMap<>();
+		  String plantLangitude = "";
+		  String plantLatitude = "";
+		  int intitialDist = 1;
+		  //Date todayDate = Calendar.getInstance().getTime().getDate();
+		//  Calendar.getInstance().get
+		//  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+		  
+	        //to convert Date to String, use format method of SimpleDateFormat class.
+	      //  String todatdte = dateFormat.format(todayDate);
+		  Map<Long, List<ShippingDetails>> groupBasedOnDays = new HashMap<>();
+		  for (ShippingDetails shippingDetail : shippingDetailsList) {
+			    String date = shippingDetail.getDate();
+			  
+			    LocalDate delivaryDate = LocalDate.parse(date);
+			   // LocalDate currentDate = LocalDate.parse(todatdte);
+			   Long noOfdays =  ChronoUnit.DAYS.between(LocalDate.now(), delivaryDate);
+			  //int noOfDays = 
+			   List<ShippingDetails> shippingList = groupBasedOnDays.get(noOfdays);
+			   if(shippingList == null){
+				   List<ShippingDetails> initialList = new ArrayList<>();
+				   initialList.add(shippingDetail);
+				   groupBasedOnDays.put(noOfdays, initialList);
+			   } else {
+				   shippingList.add(shippingDetail);
+				   groupBasedOnDays.put(noOfdays, shippingList);
+			   }
+	}
+		  System.out.println("Before sorting latitude and longtude");
+		  for (Map.Entry<Long, List<ShippingDetails>> details : groupBasedOnDays.entrySet()) {
+			          for (ShippingDetails shippingDetils : details.getValue()) {
+				System.out.println("No Delivary Due Days: " + details.getKey() + "Shipping details:"
+						+ shippingDetils.getLatitude() + ":Longitude:  " + shippingDetils.getLongitude());
+					}
+			   //System.out.println("Delivary Time Day due:"+details.getKey()+"##"+"NoOfOrders: "+details.getValue().size());
+		}
+		 
+		  Map<Long, List<ShippingDetails>> afterSoringGroup= new HashMap<>();
+		  for (Map.Entry<Long, List<ShippingDetails>> data : groupBasedOnDays.entrySet()) {
+			  Collections.sort(data.getValue(),new Comparator<ShippingDetails>() {
+
+				@Override
+				public int compare(ShippingDetails o1, ShippingDetails o2) {
+					return Double.compare(o1.getLatitude(), o2.getLatitude());
+				}
+			});
+			  afterSoringGroup.put(data.getKey(), data.getValue());
+		}
+		  System.out.println("After sorting"); 
+		  for (Map.Entry<Long, List<ShippingDetails>> details : afterSoringGroup.entrySet()) {
+	          for (ShippingDetails shippingDetils : details.getValue()) {
+		System.out.println("No Delivary Due Days: " + details.getKey() + "Shipping details:"
+				+ shippingDetils.getLatitude() + ":Longitude:  " + shippingDetils.getLongitude());
+			}
+	   //System.out.println("Delivary Time Day due:"+details.getKey()+"##"+"NoOfOrders: "+details.getValue().size());
+}
+		  
+			 StringBuilder allData = new StringBuilder();
+			 allData.append("All Plant Distence from Receptive Order: ").append("\n");
+		  for (Map.Entry<Double, String> dist: distences.entrySet()) {
+			System.out.println(dist.getValue()+"::"+dist.getKey());
+			allData.append(dist.getValue()).append("::").append(dist.getKey());
+			allData.append("\n");
+		}
+		  allData.append("\n");
+		  System.out.println("#####SHORTEST DISTENCE FROM PLANT#####");
+		  allData.append("#####SHORTEST DISTENCE FROM PLANT#####");
+		  allData.append("\n");
+		  for (Map.Entry<String, StringBuilder> dist : shortDist.entrySet()) {
+			System.out.println("Order No: "+dist.getKey()+"::"+"Shortest Distence:"+dist.getValue());
+			allData.append("Order No: "+dist.getKey()).append("::").append("Shortest Distence:"+dist.getValue());
+			allData.append("\n");
+		}
+		return allData.toString();
+		
+	}
 	
 	public void distence(){
 		  StoreSpDetails sd = new StoreSpDetails();
@@ -184,8 +290,8 @@ public class ShippingDetailController {
 		  Map<Double, String> distences = new LinkedHashMap<>();
 		  double initialDistence = 0.0;
 		  Map<String, StringBuilder> shortDist = new HashMap<>();
-		  String plantLangitude = "";
-		  String plantLatitude = "";
+		  double plantLangitude = 0.0;
+		  double plantLatitude = 0.0;
 		  for (ShippingDetails shippingdetail : shippingDetailsList) {
 			  int intitialDist = 1;
 			  for (PlantDetails plantDetails : plantDetailsList) {

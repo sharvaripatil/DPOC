@@ -4,8 +4,15 @@ public class ShippingDetails {
    private String delivary;
    private String qty;
    private String materilaType;
-   private String latitude ;
-   private String longitude;
+   private double latitude ;
+   private double longitude;
+   private String date;
+public String getDate() {
+	return date;
+}
+public void setDate(String date) {
+	this.date = date;
+}
 /**
  * @return the delivary
  */
@@ -42,28 +49,16 @@ public String getMaterilaType() {
 public void setMaterilaType(String materilaType) {
 	this.materilaType = materilaType;
 }
-/**
- * @return the latitude
- */
-public String getLatitude() {
+public double getLatitude() {
 	return latitude;
 }
-/**
- * @param latitude the latitude to set
- */
-public void setLatitude(String latitude) {
+public void setLatitude(double latitude) {
 	this.latitude = latitude;
 }
-/**
- * @return the longitude
- */
-public String getLongitude() {
+public double getLongitude() {
 	return longitude;
 }
-/**
- * @param longitude the longitude to set
- */
-public void setLongitude(String longitude) {
+public void setLongitude(double longitude) {
 	this.longitude = longitude;
 }
    
