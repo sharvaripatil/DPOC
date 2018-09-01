@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.a4tech.map.service.MapService;
+import com.a4tech.mapper.ShippingMapping;
 import com.a4tech.shipping.model.PlantDetails;
 import com.a4tech.shipping.model.ShippingDetails;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
@@ -29,6 +30,8 @@ import saveShipping.StoreSpDetails;
 @RestController
 public class ShippingDetailController {
   
+	ShippingMapping shippingMapping;
+	
 	@RequestMapping("/getShortestDistence/{orderNo}")
 	public String getShortDistence(@PathVariable("orderNo") String orderNo){
 		System.out.println(orderNo);
@@ -37,6 +40,12 @@ public class ShippingDetailController {
 	@RequestMapping("/getAllShortestDistence/")
 	public String getAllShortDistence(){
 	  return getAllDistence1();
+  }
+	
+	@RequestMapping("/getShippingMapping/")
+	public void saveShippingExcel(){
+		shippingMapping.mapper();
+		System.out.println("Test");
   }
 	public String getDistence(String orderNo){
 		ShortestDistLantiAndLongti shortestDetails = new ShortestDistLantiAndLongti();
@@ -336,5 +345,11 @@ public class ShippingDetailController {
 		}
 		
 		
+	}
+	public ShippingMapping getShippingMapping() {
+		return shippingMapping;
+	}
+	public void setShippingMapping(ShippingMapping shippingMapping) {
+		this.shippingMapping = shippingMapping;
 	}
 }
