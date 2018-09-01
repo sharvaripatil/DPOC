@@ -23,6 +23,7 @@
 }
 }
 </style>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
 <body class="md-skin">
@@ -42,7 +43,7 @@
           </div>
           <div class="logo-element"> </div>
         </li>
-        <li class="active"> <a href="index.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
+        <li class="active"> <a href="http://localhost:8085/DPOC/"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
 		      <li> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
         <!-- <li> <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Administration</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse">
@@ -129,8 +130,8 @@
               <h5>Total Invoice</h5>
             </div>
             <div class="ibox-content">
-              <h1 class="no-margins">6,200</h1>
-              <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
+              <h1 class="no-margins" id="TopinvoiceDetails">6,200</h1>
+              <!-- <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div> -->
               <small>Invoice</small> </div>
           </div>
         </div>
@@ -141,7 +142,7 @@
             </div>
             <div class="ibox-content">
               <h1 class="no-margins">800</h1>
-              <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+              <!-- <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div> -->
               <small>New orders</small> </div>
           </div>
         </div>
@@ -151,8 +152,8 @@
               <h5>Completed Shippment</h5>
             </div>
             <div class="ibox-content">
-              <h1 class="no-margins">20</h1>
-              <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
+              <h1 class="no-margins" id="TopcompletedShipment">20</h1>
+              <!-- <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div> -->
               <small>Shippment</small> </div>
           </div>
         </div>
@@ -163,7 +164,7 @@
             </div>
             <div class="ibox-content">
               <h1 class="no-margins">600</h1>
-              <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
+              <!-- <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div> -->
               <small>Shippment</small> </div>
           </div>
         </div>
@@ -182,49 +183,54 @@
               </div>
             </div>
             <div class="ibox-content">
-              <div class="row">
-                <div class="col-lg-9">
-                  <div class="flot-chart">
-                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                  <div class="tabs-container">
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a data-toggle="tab" href="#tab-3" aria-expanded="true">Today</a></li>
+                      <li class=""><a data-toggle="tab" href="#tab-4" aria-expanded="false">Monthly</a></li>
+                      <li class=""><a data-toggle="tab" href="#tab-5" aria-expanded="false">Yearly</a></li>
+                    </ul>
+                    <div class="tab-content">
+                      <div id="tab-3" class="tab-pane active">
+                        <div class="panel-body">
+                          <table class="table table-hover no-margins">
+                            <thead>
+                              <tr>
+                                <th id="GraphtodayProgress">0</th>
+                               
+                              </tr>
+                            </thead>
+                            
+                          </table>
+                        </div>
+                      </div>
+                      <div id="tab-4" class="tab-pane">
+                        <div class="panel-body">
+                          <table class="table table-hover no-margins">
+                            <thead>
+                              <tr>
+                                <th id="GraphmonthyProgress">00</th>
+                               <!--  <th>Total Distance Travel</th> -->
+                              </tr>
+                            </thead>
+                           
+                          </table>
+                        </div>
+                      </div>
+                      <div id="tab-5" class="tab-pane">
+                        <div class="panel-body">
+                          <table class="table table-hover no-margins">
+                            <thead>
+                              <tr>
+                                <th id="Graphyearlyprogress">10</th>
+                               <!--  <th>Total Distance Travel</th> -->
+                              </tr>
+                            </thead>
+                            
+                          </table>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-lg-3">
-                  <ul class="stat-list">
-                    <li>
-                      <h2 class="no-margins">346</h2>
-                      <small>Order Delivered in West India</small>
-                      <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 48%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <h2 class="no-margins ">422</h2>
-                      <small>Order Delivered in East India</small>
-                      <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 60%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <h2 class="no-margins ">180</h2>
-                      <small>Order Delivered in North India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <h2 class="no-margins ">680</h2>
-                      <small>Order Delivered in South India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -261,7 +267,7 @@
                         <div>City : Mumbai</div>
                         <small class="text-muted">Longitude:19.0760° N, Latitude:72.8777° E</small> </div>
                     </div>
-                    </a> <a data-toggle="modal" data-target="#myModal1">
+                    </a> <aata-target="#myModal1">
                     <div class="feed-element">
                       <div> <small class="pull-right text-navy">1m ago</small> <strong>Invoice No. 457</strong>
                         <div>City : Surat</div>
@@ -799,7 +805,20 @@
     </div>
   </div>
 </div>
+
+<!-- <div class="myDiv" id="IdMy"></div> -->
 <!-- Mainly scripts --> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script>
+$(document).ready(function(){
+        $.getJSON("http://localhost:8085/DPOC/getMonthlyOrderCount/", function(result){
+            $.each(result, function(i, field){
+                $("div").append(field + " ");
+            });
+        });
+    });
+</script> -->
+
 <script src="resources/js/jquery-2.1.1.js"></script> 
 <script src="resources/js/bootstrap.min.js"></script> 
 <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script> 
@@ -1175,6 +1194,92 @@ function loadScript() {
   document.body.appendChild(script);
 }
 window.onload = loadScript;
+
+fetch("http://localhost:8085/DPOC/getDailyOrderCount/").then(
+		function(data){
+			return	data.json()
+		//var indetail= document.getElementById('invoiceDetails');
+		//indetail.innerText=`${OneDay.name.first}`
+		}
+		).then(
+				function(d){
+					var indetail= document.getElementById('TopinvoiceDetails');
+					indetail.innerText=d['totalCount'];
+					console.log(d);
+					
+					var monthlyProgressStr= document.getElementById('GraphtodayProgress');
+					monthlyProgressStr.innerText=d['totalCount'];
+					console.log(d);
+				}
+				)
+				
+				
+				
+		fetch("http://localhost:8085/DPOC/getYearlyOrderCount/").then(
+		function(data){
+			return	data.json()
+		//var indetail= document.getElementById('invoiceDetails');
+		//indetail.innerText=`${OneDay.name.first}`
+		}
+		).then(
+				function(d){
+					var indetail= document.getElementById('TopcompletedShipment');
+					indetail.innerText=d['totalNumberOforders'];
+					
+					var monthlyProgressStr= document.getElementById('Graphyearlyprogress');
+					monthlyProgressStr.innerText=d['totalNumberOforders'];
+					console.log(d);
+				}
+				)
+				
+				
+	/* fetch("http://localhost:8085/DPOC/getMonthlyOrderCount/").then(
+		function(data){
+			return	data.json()
+		//var indetail= document.getElementById('invoiceDetails');
+		//indetail.innerText=`${OneDay.name.first}`
+		}
+		).then(
+				function(d){
+					var indetail= document.getElementById('GraphmonthyProgress');
+					indetail.innerText='d.arrList[1].totalOrder';
+					
+					
+				}
+				)		 */
+				
+		/* 		$.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) {
+					 
+					 var indetail= document.getElementById('GraphmonthyProgress');
+						
+						indetail.innerText=json.arrList[1].totalOrder; 
+					 });
+		 */			 
+$.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) {
+	var myJSON = JSON.stringify(json);
+	/* var text = "";
+	for (i = 0; i < myJSON.; i++) {
+	    text += myJSON.arrList[i].month + myJSON.arrList[i].totalOrder + "<br>";
+	}  */
+	
+document.getElementById("GraphmonthyProgress").innerHTML = myJSON;
+		
+	 });
+	/* 			(function() {
+  var flickerAPI = "http://localhost:8085/DPOC/getMonthlyOrderCount/";
+  $.getJSON( flickerAPI, {
+    tags: "mount rainier",
+    tagmode: "any",
+    format: "json"
+  })
+    .done(function( data ) {
+      $.each( data.items, function( i, item ) {
+        $( "<img>" ).attr( "src", item.media.m ).appendTo( "#images" );
+       
+      });
+    });
+})(); */
+				
     </script>
 </body>
 </html>

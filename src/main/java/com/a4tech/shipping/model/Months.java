@@ -1,20 +1,18 @@
 package com.a4tech.shipping.model;
 
+import java.util.ArrayList;
+
 public class Months {
- String month;
- String totalOrder;
-public String getMonth() {
-	return month;
-}
-public void setMonth(String month) {
-	this.month = month;
-}
-public String getTotalOrder() {
-	return totalOrder;
-}
-public void setTotalOrder(String totalOrder) {
-	this.totalOrder = totalOrder;
-}
+	
+	ArrayList<Month> monthsList=new ArrayList<Month>();
+	
+ public ArrayList<Month> getArrList() {
+		return monthsList;
+	}
+	public void setArrList(ArrayList<Month> arrList) {
+		this.monthsList = arrList;
+	}
+
  
  
 }

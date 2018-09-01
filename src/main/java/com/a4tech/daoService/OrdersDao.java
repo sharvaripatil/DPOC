@@ -12,6 +12,7 @@ import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.engine.SessionFactoryImplementor;
 import org.hibernate.jdbc.Work;
 
+import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
 import com.a4tech.shipping.model.Year;
@@ -44,9 +45,9 @@ public class OrdersDao {
 		monthMap.put("12", "December");
 	}
 	
-	public  ArrayList<Months> getMonthly() throws ClassNotFoundException {
+	public  ArrayList<Month> getMonthly() throws ClassNotFoundException {
 
-		ArrayList<Months> monthsList =new ArrayList<Months>(); 
+		ArrayList<Month> monthsList =new ArrayList<Month>(); 
 		Session session = null;
 		 java.sql.Connection connection = null ;
 				try{
@@ -69,9 +70,9 @@ public class OrdersDao {
 							        //callableStatement.execute();  
 							        ResultSet rs1 = callableStatement.executeQuery();
 							        
-							        Months monthObj=new Months();
+							        Month monthObj=new Month();
 							            while (rs1.next()) {
-							            	monthObj=new Months();
+							            	monthObj=new Month();
 							            	monthObj.setMonth(monthMap.get(rs1.getString("monthnumber") ));
 							            	monthObj.setTotalOrder(rs1.getString("TotalCount"));
 							            	monthsList.add(monthObj);
@@ -86,6 +87,7 @@ public class OrdersDao {
 							}
 							 }
 							 );
+					 session.clear();
 				        }finally{
 				    		if(session !=null){
 				    			try{
@@ -134,7 +136,7 @@ public class OrdersDao {
 		        	
 		        });
 		     
-		            
+		        session.clear();
 		        }finally{
 		    		if(session !=null){
 		    			try{
@@ -178,6 +180,7 @@ public class OrdersDao {
 						
 					}
 				});
+				 session.clear();
 				       
 				            
 				        }finally{
@@ -185,7 +188,7 @@ public class OrdersDao {
 				    			try{
 				    				session.close();
 				    			}catch(Exception ex){
-				    				
+				    				System.out.println(ex.getMessage());
 				    			}	
 				    		}
 				    	}	

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.a4tech.daoService.OrdersDao;
+import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
 import com.a4tech.shipping.model.Year;
@@ -22,23 +23,25 @@ public class OrderDetailsController {
 	
 	
 	@RequestMapping("/getMonthlyOrderCount/")
-	public ArrayList<Months> getMonthlyOrderCount(){
-		  ArrayList<Months> list=new ArrayList<Months>();
+	public Months getMonthlyOrderCount(){
+		Months monobj=new Months();
+		  ArrayList<Month> list=new ArrayList<Month>();
 	   try {
 		    list=orderDao.getMonthly();
+		    monobj.setArrList(list);
 		//return orderDao.getMonthly();
 	} catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
-	return list;
+	return monobj;
 	}
 	@RequestMapping("/getYearlyOrderCount/")
-	public ModelAndView getYearlyOrderCount() throws ClassNotFoundException{
+	public Year getYearlyOrderCount() throws ClassNotFoundException{
 		Year obj= orderDao.getYearly();
-		ModelAndView modelAndView = new ModelAndView("index");
-	    modelAndView.addObject("yearData", obj);
-	    return modelAndView;
+		//ModelAndView modelAndView = new ModelAndView("index");
+	  //  modelAndView.addObject("yearData", obj);
+	    return obj;
 		
 		//return obj;
 		

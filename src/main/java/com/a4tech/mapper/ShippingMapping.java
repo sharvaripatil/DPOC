@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.daoService.ShippingDao;
+import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
 import com.a4tech.shipping.model.Year;
@@ -49,8 +50,9 @@ public class ShippingMapping {
 	}  
 	ShippingDao shippingDao;
 	
-	public static  ArrayList<Months> getMonthlyShippingData() throws ClassNotFoundException{
-		ArrayList<Months> monthsList =new ArrayList<Months>(); 
+	public static  Months getMonthlyShippingData() throws ClassNotFoundException{
+		ArrayList<Month> monthsList =new ArrayList<Month>(); 
+		Months monthObjs=new Months();
 				try{
 				Class.forName("com.mysql.jdbc.Driver");
 				Connection con=(Connection) DriverManager.getConnection(  
@@ -62,9 +64,10 @@ public class ShippingMapping {
 				        //callableStatement.execute();  
 				        ResultSet rs1 = callableStatement.executeQuery();
 				        
-				        Months monthObj=new Months();
+				        Month monthObj=new Month();
+				        
 				            while (rs1.next()) {
-				            	monthObj=new Months();
+				            	monthObj=new Month();
 				            	monthObj.setMonth(monthMap.get(rs1.getString("monthnumber") ));
 				            	monthObj.setTotalOrder(rs1.getString("TotalCount"));
 				            	monthsList.add(monthObj);
@@ -72,6 +75,7 @@ public class ShippingMapping {
 				                        + rs1.getString("TotalCount"));*/
 				                       
 				            }
+				            monthObjs.setArrList(monthsList);
 				            rs1.close();
 				            callableStatement.close();
 				            con.close();
@@ -79,7 +83,7 @@ public class ShippingMapping {
 				        } catch (SQLException ex) {
 				            System.out.println(ex.getMessage());
 				        }
-				return monthsList;
+				return monthObjs;
 					
 				//}catch(Exception e){ System.out.println(e);}  
 				
