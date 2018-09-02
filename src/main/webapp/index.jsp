@@ -24,6 +24,7 @@
 }
 </style>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </head>
 
 <body class="md-skin">
@@ -175,11 +176,11 @@
             <div class="ibox-title">
               <h5>Orders</h5>
               <div class="pull-right">
-                <div class="btn-group">
+               <!--  <div class="btn-group">
                   <button type="button" class="btn btn-xs btn-white active">Today</button>
                   <button type="button" class="btn btn-xs btn-white">Monthly</button>
                   <button type="button" class="btn btn-xs btn-white">Annual</button>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="ibox-content">
@@ -195,8 +196,7 @@
                           <table class="table table-hover no-margins">
                             <thead>
                               <tr>
-                                <th id="GraphtodayProgress">0</th>
-                               
+                                <canvas id="todayCharts" width="400" height="200"></canvas>
                               </tr>
                             </thead>
                             
@@ -205,28 +205,22 @@
                       </div>
                       <div id="tab-4" class="tab-pane">
                         <div class="panel-body">
-                          <table class="table table-hover no-margins">
-                            <thead>
-                              <tr>
-                                <th id="GraphmonthyProgress">00</th>
+                          		<canvas id="monthCharts" width="400" height="200"></canvas>
                                <!--  <th>Total Distance Travel</th> -->
-                              </tr>
-                            </thead>
-                           
-                          </table>
                         </div>
                       </div>
                       <div id="tab-5" class="tab-pane">
                         <div class="panel-body">
-                          <table class="table table-hover no-margins">
+                        <canvas id="yearCharts" width="400" height="200"></canvas>
+                          <!-- <table class="table table-hover no-margins">
                             <thead>
                               <tr>
                                 <th id="Graphyearlyprogress">10</th>
-                               <!--  <th>Total Distance Travel</th> -->
+                                <th>Total Distance Travel</th>
                               </tr>
                             </thead>
                             
-                          </table>
+                          </table> -->
                         </div>
                       </div>
                     </div>
@@ -234,7 +228,7 @@
             </div>
           </div>
         </div>
-		<--  <div class="col-lg-12">
+		<!-- <--  <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
               <h5>Material Delivery across different Traders</h5>
@@ -249,7 +243,7 @@
               </div>
             </div>
           </div>
-        </div> -->
+        </div> --> 
       </div>
       <div class="row">
         <div class="col-lg-12">
@@ -1207,9 +1201,9 @@ fetch("http://localhost:8085/DPOC/getDailyOrderCount/").then(
 					indetail.innerText=d['totalCount'];
 					console.log(d);
 					
-					var monthlyProgressStr= document.getElementById('GraphtodayProgress');
+					/* var monthlyProgressStr= document.getElementById('GraphtodayProgress');
 					monthlyProgressStr.innerText=d['totalCount'];
-					console.log(d);
+					console.log(d); */
 				}
 				)
 				
@@ -1226,9 +1220,9 @@ fetch("http://localhost:8085/DPOC/getDailyOrderCount/").then(
 					var indetail= document.getElementById('TopcompletedShipment');
 					indetail.innerText=d['totalNumberOforders'];
 					
-					var monthlyProgressStr= document.getElementById('Graphyearlyprogress');
+					/* var monthlyProgressStr= document.getElementById('Graphyearlyprogress');
 					monthlyProgressStr.innerText=d['totalNumberOforders'];
-					console.log(d);
+					console.log(d); */
 				}
 				)
 				
@@ -1256,15 +1250,75 @@ fetch("http://localhost:8085/DPOC/getDailyOrderCount/").then(
 					 });
 		 */			 
 $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) {
-	var myJSON = JSON.stringify(json);
-	/* var text = "";
-	for (i = 0; i < myJSON.; i++) {
-	    text += myJSON.arrList[i].month + myJSON.arrList[i].totalOrder + "<br>";
-	}  */
+	var data = json.arrList;	
+	var months = [];
+	var counts = [];
 	
-document.getElementById("GraphmonthyProgress").innerHTML = myJSON;
-		
-	 });
+	for (var i = 0; i < data.length; i++) {
+		months.push(data[i].month);
+		counts.push(data[i].totalOrder);
+	}
+	
+	var barCanvas = document.getElementById("monthCharts");
+	var barData = {
+	  label: 'Total Orders',
+	  data: counts
+	};
+
+	var barChart = new Chart(barCanvas, {
+	  type: 'bar',
+	  data: {
+	    labels: months,
+	    datasets: [barData]
+	  }
+	});
+});
+		 
+		 
+		 $.getJSON( "http://localhost:8085/DPOC/getYearlyOrderCount/", function( json ) {
+				var year1 = json.totalNumberOforders;
+				var year2 = 365;
+				console.log(year1) 
+				var years = [2018,2019];
+				var counts=[year1,year2];
+				console.log(counts);
+				var barCanvas = document.getElementById("yearCharts");
+				var barData = {
+				  label: 'Total Orders',
+				  data: counts
+				};
+				var barChart = new Chart(barCanvas, {
+				  type: 'bar',
+				  data: {
+					  labels: years,
+				    datasets: [barData]
+				  }
+				});
+			});
+		 
+		 $.getJSON( "http://localhost:8085/DPOC/getDailyOrderCount/", function( json ) {
+				var day = json.totalCount;	
+				console.log(day)
+				var days = [23];
+				//var counts = 31; 
+				var barCanvas = document.getElementById("todayCharts");
+				var barData = {
+				  label: 'Total Orders',
+				  data: [day]
+				};
+
+				var barChart = new Chart(barCanvas, {
+				  type: 'bar',
+				  data: {
+					  labels: days,
+				    datasets: [barData]
+				  }
+				});
+			});
+		 
+		 
+		 
+		 
 	/* 			(function() {
   var flickerAPI = "http://localhost:8085/DPOC/getMonthlyOrderCount/";
   $.getJSON( flickerAPI, {
