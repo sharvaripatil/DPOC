@@ -21,7 +21,15 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+/* .ibox-title tbody{
+  display:block;
+  overflow:auto;
+  height:200px;
+  width:100%;
 }
+.ibox-title thead tr{
+  display:block;
+} */
 </style>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
@@ -245,51 +253,7 @@
           </div>
         </div>
         
-        <!-- <div class="ibox-title">
-				 <h5> Truck Info</h5>
-                <table class="table table-hover margin bottom">
-                  <thead>
-                    <tr>
-                      <th>Vehicle No.</th>
-                      <th> Vehicle Type.</th>
-                      <th>Cement Delivered (In Kg)</th>
-                          <th>Cement Delivered (In tonnes)</th>
-                          <th>Trader</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>456</td>
-                      <td>MH02 EE5012</td>
-                      <td>Longitude:19.0760° N, Latitude:72.8777° E</td>
-                        <td>456</td>
-                      <td>MH02 EE5012</td>
-                    </tr>
-                    <tr>
-                      <td>457</td>
-                      <td>MH42 EA9612</td>
-                      <td>Longitude:21.1702° N, Latitude:72.8311° E</td>
-                        <td>456</td>
-                      <td>MH02 EE5012</td>
-                    </tr>
-                    <tr>
-                      <td>458</td>
-                      <td>UP78 AB9612</td>
-                      <td>Longitude:28.7041° N, Latitude:77.1025° E</td>
-                        <td>456</td>
-                      <td>MH02 EE5012</td>
-                    </tr>
-                    <tr>
-                      <td>459</td>
-                      <td>UP78 AC9612</td>
-                      <td>Longitude:26.8467° N, Latitude:80.9462° E</td>
-                        <td>456</td>
-                      <td>MH02 EE5012</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-			</div> -->
+        
 		<!-- <--  <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -307,6 +271,23 @@
           </div>
         </div> --> 
       </div>
+      
+       <div class="ibox-title" >
+				 <h5> Truck Info</h5>
+                <table class="table table-hover margin bottom">
+                	<thead>
+                    <tr>
+                      <th>Vehicle No.</th>
+                      <th> Vehicle Type.</th>
+                      <th>Cement Delivered (In Kg)</th>
+                          <th>Cement Delivered (In tonnes)</th>
+                          <th>Trader</th>
+                    </tr>
+                  </thead>
+                  <tbody id="TRUCKtabledata"></tbody>
+                </table>
+
+			</div> 
      <!--  <div class="row">
         <div class="col-lg-12">
           <div class="row">
@@ -537,7 +518,7 @@
                   </tbody>
                 </table>
                 <h5>Time to Delivered</h5>
-                <table class="table table-hover margin bottom">
+                <table class="table table-hover margin bottom" id="truckTable">
                   <thead>
                     <tr>
                       <th>Invoice No.</th>
@@ -1432,27 +1413,76 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 							}
 							)
 							
+						  $.ajax({
+			  url: 'http://localhost:8085/DPOC/getTrucks/',
+			  success: function(data){
+			   			    //console.log(data)
+			   			       var tr;
+        for (var i = 0; i < data.trucksList.length; i++) {
+        	//console.log(data.trucksList[i].slno +" "+data.trucksList[i].vehicleno+" "
+        	//		+data.trucksList[i].inKg +" "+data.trucksList[i].inTonne+" " +data.trucksList[i].entrytype
+        	//);
+        	
+        	var table = document.getElementById("TRUCKtabledata");
+        	
+        	var row = table.insertRow(i);
+
+        	// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        	var slno = row.insertCell(0);
+        	var vehicleno = row.insertCell(1);
+        	var inKg = row.insertCell(2);
+        	var inTonne = row.insertCell(3);
+        	var entrytype = row.insertCell(4);
+
+        	// Add some text to the new cells:
+        	slno.innerHTML = data.trucksList[i].slno;
+        	vehicleno.innerHTML = data.trucksList[i].vehicleno;
+        	inKg.innerHTML = data.trucksList[i].inKg;
+        	inTonne.innerHTML = data.trucksList[i].inTonne;
+        	entrytype.innerHTML = data.trucksList[i].entrytype;
+            
+			  }
+			  }});	 
+					 		
+/* fetch("http://localhost:8085/DPOC/getTrucks/").then(
+					function(data){
+						return	data.json()
+					//var indetail= document.getElementById('invoiceDetails');
+					//indetail.innerText=`${OneDay.name.first}`
+					}
+					).then(
+							function(d){
+								console.log(d);
+						        var tr;
+						        for (var i = 0; i < json.length; i++) {
+						            tr = $('<tr/>');
+						            tr.append("<td>" + d.trucksList[i].slno + "</td>");
+						            tr.append("<td>" + d.trucksList[i].vehicleno + "</td>");
+						            tr.append("<td>" + d.trucksList[i].inKg + "</td>");
+						            tr.append("<td>" + d.trucksList[i].inTonne + "</td>");
+						            tr.append("<td>" + d.trucksList[i].entrytype + "</td>");
+						            $('TRUCKtabledata').append(tr);
+						        }
+							}
+							)  */
 							
-							
-fetch("http://localhost:8085/DPOC/getTrucks/").then(
-		function(data){
-			return	data.json()
-		//var indetail= document.getElementById('invoiceDetails');
-		//indetail.innerText=`${OneDay.name.first}`
-		}
-		).then(
-				function(d){
-					var indetail= document.getElementById('tableId');
-					
-					indetail.innerText='d.arrList[1].slno';
-					//indetail.innerText=d['totalCount'];
-					console.log(d);
-					
-					/* var monthlyProgressStr= document.getElementById('GraphtodayProgress');
-					monthlyProgressStr.innerText=d['totalCount'];
-					console.log(d); */
-				}
-				)
+				/* 
+				$(document).ready(function () {
+    $.getJSON('http://localhost:8085/DPOC/getTrucks/',
+    function (json) {
+    	console.log(json);
+        var tr;
+        for (var i = 0; i < json.length; i++) {
+            tr = $('<tr/>');
+            tr.append("<td>" + json[i].slno + "</td>");
+            tr.append("<td>" + json[i].vehicleno + "</td>");
+            tr.append("<td>" + json[i].inKg + "</td>");
+            tr.append("<td>" + json[i].inTonne + "</td>");
+            tr.append("<td>" + json[i].entrytype + "</td>");
+            $('TRUCKtabledata').append(tr);
+        }
+    });
+}); */
 		// $("#example-table").tabulator("setData", "http://localhost:8085/DPOC/getMonthlyOrderCount/");
 		 
 	/* 			(function() {

@@ -127,7 +127,7 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 							 @Override
 							public void execute(java.sql.Connection connection)
 									throws SQLException {
-								 String query = "SELECT * FROM truck_info LIMIT 100;";
+								 String query = "SELECT * FROM truck_info LIMIT 15;";
 							      Statement st =  connection.createStatement();
 							      ResultSet rs = st.executeQuery(query);
 							      
@@ -138,8 +138,10 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 							    	  truckbj.setSlno(rs.getString("slno"));
 							    	  truckbj.setVehicleno(rs.getString("vehicleno"));
 							    	  int wt=rs.getInt("vehicletype");
+							    	  truckbj.setVehicletype(wt);
 							    	  truckbj.setInTonne(wt);
 							    	  truckbj.setInKg(Math.round(wt*1000));
+							    	  truckbj.setWheels(rs.getString("wheels"));
 							    	  truckbj.setEntrytype(rs.getString("entrytype"));
 							    	  trucksList.add(truckbj);
 							      }
