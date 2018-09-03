@@ -40,7 +40,7 @@ public class ShippingDetailController {
 	
 	@RequestMapping("/getShippingMapping/")
 	public void saveShippingExcel(){
-		shippingMapping.mapper();
+		//shippingMapping.mapper();
 		System.out.println("Test");
   }
 	@RequestMapping("/algorithmProcess")

@@ -1,7 +1,7 @@
 package com.a4tech.shipping.model;
 
 public class Year {
-String totalNumberOforders;
+public String totalNumberOforders;
 
 public String getTotalNumberOforders() {
 	return totalNumberOforders;

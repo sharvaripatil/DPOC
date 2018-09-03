@@ -25,6 +25,7 @@
 </style>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dynatable/0.3.1/jquery.dynatable.js"></script>
 </head>
 
 <body class="md-skin">
@@ -136,40 +137,55 @@
               <small>Invoice</small> </div>
           </div>
         </div>
-        <div class="col-lg-3">
+       <!--  <div class="col-lg-3">
           <div class="ibox float-e-margins">
             <div class="ibox-title"> <span class="label label-info pull-right">Monthly</span>
               <h5>New Invoice</h5>
             </div>
             <div class="ibox-content">
               <h1 class="no-margins">800</h1>
-              <!-- <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div> -->
+              <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
               <small>New orders</small> </div>
           </div>
-        </div>
-        <div class="col-lg-3">
+        </div> -->
+         <div class="col-lg-3">
           <div class="ibox float-e-margins">
-            <div class="ibox-title"> <span class="label label-primary pull-right">Today</span>
+            <div class="ibox-title"> <span class="label label-danger pull-right">Monthly</span>
               <h5>Completed Shippment</h5>
             </div>
             <div class="ibox-content">
-              <h1 class="no-margins" id="TopcompletedShipment">20</h1>
-              <!-- <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div> -->
-              <small>Shippment</small> </div>
+              <h1 class="no-margins" id="TopcompletedShipment">600</h1>
+              <!-- <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div> -->
+              <small>Shippment</small> 
+              </div>
           </div>
         </div>
         <div class="col-lg-3">
           <div class="ibox float-e-margins">
-            <div class="ibox-title"> <span class="label label-danger pull-right">Monthly</span>
-              <h5>Pending Shippment</h5>
+            <div class="ibox-title	"> <span class="label label-danger pull-right">Yearly</span>
+              <h5>Goods Delievered</h5>
             </div>
             <div class="ibox-content">
-              <h1 class="no-margins">600</h1>
+              <h1 class="no-margins" id="Topcompletedgoods"> 600</h1>
               <!-- <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div> -->
-              <small>Shippment</small> </div>
+              <small>In Tonnes</small> </div>
+          </div>
+        </div>
+         <div class="col-lg-3">
+          <div class="ibox float-e-margins">
+            <div class="ibox-title" > <span class="label label-danger pull-right">Yearly</span>
+              <h5>Total EPOD</h5>
+            </div>
+            <div class="ibox-content">
+              <h1 class="no-margins" id="Topcompletedepod"> 600</h1>
+              <!-- <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div> -->
+              <small> </small> </div>
           </div>
         </div>
       </div>
+      
+<div id="example-table"></div>
+      
       <div class="row">
         <div class="col-lg-12">
           <div class="ibox float-e-margins">
@@ -196,7 +212,7 @@
                           <table class="table table-hover no-margins">
                             <thead>
                               <tr>
-                                <canvas id="todayCharts" width="400" height="200"></canvas>
+                                <%-- <canvas id="todayCharts" width="400" height="200"></canvas> --%>
                               </tr>
                             </thead>
                             
@@ -205,13 +221,13 @@
                       </div>
                       <div id="tab-4" class="tab-pane">
                         <div class="panel-body">
-                          		<canvas id="monthCharts" width="400" height="200"></canvas>
+                          		<%-- <canvas id="monthCharts" width="400" height="200"></canvas> --%>
                                <!--  <th>Total Distance Travel</th> -->
                         </div>
                       </div>
                       <div id="tab-5" class="tab-pane">
                         <div class="panel-body">
-                        <canvas id="yearCharts" width="400" height="200"></canvas>
+                       <%--  <canvas id="yearCharts" width="400" height="200"></canvas> --%>
                           <!-- <table class="table table-hover no-margins">
                             <thead>
                               <tr>
@@ -228,6 +244,52 @@
             </div>
           </div>
         </div>
+        
+        <!-- <div class="ibox-title">
+				 <h5> Truck Info</h5>
+                <table class="table table-hover margin bottom">
+                  <thead>
+                    <tr>
+                      <th>Vehicle No.</th>
+                      <th> Vehicle Type.</th>
+                      <th>Cement Delivered (In Kg)</th>
+                          <th>Cement Delivered (In tonnes)</th>
+                          <th>Trader</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>456</td>
+                      <td>MH02 EE5012</td>
+                      <td>Longitude:19.0760° N, Latitude:72.8777° E</td>
+                        <td>456</td>
+                      <td>MH02 EE5012</td>
+                    </tr>
+                    <tr>
+                      <td>457</td>
+                      <td>MH42 EA9612</td>
+                      <td>Longitude:21.1702° N, Latitude:72.8311° E</td>
+                        <td>456</td>
+                      <td>MH02 EE5012</td>
+                    </tr>
+                    <tr>
+                      <td>458</td>
+                      <td>UP78 AB9612</td>
+                      <td>Longitude:28.7041° N, Latitude:77.1025° E</td>
+                        <td>456</td>
+                      <td>MH02 EE5012</td>
+                    </tr>
+                    <tr>
+                      <td>459</td>
+                      <td>UP78 AC9612</td>
+                      <td>Longitude:26.8467° N, Latitude:80.9462° E</td>
+                        <td>456</td>
+                      <td>MH02 EE5012</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+			</div> -->
 		<!-- <--  <div class="col-lg-12">
           <div class="ibox float-e-margins">
             <div class="ibox-title">
@@ -245,7 +307,7 @@
           </div>
         </div> --> 
       </div>
-      <div class="row">
+     <!--  <div class="row">
         <div class="col-lg-12">
           <div class="row">
             <div class="col-lg-6">
@@ -394,8 +456,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
+      </div> -->
+     <!--  <div class="row">
         <div class="col-lg-12">
           <div class="ibox-title" style="background: hsla(0,0%,0%,0.00)">
             <h5>Total Distance Travelled (Combined all Trucks)</h5>
@@ -436,8 +498,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
+      </div> -->
+      <!-- <div class="row">
         <div class="col-lg-12">
 			<div class="ibox-title">
           <div class="row">
@@ -519,7 +581,7 @@
           </div>
 			</div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="footer">
       <div class="pull-right"> 10GB of <strong>250GB</strong> Free. </div>
@@ -800,7 +862,9 @@
   </div>
 </div>
 
-<!-- <div class="myDiv" id="IdMy"></div> -->
+
+
+<div class="myDiv" id="tableId"></div>
 <!-- Mainly scripts --> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- <script>
@@ -1316,8 +1380,80 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 				});
 			});
 		 
+		 $.ajax({
+			  url: 'http://localhost:8085/DPOC/getMonthlyOrderCount/',
+			  success: function(data){
+				 // var barCanvas1 = document.getElementById("todayCharts");
+			    $('#example-table').dynatable({
+			      dataset: {
+			        records: data.arrList[0].month
+			        
+			      }
+			    });
+			    console.log(data)
+			  }
+			});
 		 
 		 
+		 fetch("http://localhost:8085/DPOC/getTotalEpodCount/").then(
+					function(data){
+						return	data.json()
+					//var indetail= document.getElementById('invoiceDetails');
+					//indetail.innerText=`${OneDay.name.first}`
+					}
+					).then(
+							function(d){
+								console.log(d)
+								var indetail= document.getElementById("Topcompletedepod");
+								indetail.innerText=d['totalNumberOforders'];
+								/* var monthlyProgressStr= document.getElementById('Graphyearlyprogress');
+								monthlyProgressStr.innerText=d['totalNumberOforders'];
+								console.log(d); */
+							}
+							)
+							
+							
+							
+							
+							fetch("http://localhost:8085/DPOC/getTotalWt/").then(
+					function(data){
+						return	data.json()
+					//var indetail= document.getElementById('invoiceDetails');
+					//indetail.innerText=`${OneDay.name.first}`
+					}
+					).then(
+							function(d){
+								//console.log(d)
+								var indetail= document.getElementById("Topcompletedgoods");
+								indetail.innerText=d['totalWtTonnes'];
+								/* var monthlyProgressStr= document.getElementById('Graphyearlyprogress');
+								monthlyProgressStr.innerText=d['totalNumberOforders'];
+								console.log(d); */
+							}
+							)
+							
+							
+							
+fetch("http://localhost:8085/DPOC/getTrucks/").then(
+		function(data){
+			return	data.json()
+		//var indetail= document.getElementById('invoiceDetails');
+		//indetail.innerText=`${OneDay.name.first}`
+		}
+		).then(
+				function(d){
+					var indetail= document.getElementById('tableId');
+					
+					indetail.innerText='d.arrList[1].slno';
+					//indetail.innerText=d['totalCount'];
+					console.log(d);
+					
+					/* var monthlyProgressStr= document.getElementById('GraphtodayProgress');
+					monthlyProgressStr.innerText=d['totalCount'];
+					console.log(d); */
+				}
+				)
+		// $("#example-table").tabulator("setData", "http://localhost:8085/DPOC/getMonthlyOrderCount/");
 		 
 	/* 			(function() {
   var flickerAPI = "http://localhost:8085/DPOC/getMonthlyOrderCount/";

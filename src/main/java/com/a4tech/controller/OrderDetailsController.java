@@ -14,6 +14,9 @@ import com.a4tech.daoService.OrdersDao;
 import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
+import com.a4tech.shipping.model.Truck;
+import com.a4tech.shipping.model.Trucks;
+import com.a4tech.shipping.model.Weight;
 import com.a4tech.shipping.model.Year;
 
 @RestController
@@ -39,11 +42,22 @@ public class OrderDetailsController {
 	@RequestMapping("/getYearlyOrderCount/")
 	public Year getYearlyOrderCount() throws ClassNotFoundException{
 		Year obj= orderDao.getYearly();
-		//ModelAndView modelAndView = new ModelAndView("index");
-	  //  modelAndView.addObject("yearData", obj);
 	    return obj;
 		
-		//return obj;
+		
+	}
+	
+	@RequestMapping("/getTotalEpodCount/")
+	public Year getTotalEpodCount() throws ClassNotFoundException{
+		Year obj= orderDao.getTotalEpod();
+	    return obj;
+		
+	}
+	
+	@RequestMapping("/getTotalWt/")
+	public Weight getTotalWt() throws ClassNotFoundException{
+		Weight obj= orderDao.getTotalWt();
+	    return obj;
 		
 	}
 
@@ -53,6 +67,16 @@ public class OrderDetailsController {
 		OneDay obObj=new OneDay();
 		obObj=orderDao.getDaily();
 	  return obObj;
+  }
+	
+	
+	@RequestMapping("/getTrucks/")
+	public Trucks getTrucks() throws ClassNotFoundException{
+		Trucks trucks=new Trucks();
+		ArrayList<Truck> trucksList=new ArrayList<Truck>();
+		trucksList=orderDao.getTrucksData();
+		trucks.setTrucksList(trucksList);
+	  return trucks;
   }
 	public OrdersDao getOrderDao() {
 		return orderDao;
