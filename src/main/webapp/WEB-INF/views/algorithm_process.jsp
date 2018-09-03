@@ -40,7 +40,7 @@
           <div class="logo-element"> </div>
         </li>
         <li> <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
-		      <li class="active"> <a href="algorithm_process.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
+		      <li class="active"> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
      
       </ul>
     </div>
@@ -222,58 +222,55 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Invoice Number</th>
-                                    <th>Customer Name</th>
-                                    <th>Shipping Address</th>
-                                    <th>Material</th>
-									<th>Original Plant</th>
-                                    <th>Invoice Date</th>
-                                    <th>C & F Agent</th>
-                                    <th>Order Quantity</th>
-									<th>Truck Number</th>
-                                    <th>Estimated Time</th>
-                                   
+                                    <th>Delivery OrderNo</th>
+                                    <th>Sold-to party</th>
+                                    <th>Name of sold-to party</th>
+                                    <th>Name of the ship-to party</th>
+									<th>Material</th>
+                                    <th>Actual delivery qty</th>
+                                    <th>Route Description</th>
+                                    <th>District Name</th>
+									<th>Plant</th>
+                                    <th>Route</th>
+                                    <th>Forwarding agent name</th>
+                                    <th>Distribution Channel</th>
+                                    <th>Delivery. date(From/to)</th>
+                                    <th>Delivery Type</th>
+                                    <th>Shipping Point/Receiving Pt</th>
+                                    <th>District Code</th>
+                                    <th>Ship-to party</th>
+                                    <th>Ship to Long.</th>
+                                    <th>Ship to Latt</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>045</td>
-                                    <td>A.K</td>
-                                    <td>14/021</td>
-                                    <td>Goods</td>
-									 <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-									 <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                   <td>046</td>
-                                    <td>M.K</td>
-                                    <td>32/21</td>
-                                    <td>Goods</td>
-									 <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-									 <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <td>047</td>
-                                    <td>S.K</td>
-                                    <td>70/91</td>
-                                    <td>Goods</td>
-									 <td>1</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-									 <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                </tbody>
-                            </table>
+									<tbody>
+										<c:forEach items="${shippingaOrderList}"
+											var="shippingDetails" varStatus="status">
+											<tr>
+												<td>${shippingDetails.delivery}</td>
+												<td>${shippingDetails.sold_to_party}</td>
+												<td>${shippingDetails.name_of_sold_to_party}</td>
+												<td>${shippingDetails.name_of_the_ship_to_party}</td>
+												<td>${shippingDetails.material}</td>
+												<td>${shippingDetails.actual_delivery_qty}</td>
+												<td>${purchaseOrder.route_description}</td>
+												<td>${shippingDetails.district_name}</td>
+												<td>${shippingDetails.plant}</td>
+												<td>${shippingDetails.route}</td>
+												<td>${shippingDetails.forwarding_agent_name}</td>
+												<td>${shippingDetails.distribution_channel}</td>
+												<td>${shippingDetails.deliv_date}</td>
+												<td>${shippingDetails.delivery_type}</td>
+												<td>${shippingDetails.shipping_Point}</td>
+												<td>${shippingDetails.district_code}</td>
+												<td>${shippingDetails.ship_to_party}</td>
+												<td>${shippingDetails.ship_to_long}</td>
+												<td>${shippingDetails.ship_to_latt}</td>
+												<%-- <td style="width: 50%;">${purchaseOrder.termsAndConditions}</td> --%>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
 
                         </div>
                     </div>

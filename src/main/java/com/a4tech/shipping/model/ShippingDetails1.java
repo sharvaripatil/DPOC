@@ -3,7 +3,7 @@ package com.a4tech.shipping.model;
 public class ShippingDetails1 {
 	
 	private Integer id;
-	private Double delivery;
+	private String delivery;
 	private String deference_document;
 	private String sold_to_party;
 	private String name_of_sold_to_party;
@@ -23,13 +23,7 @@ public class ShippingDetails1 {
 	private String ship_to_party;
 	private String ship_to_long;
 	private String ship_to_latt;
-	public Double getDelivery() {
-		return delivery;
-	}
-	public void setDelivery(Double delivery) {
-		this.delivery = delivery;
-	}
-	public String getDeference_document() {
+		public String getDeference_document() {
 		return deference_document;
 	}
 	public void setDeference_document(String deference_document) {
@@ -37,6 +31,12 @@ public class ShippingDetails1 {
 	}
 	public String getSold_to_party() {
 		return sold_to_party;
+	}
+	public String getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 	public void setSold_to_party(String sold_to_party) {
 		this.sold_to_party = sold_to_party;

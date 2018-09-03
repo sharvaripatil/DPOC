@@ -1,15 +1,22 @@
 package com.a4tech.dao.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="shippinginitialdata")
 public class ShippingEntity {
 	@Id
 	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	@Column(name = "delivery")
-	private Double delivery;
+	private String delivery;
 
 	@Column(name = "deference_document")
 	private String deference_document;
@@ -68,14 +75,6 @@ public class ShippingEntity {
 	@Column(name = "ship_to_latt")
 	private String ship_to_latt;
 
-	public Double getDelivery() {
-		return delivery;
-	}
-
-	public void setDelivery(Double delivery) {
-		this.delivery = delivery;
-	}
-
 	public String getDeference_document() {
 		return deference_document;
 	}
@@ -122,6 +121,14 @@ public class ShippingEntity {
 
 	public void setActual_delivery_qty(String actual_delivery_qty) {
 		this.actual_delivery_qty = actual_delivery_qty;
+	}
+
+	public String getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 
 	public String getRoute_description() {
