@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.a4tech.daoService.OrdersDao;
+import com.a4tech.shipping.model.Material;
+import com.a4tech.shipping.model.Materials;
 import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
@@ -85,5 +87,18 @@ public class OrderDetailsController {
 		this.orderDao = orderDao;
 	}
 
-	
+	@RequestMapping("/getMaterials/")
+	public Materials getgetMaterialswt(){
+		Materials matObj=new Materials();
+		  ArrayList<Material> matlist=new ArrayList<Material>();
+	   try {
+		   matlist=orderDao.getMatrlWt();
+		   matObj.setMatrlList(matlist);
+		//return orderDao.getMonthly();
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return matObj;
+	}
 }

@@ -1,5 +1,6 @@
 package com.a4tech.daoService;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +14,7 @@ import org.hibernate.connection.ConnectionProvider;
 import org.hibernate.engine.SessionFactoryImplementor;
 import org.hibernate.jdbc.Work;
 
+import com.a4tech.shipping.model.Material;
 import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
@@ -127,7 +129,8 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 							 @Override
 							public void execute(java.sql.Connection connection)
 									throws SQLException {
-								 String query = "SELECT * FROM truck_info LIMIT 15;";
+								 //String query = "SELECT Top 50 * FROM truck_info;";
+								 String query = "SELECT * FROM truck_info LIMIT 50;";
 							      Statement st =  connection.createStatement();
 							      ResultSet rs = st.executeQuery(query);
 							      
@@ -380,6 +383,61 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 		return wtObj;
 	}
 	
+	public  ArrayList<Material> getMatrlWt() throws ClassNotFoundException {
+
+		ArrayList<Material> matList =new ArrayList<Material>(); 
+		Session session = null;
+		 java.sql.Connection connection = null ;
+				try{
+					/*	Transaction tx  = null;
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection con=(Connection) DriverManager.getConnection(  
+					"jdbc:mysql://localhost:3306/shipdetail","root","root");  */
+						//tx =  session.beginTransaction();
+					
+						 session = sessionFactory.openSession();
+						 session.doWork(
+								 new Work() {
+								 @Override
+								public void execute(java.sql.Connection connection)
+										throws SQLException {
+									 /*String query = "select material, sum(materialqt) as TotalMaterialTonnes from shipdetail.material group by material;";
+								      Statement st =  connection.createStatement();
+								      ResultSet rs = st.executeQuery(query);
+								      */
+									 PreparedStatement stmt=connection.prepareStatement("select material, sum(materialqt) as TotalMaterialTonnes from shipdetail.material group by material;");  
+									 ResultSet rs=stmt.executeQuery();
+								      Material matobj=new Material();
+								      while (rs.next())
+								      {
+								    	  matobj=new Material();
+								    	  matobj.setMaterialName(rs.getString(1));
+								    	  matobj.setTotalTonnes(Integer.toString(rs.getInt(2)));
+								    	  //int wt=rs.getInt("vehicletype");
+								    	  matList.add(matobj);
+								      }
+								      rs.close();
+								      stmt.close();
+									
+								}
+								 }
+								 );
+						 session.clear();
+					        }finally{
+				    		if(session !=null){
+				    			try{
+				    				session.close();
+				    			}catch(Exception ex){
+				    				//System.out.println(ex.getMessage());
+				    			}	
+				    		}
+				    	}	
+				return matList;
+					
+				//}catch(Exception e){ System.out.println(e);}  
+				
+	
+	}
 	
 	
 }
