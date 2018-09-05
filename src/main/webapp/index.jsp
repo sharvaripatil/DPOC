@@ -423,31 +423,34 @@
             </div>
             
             
-            <div class="row"> <div class="ibox float-e-margins">
+            <%-- <div class="row"> <div class="ibox float-e-margins">
         <div class="col-lg-6">
          
             <div class="ibox-title">chart
             </div>
             <div class="ibox-content">
-             <%-- <canvas id="pieMatchart1" width="400" height="200"></canvas> --%> 
+             <canvas id="pieMatchart1" width="400" height="200"></canvas> 
               <canvas id="pie-chart1" width="800" height="450"></canvas>
             </div>
             </div>
             </div>
-            </div>
+            </div> --%>
             
             <div class="row"> <div class="ibox float-e-margins">
         <div class="col-lg-6">
          
-            <div class="ibox-title">Sales Chart
+            <div class="ibox-title">Epod Chart
             </div>
             <div class="ibox-content">
              <%-- <canvas id="pieMatchart2" width="400" height="200"></canvas> --%> 
-              <canvas id="pie-chart2" width="800" height="450"></canvas>
+              <canvas id="epodChart" width="800" height="450"></canvas>
             </div>
             </div>
             </div>
             </div>
+    </div>
+    <div>
+       <canvas id="salesChart" width="auto" height="auto"></canvas>
     </div>
     <div class="footer">
       <div class="pull-right"> 10GB of <strong>250GB</strong> Free. </div>
@@ -1129,9 +1132,9 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 				});
 			});	
 		 
-			$.getJSON("http://localhost:8085/DPOC/getMaterials/", function(json ) {
+			$.getJSON("http://localhost:8085/DPOC/getTraderInfo/", function(json ) {
 				 //alert("Alert");
-				  var cementWt = document.getElementById("pie-chart1");
+				  var cementWt = document.getElementById("salesChart");
 					var data = json.matrlList;	
 					var materials = [];
 					var counts = [];
@@ -1142,7 +1145,7 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 						console.log(data[i].materialName);
 						console.log(data[i].totalTonnes);
 					}
-					 new Chart(document.getElementById("pie-chart1"), {
+					 new Chart(document.getElementById("salesChart"), {
 						    type: 'doughnut',
 						    data: {
 						      labels: materials,
@@ -1157,15 +1160,15 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 						    options: {
 						      title: {
 						        display: true,
-						        text: 'Predicted world population (millions) in 2050'
+						        text: 'Sales across different traders in 2018'
 						      }
 						    }
 						});
 				});	
 			
-			$.getJSON("http://localhost:8085/DPOC/getMaterials/", function(json ) {
+			$.getJSON("http://localhost:8085/DPOC//getEpodInfo/", function(json ) {
 				 //alert("Alert");
-				  var cementWt = document.getElementById("pie-chart2");
+				  var cementWt = document.getElementById("epodChart");
 					var data = json.matrlList;	
 					var materials = [];
 					var counts = [];
@@ -1173,10 +1176,10 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 					for (var i = 0; i < data.length; i++) {
 						materials.push(data[i].materialName);
 						counts.push(data[i].totalTonnes);
-						console.log(data[i].materialName);
-						console.log(data[i].totalTonnes);
+						//console.log(data[i].materialName);
+						//console.log(data[i].totalTonnes);
 					}
-					 new Chart(document.getElementById("pie-chart2"), {
+					 new Chart(document.getElementById("epodChart"), {
 						    type: 'polarArea',
 						    data: {
 						      labels: materials,
@@ -1191,7 +1194,7 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 						    options: {
 						      title: {
 						        display: true,
-						        text: 'Sales in 2018'
+						        text: 'Epod Generated for Years'
 						      }
 						    }
 						});

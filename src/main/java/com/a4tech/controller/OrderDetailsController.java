@@ -101,4 +101,35 @@ public class OrderDetailsController {
 	}
 	return matObj;
 	}
+	
+	
+	@RequestMapping("/getTraderInfo/")
+	public Materials getTraderInfo(){
+		Materials matObj=new Materials();
+		  ArrayList<Material> matlist=new ArrayList<Material>();
+	   try {
+		   matlist=orderDao.getTraderInfo();
+		   matObj.setMatrlList(matlist);
+		//return orderDao.getMonthly();
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return matObj;
+	}
+	
+	@RequestMapping("/getEpodInfo/")
+	public Materials getEpodInfo(){
+		Materials matObj=new Materials();
+		  ArrayList<Material> matlist=new ArrayList<Material>();
+	   try {
+		   matlist=orderDao.getEpodInfo();
+		   matObj.setMatrlList(matlist);
+		//return orderDao.getMonthly();
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return matObj;
+	}
 }

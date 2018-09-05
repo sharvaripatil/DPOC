@@ -438,6 +438,118 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 				
 	
 	}
+	public  ArrayList<Material> getTraderInfo() throws ClassNotFoundException {
+
+		ArrayList<Material> matList =new ArrayList<Material>(); 
+		Session session = null;
+		 java.sql.Connection connection = null ;
+				try{
+					/*	Transaction tx  = null;
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection con=(Connection) DriverManager.getConnection(  
+					"jdbc:mysql://localhost:3306/shipdetail","root","root");  */
+						//tx =  session.beginTransaction();
+					
+						 session = sessionFactory.openSession();
+						 session.doWork(
+								 new Work() {
+								 @Override
+								public void execute(java.sql.Connection connection)
+										throws SQLException {
+									 /*String query = "select material, sum(materialqt) as TotalMaterialTonnes from shipdetail.material group by material;";
+								      Statement st =  connection.createStatement();
+								      ResultSet rs = st.executeQuery(query);
+								      */
+									 PreparedStatement stmt=connection.prepareStatement("select entrytype,count(vehicletype) as TotalMaterialTonnes from truck_info group by entrytype order by TotalMaterialTonnes desc;");  
+									 ResultSet rs=stmt.executeQuery();
+								      Material matobj=new Material();
+								      while (rs.next())
+								      {
+								    	  matobj=new Material();
+								    	  matobj.setMaterialName(rs.getString(1));
+								    	  matobj.setTotalTonnes(Integer.toString(rs.getInt(2)));
+								    	  //int wt=rs.getInt("vehicletype");
+								    	  matList.add(matobj);
+								      }
+								      rs.close();
+								      stmt.close();
+									
+								}
+								 }
+								 );
+						 session.clear();
+					        }finally{
+				    		if(session !=null){
+				    			try{
+				    				session.close();
+				    			}catch(Exception ex){
+				    				//System.out.println(ex.getMessage());
+				    			}	
+				    		}
+				    	}	
+				return matList;
+					
+				//}catch(Exception e){ System.out.println(e);}  
+				
 	
+	}
+	
+	
+	public  ArrayList<Material> getEpodInfo() throws ClassNotFoundException {
+
+		ArrayList<Material> matList =new ArrayList<Material>(); 
+		Session session = null;
+		 java.sql.Connection connection = null ;
+				try{
+					/*	Transaction tx  = null;
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection con=(Connection) DriverManager.getConnection(  
+					"jdbc:mysql://localhost:3306/shipdetail","root","root");  */
+						//tx =  session.beginTransaction();
+					
+						 session = sessionFactory.openSession();
+						 session.doWork(
+								 new Work() {
+								 @Override
+								public void execute(java.sql.Connection connection)
+										throws SQLException {
+									 /*String query = "select material, sum(materialqt) as TotalMaterialTonnes from shipdetail.material group by material;";
+								      Statement st =  connection.createStatement();
+								      ResultSet rs = st.executeQuery(query);
+								      */
+									 PreparedStatement stmt=connection.prepareStatement("SELECT CAST( year(deliverdate) as char(50))as year1 ,count(*) as total FROM shipdetail.epodinfo group by year(deliverdate) ;");  
+									 ResultSet rs=stmt.executeQuery();
+								      Material matobj=new Material();
+								      while (rs.next())
+								      {
+								    	  matobj=new Material();
+								    	  //java.util.Date uDate = rs.getDate("year1");
+								    	  matobj.setMaterialName(rs.getString(1));
+								    	  matobj.setTotalTonnes(Integer.toString(rs.getInt(2)));
+								    	  //int wt=rs.getInt("vehicletype");
+								    	  matList.add(matobj);
+								      }
+								      rs.close();
+								      stmt.close();
+									
+								}
+								 }
+								 );
+						 session.clear();
+					        }finally{
+				    		if(session !=null){
+				    			try{
+				    				session.close();
+				    			}catch(Exception ex){
+				    				//System.out.println(ex.getMessage());
+				    			}	
+				    		}
+				    	}	
+				return matList;
+					
+				//}catch(Exception e){ System.out.println(e);}  
+				
+	
+	}
 	
 }
