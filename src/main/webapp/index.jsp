@@ -188,7 +188,7 @@
             <div class="ibox-content">
                 <h1 class="no-margins" id="Topcompletedepod"> 600</h1>  
               <!-- <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div> -->
-              <small> In Numbers</small> </div>
+              <small>Created</small> </div>
           </div>
         </div>
       </div>
@@ -224,43 +224,43 @@
                             <div class="col-lg-3">
                   <ul class="stat-list">
                     <li>
-                      <h2 class="no-margins">346</h2>
+                      <h2 class="no-margins">5</h2>
                       <small>Order Delivered in West India</small>
-                      <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
+                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="progress progress-mini">
+                        <div style="width: 22%;" class="progress-bar"></div>
+                      </div>
+                    </li>
+                    <li>
+                      <h2 class="no-margins ">7</h2>
+                      <small>Order Delivered in East India</small>
+                      <div class="stat-percent">30% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="progress progress-mini">
+                        <div style="width: 30%;" class="progress-bar"></div>
+                      </div>
+                    </li>
+                    <li>
+                      <h2 class="no-margins ">0</h2>
+                      <small>Order Delivered in North India</small>
+                      <div class="stat-percent"> 0<i class="fa fa-bolt text-navy"></i></div>
+                      <div class="progress progress-mini">
+                        <div style="width: 0%;" class="progress-bar"></div>
+                      </div>
+                    </li>
+                    <li>
+                      <h2 class="no-margins ">11</h2>
+                      <small>Order Delivered in South India</small>
+                      <div class="stat-percent">48% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
                         <div style="width: 48%;" class="progress-bar"></div>
                       </div>
                     </li>
-                    <li>
-                      <h2 class="no-margins ">422</h2>
-                      <small>Order Delivered in East India</small>
-                      <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 60%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <h2 class="no-margins ">180</h2>
-                      <small>Order Delivered in North India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <h2 class="no-margins ">680</h2>
-                      <small>Order Delivered in South India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
-                      </div>
-                    </li>
                      <li>
-                      <h2 class="no-margins ">690</h2>
+                      <h2 class="no-margins ">23</h2>
                       <small>Total Orders Delivered in India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="stat-percent">100% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 50%;" class="progress-bar"></div>
+                        <div style="width: 100%;" class="progress-bar"></div>
                       </div>
                     </li>
                   </ul>
@@ -276,43 +276,43 @@
                           		 <div class="col-lg-3">
                   <ul class="stat-list">
                     <li>
-                      <h2 class="no-margins">346</h2>
+                      <h2 class="no-margins">66</h2>
                       <small>Order Delivered in West India</small>
-                      <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
+                      <div class="stat-percent">27% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 48%;" class="progress-bar"></div>
+                        <div style="width: 27%;" class="progress-bar"></div>
                       </div>
                     </li>
                     <li>
-                      <h2 class="no-margins ">422</h2>
+                      <h2 class="no-margins ">53</h2>
                       <small>Order Delivered in East India</small>
-                      <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
+                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 60%;" class="progress-bar"></div>
+                        <div style="width: 22%;" class="progress-bar"></div>
                       </div>
                     </li>
                     <li>
-                      <h2 class="no-margins ">190</h2>
+                      <h2 class="no-margins ">45</h2>
                       <small>Order Delivered in North India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="stat-percent">18% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
+                        <div style="width: 18%;" class="progress-bar"></div>
                       </div>
                     </li>
                     <li>
-                      <h2 class="no-margins ">680</h2>
+                      <h2 class="no-margins ">80</h2>
                       <small>Order Delivered in South India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="stat-percent">33% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
+                        <div style="width: 33%;" class="progress-bar"></div>
                       </div>
                     </li>
                      <li>
-                      <h2 class="no-margins ">690</h2>
+                      <h2 class="no-margins ">244</h2>
                       <small>Total Orders Delivered in India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="stat-percent">100% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
+                        <div style="width: 100%;" class="progress-bar"></div>
                       </div>
                     </li>
                   </ul>
@@ -328,43 +328,43 @@
                           <div class="col-lg-3">
                   <ul class="stat-list">
                     <li>
-                      <h2 class="no-margins">346</h2>
+                      <h2 class="no-margins">60</h2>
                       <small>Order Delivered in West India</small>
-                      <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
+                      <div class="stat-percent">14% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 48%;" class="progress-bar"></div>
+                        <div style="width: 14%;" class="progress-bar"></div>
                       </div>
                     </li>
                     <li>
-                      <h2 class="no-margins ">422</h2>
+                      <h2 class="no-margins ">126</h2>
                       <small>Order Delivered in East India</small>
-                      <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
+                      <div class="stat-percent">29% <i class="fa fa-level-down text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 60%;" class="progress-bar"></div>
+                        <div style="width: 29%;" class="progress-bar"></div>
+                      </div>
+                    </li>
+                    <li>
+                      <h2 class="no-margins ">54</h2>
+                      <small>Order Delivered in North India</small>
+                      <div class="stat-percent">13% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="progress progress-mini">
+                        <div style="width: 13%;" class="progress-bar"></div>
                       </div>
                     </li>
                     <li>
                       <h2 class="no-margins ">190</h2>
-                      <small>Order Delivered in North India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
-                      <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
-                      </div>
-                    </li>
-                    <li>
-                      <h2 class="no-margins ">690</h2>
                       <small>Order Delivered in South India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="stat-percent">44% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
+                        <div style="width: 44%;" class="progress-bar"></div>
                       </div>
                     </li>
                     <li>
-                      <h2 class="no-margins ">690</h2>
+                      <h2 class="no-margins ">430</h2>
                       <small>Total Orders Delivered in India</small>
-                      <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                      <div class="stat-percent">100% <i class="fa fa-bolt text-navy"></i></div>
                       <div class="progress progress-mini">
-                        <div style="width: 22%;" class="progress-bar"></div>
+                        <div style="width: 100%;" class="progress-bar"></div>
                       </div>
                     </li>
                   </ul>
@@ -941,10 +941,10 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 		 
 		 
 		 $.getJSON( "http://localhost:8085/DPOC/getYearlyOrderCount/", function( json ) {
-				var year1 = json.totalNumberOforders;
-				var year2 = 365;
+				var year1 = 186;
+				var year2 = json.totalNumberOforders;
 				//console.log(year1) 
-				var years = [2018,2019];
+				var years = [2017,2018];
 				var counts=[year1,year2];
 				//console.log(counts);
 				var barCanvas = document.getElementById("yearCharts");
