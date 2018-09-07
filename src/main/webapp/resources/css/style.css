@@ -7846,7 +7846,7 @@ body.md-skin {
   /*border-style: none;*/
 }
 .md-skin .ibox-title h5 {
-  font-size: 16px;
+  font-size: 15px; /**16px**/
   font-weight: 400;
 }
 .md-skin a.close-canvas-menu {
