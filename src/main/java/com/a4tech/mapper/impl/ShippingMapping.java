@@ -82,7 +82,7 @@ public class ShippingMapping implements IOrderDataMapper{
 						
 						break;
 					case 2:// Reference document
-						String document=cell.getStringCellValue();
+						String document=CommonUtility.getCellValueStrinOrInt(cell);
 						entityObj.setDeference_document(document);
 						break;
 					case 3:// Sold-to party

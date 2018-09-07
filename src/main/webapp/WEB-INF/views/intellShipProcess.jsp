@@ -208,17 +208,17 @@
                         </div>
                         <div class="ibox-content">
 							
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered">
                                 <thead>
                                 <tr>
 									
                                     <th>Delivery Date</th>
                                     <th>Total Order</th>
-									<th>Truck Number</th>
+									<th>Total Trucks</th>
                                     <th>Truck Capacity</th>
 									   <th>Plant</th>
                                     <th>Total Kilometers</th>
-									
+									<th>Map</th>
                                    
                                 </tr>
                                 </thead>
@@ -232,14 +232,16 @@
 														type="button">${shippingGroupDetails.totalOrders}
 													</button></td> --%> 
 							
-												 <td><button class="btn btn-success btn-circle"
-														type="button"
-														onclick="showModal('${shippingGroupDetails.orderDetailsList}')">${shippingGroupDetails.totalOrders}
+												 <td><button class="btn btn-success btn-circle" type="button" 
+														onclick="getOrderDetailsByDate('${shippingGroupDetails.delivaryDate}')">${shippingGroupDetails.totalOrders}
 													</button></td> 
-												<td>${shippingGroupDetails.truckNum}</td>
+													<td><button class="btn btn-success btn-circle" type="button" 
+														onclick="getGroupOrder('${shippingGroupDetails.delivaryDate}')">${shippingGroupDetails.truckNum}
+													</button></td> 
 												<td>${shippingGroupDetails.truckCapacity}</td>
 												<td>${shippingGroupDetails.plant}</td>
 												<td>${shippingGroupDetails.totalKilometers}</td>
+												<td>   <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#myModal">View Map</a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -309,228 +311,59 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary btn-rounded">Save changes</button>
+                                            <!-- <button type="button" class="btn btn-primary btn-rounded">Save changes</button> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
- <div class="modal" id="configurealgo1" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                <div class="modal-content animated bounceInRight">
-                                        <div class="modal-header">
-                                          
-                                        
-                                            <h4 class="modal-title">Configure IntellShip Alogrithm</h4>
-                                         
-                                        </div>
-                                        <div class="modal-body" style="overflow-x: auto;">
-                                             <table class="table table-bordered">
-                                <thead>
-                                <tr>
-									<th>Delivery</th>
-                                    <th>Reference Document</th>
-                                    <th>Sold to Party</th>
-									 <th>Name of sold to Party</th>
-                                    <th>Name of the ship tp party</th>
-                                    <th>Material</th>
-									 <th>Actual delivery Qty</th>
-                                    <th>Route Description</th>
-                                    <th>District Name</th>
-                                    <th>Plant</th>
-                                    <th>Route</th>
-									 <th>Forwarding Agent Name</th>
-                                    <th>Distribution Channel</th>
-                                    <th>Deliv.Date(From/To)</th>
-									 <th>Delivery Type</th>
-                                    <th>Shipping Point/Receiving Pt</th>
-                                    <th>District Code</th>
-									 <th>Ship to Party</th>
-                                    <th>Shio to Long</th>
-                                    <th>Ship to Latt</th>
-								 </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>8106897962</td>
-                                    <td>4104010770</td>
-									<td>7012184</td>
-									<td>JAI MAA SANTOSHI AGENCY</td>
-                                    <td>JAI MAA SANTOSHI AGENCY</td>
-									<td>FBCCLPP50DT</td>
-									<td>15</td>
-                                    <td>BOK TO BOKARO STEEL PLANT</td>
-									<td>BOKARO</td>
-									<td>5300</td>
-                                    <td>D00430</td>
-									<td></td>
-									<td>01</td>
-								
-                                    <td>20-07-2018</td>
-									<td>ZDLF</td>
-									<td>5300</td>
-                                    <td>J01</td>
-									<td>7009688</td>
-									<td>86.1292944</td>
-                                    <td>23.6429361</td>
-									
-											
-                                  
-                                </tr>
-                                <tr>
-                                   <td>8106912784</td>
-                                    <td>4104013006</td>
-									<td>7009688</td>
-									<td>BIKASH TRADERS</td>
-                                    <td>BIKASH TRADERS</td>
-									<td>PCCPP50T</td>
-									<td>9</td>
-                                    <td>BOK TO GODDA-JD1002</td>
-									<td>GODDA</td>
-									<td>5300</td>
-                                    <td>D00029</td>
-									<td></td>
-									<td>01</td>
-                                    <td>21-07-2018</td>
-										<td>ZDLF</td>
-									<td>5300</td>
-									<td>J07</td>
-                                    <td>7012184</td>
-									<td>87.213518</td>
-									<td>24.825522</td>
-                                 
-                                </tr>
-                                <tr>
-                                    <td>8106901731</td>
-                                    <td>4104013334</td>
-									<td>7024895</td>
-									<td>NAVIN CEMENT STORE</td>
-                                    <td>NAVIN CEMENT STORE</td>
-									<td>FBCCLPP50DT</td>
-									<td>10</td>
-                                    <td>BOK TO HARIHARGANJ,DALTONGANJ-JDA001</td>
-									<td>PALAMU</td>
-									<td>5300</td>
-                                    <td>D00079</td>
-									<td></td>
-									<td>01</td>
-                                    <td>20-07-2018</td>
-									<td>ZDLF</td>
-									<td>5300</td>
-                                    <td>J15</td>
-									<td>7024895</td>
-									<td>84.2845</td>
-                                    <td>24.5246</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                                                 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary btn-rounded">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-	 <div class="modal" id="configurealgo2" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                <div class="modal-content animated bounceInRight">
-                                        <div class="modal-header">
-                                          
-                                        
-                                            <h4 class="modal-title">Configure IntellShip Alogrithm</h4>
-                                         
-                                        </div>
-                                        <div class="modal-body" style="overflow-x: auto;">
-                                             <table class="table table-bordered">
-                                <thead>
-                                <tr>
-									<th>Delivery</th>
-                                    <th>Reference Document</th>
-                                    <th>Sold to Party</th>
-									 <th>Name of sold to Party</th>
-                                    <th>Name of the ship tp party</th>
-                                    <th>Material</th>
-									 <th>Actual delivery Qty</th>
-                                    <th>Route Description</th>
-                                    <th>District Name</th>
-                                    <th>Plant</th>
-                                    <th>Route</th>
-									 <th>Forwarding Agent Name</th>
-                                    <th>Distribution Channel</th>
-                                    <th>Deliv.Date(From/To)</th>
-									 <th>Delivery Type</th>
-                                    <th>Shipping Point/Receiving Pt</th>
-                                    <th>District Code</th>
-									 <th>Ship to Party</th>
-                                    <th>Shio to Long</th>
-                                    <th>Ship to Latt</th>
-								 </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>8106908338</td>
-                                    <td>4104017597</td>
-									<td>7006020</td>
-									<td>ASHOK TRADERS</td>
-                                    <td>ASHOK TRADERS</td>
-									<td>FBCCLPP50DT</td>
-									<td>12</td>
-                                    <td>BOK TO CHATTARPUR,DALTONGANJ-JDA001</td>
-									<td>PALAMU</td>
-									<td>5300</td>
-                                    <td>D00078</td>
-									<td></td>
-									<td>01</td>
-								
-                                    <td>21-07-2018</td>
-									<td>ZDLF</td>
-									<td>5300</td>
-                                    <td>J15</td>
-									<td>7006020</td>
-									<td>84.1860046</td>
-                                    <td>24.3643158</td>
-									
-											
-                                  
-                                </tr>
-                                <tr>
-                                   <td>8106903755</td>
-                                    <td>4104010880</td>
-									<td>7012184</td>
-									<td>BIKASH TRADERS</td>
-                                    <td>BIKASH TRADERS</td>
-									<td>PCCPP50T</td>
-									<td>9</td>
-                                    <td>BOK TO GODDA-JD1002</td>
-									<td>GODDA</td>
-									<td>5300</td>
-                                    <td>D00029</td>
-									<td></td>
-									<td>01</td>
-                                    <td>21-07-2018</td>
-										<td>ZDLF</td>
-									<td>5300</td>
-									<td>J07</td>
-                                    <td>7012184</td>
-									<td>87.213518</td>
-									<td>24.825522</td>
-                                 
-                                </tr>
-                               
-                                </tbody>
-                            </table>
-                                                 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary btn-rounded">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-    <!-- Mainly scripts -->
-    <script src="resources/js/jquery-2.1.1.js"></script>
+      <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><i class="fa fa-truck"></i> Shipping Detail</h4>
+      </div>
+      <div class="modal-body">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609997266!2d72.74109837487424!3d19.082197838387007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1534840526127" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+	<div class="modal" id="truck_quantity" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h4 class="modal-title">Truck Quantity</h4>
+      </div>
+      <div class="modal-body" style="overflow-x: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Order No.</th>
+              <th>Order Quantity</th>
+              <th>Truck No.</th>
+              <th>Truck Capacity</th>
+			  <th>Truck Order Quatitiy</th>
+              
+            </tr>
+          </thead>
+          <tbody id="orderGroup">
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+     <!-- Mainly scripts -->
+    <script src="resources/js/jquery-2.1.1_old.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -556,49 +389,59 @@
             });
         });
         
-        function showModal(data)
-        {
-        	//console.log(JSON.stringify(data));
-        	alert('show model');
-        	var ordersList=data;
+       /*  $(document).ready(function() {
+            $("#myModal").modal();
+          }); */
+        
+        function getOrderDetailsByDate(date){
         	$.ajax({
 				type : "GET",
-				url : "getShippingOrderBasedOnDate",
-				data : "orderDate=" + data,
+				url : "getShippingOrderByDate",
+				data : "orderDate=" + date,
 				success : function(response) {
-					// we have the response
-					
+					$("#orderData").empty();
 					$.each(response, function(i, value) {
-						$("#orderData").append("<tr><td>" + value.delivery + "</td><td>" + value.deference_document + "</td><td>" + value.sold_to_party + 
+						 $("#orderData").append("<tr><td>" + value.delivery + "</td><td>" + value.deference_document + "</td><td>" + value.sold_to_party + 
 								"</td><td>" + value.name_of_sold_to_party + "</td><td>"  + value.name_of_the_ship_to_party + "</td><td>" + 
 								 value.material + "</td><td>" + value.actual_delivery_qty + "</td><td>" + 
 								  value.route_description + "</td><td>" + value.district_name + "</td><td>"  
 								 + value.plant + "</td><td>"+ value.route + "</td><td>" + 
 								 value.forwarding_agent_name + "</td><td>" + value.distribution_channel + "</td><td>" + value.deliv_date + "</td><td>" +
 								 value.delivery_type + "</td><td>" +value.shipping_Point + "</td><td>" +value.district_code + "</td><td>" +
-  value.ship_to_party + "</td><td>"+ value.ship_to_long + "</td><td>" + value.ship_to_latt +"</td></tr>");
-						
-						/* $.each(v, function(index, value) {
-							  alert(index + ':' + value);
-						  }); */
-						//poInvId = $('#poInvId').val(value);
+ value.ship_to_party + "</td><td>"+ value.ship_to_long + "</td><td>" + value.ship_to_latt +"</td></tr>"); 
 					});
+
 				},
 				error : function(e) {
-					alert('Error: ' + e);
+					 alert('Error: ' + e); 
 				}
 			});
-         	/* $.each(ordersList, function(i, v) {
-					   $.each(v, function(index, value) {
-						  alert(index + ':' + value);
-					    
-					  });
-					  });*/
-           //you can do anything with data, or pass more data to this function. i set this data to modal header for example
-         //  $("#configurealgo .modal-body").html(id)
-           $("#configurealgo").modal(); 
+
+        	$("#configurealgo").modal(); 
+        	
         }
-        
+          function getGroupOrder(date){
+          	$.ajax({
+  				type : "GET",
+  				url : "getGroupOrderByDate",
+  				data : "orderDate=" + date,
+  				success : function(response) {
+  					$("#orderGroup").empty();
+  					$.each(response, function(i, value) {
+  						 $("#orderGroup").append("<tr><td>" + value.delivaryNo + "</td><td>" + value.originalOrderQty + "</td><td>" + value.truckNo + 
+ 								"</td><td>" + value.truckCapacity + "</td><td>"  + value.truckOrderQty +"</td></tr>");  
+  					});
+
+  				},
+  				error : function(e) {
+  					 alert('Error: ' + e); 
+  				}
+  			});
+
+          	$("#truck_quantity").modal(); 
+          	
+          }        
+
         </script>
 
 </body>
