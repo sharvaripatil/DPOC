@@ -129,8 +129,8 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 							 @Override
 							public void execute(java.sql.Connection connection)
 									throws SQLException {
-								 //String query = "SELECT Top 50 * FROM truck_info;";
-								 String query = "SELECT * FROM truck_info LIMIT 50;";
+								 String query = "SELECT Top 50 * FROM truck_info;";
+								 //String query = "SELECT * FROM truck_info LIMIT 50;";
 							      Statement st =  connection.createStatement();
 							      ResultSet rs = st.executeQuery(query);
 							      
@@ -405,7 +405,7 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 								      Statement st =  connection.createStatement();
 								      ResultSet rs = st.executeQuery(query);
 								      */
-									 PreparedStatement stmt=connection.prepareStatement("select material, sum(materialqt) as TotalMaterialTonnes from shipdetail.material group by material;");  
+									 PreparedStatement stmt=connection.prepareStatement("select material, sum(materialqt) as TotalMaterialTonnes from material group by material;");  
 									 ResultSet rs=stmt.executeQuery();
 								      Material matobj=new Material();
 								      while (rs.next())
@@ -517,7 +517,7 @@ public  ArrayList<Truck> getTrucksData() throws ClassNotFoundException {
 								      Statement st =  connection.createStatement();
 								      ResultSet rs = st.executeQuery(query);
 								      */
-									 PreparedStatement stmt=connection.prepareStatement("SELECT CAST( year(deliverdate) as char(50))as year1 ,count(*) as total FROM shipdetail.epodinfo group by year(deliverdate) ;");  
+									 PreparedStatement stmt=connection.prepareStatement("SELECT CAST( year(deliverdate) as char(50))as year1 ,count(*) as total FROM epodinfo group by year(deliverdate) order by year1;");  
 									 ResultSet rs=stmt.executeQuery();
 								      Material matobj=new Material();
 								      while (rs.next())
