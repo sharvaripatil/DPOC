@@ -96,7 +96,7 @@ public class ShippingOrderImpl implements IShippingOrder{
 		 truckDetailObj.setDelay(truckDtlsEntity.getDelay());
 		 truckDetailObj.setDoNo(truckDtlsEntity.getDoNo());
 		 truckDetailObj.setEntryType(truckDtlsEntity.getEntryType());
-		 truckDetailObj.setRefTruckVendorId(truckDtlsEntity.getRefTruckVendorId());
+		 //truckDetailObj.setRefTruckVendorId(truckDtlsEntity.getRefTruckVendorId());
 		 truckDetailObj.setSlNo(truckDtlsEntity.getSlNo());
 		 truckDetailObj.setVehicleType(truckDtlsEntity.getVehicleType());
 		 truckDetailObj.setVehiclNo(truckDtlsEntity.getVehiclNo());

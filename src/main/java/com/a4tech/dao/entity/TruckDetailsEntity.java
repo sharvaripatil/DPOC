@@ -34,9 +34,9 @@ public class TruckDetailsEntity {
 	private String taggedTime;
 	@Column(name="DELAY")
 	private String delay;
-	@Column(name="REF_TRUCK_VENDOR_ID")
+	/*@Column(name="REF_TRUCK_VENDOR_ID")
 	private String refTruckVendorId;
-	
+	*/
 	public int getTruckId() {
 		return truckId;
 	}
@@ -103,23 +103,10 @@ public class TruckDetailsEntity {
 	public void setDelay(String delay) {
 		this.delay = delay;
 	}
-	public String getRefTruckVendorId() {
+	/*public String getRefTruckVendorId() {
 		return refTruckVendorId;
 	}
 	public void setRefTruckVendorId(String refTruckVendorId) {
 		this.refTruckVendorId = refTruckVendorId;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}*/
 }
