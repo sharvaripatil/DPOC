@@ -7,8 +7,10 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.a4tech.daoService.OrdersDao;
 import com.a4tech.shipping.model.Material;
@@ -22,10 +24,30 @@ import com.a4tech.shipping.model.Weight;
 import com.a4tech.shipping.model.Year;
 
 @RestController
+@RequestMapping({ "/","/DPOC","/getDashboard" })
 public class OrderDetailsController {
 	@Autowired
 	OrdersDao orderDao;
-	
+	/*@RequestMapping("/getDashboard")
+    public String searchHandler() {
+        String redirectUrl = "index";
+         
+        return new String (redirectUrl );
+    }*/
+	@RequestMapping(value = "/getDashboard", method = RequestMethod.GET)
+    public RedirectView redirect() {
+ return new RedirectView("http://localhost:8085/DPOC/");
+    }
+    
+	/*@RequestMapping(value = "/getDashboard", method = RequestMethod.GET)
+	   public String redirect() {
+	      return "index";
+	   }*/
+	/*
+	@RequestMapping(value = "/DPOC", method = RequestMethod.GET)
+	   public String redirect1() {
+	      return "redirect:index";
+	   }*/
 	
 	@RequestMapping("/getMonthlyOrderCount/")
 	public Months getMonthlyOrderCount(){

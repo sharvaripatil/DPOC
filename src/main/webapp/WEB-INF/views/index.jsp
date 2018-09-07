@@ -65,9 +65,9 @@
 					</div>
 					<div class="logo-element"></div>
 				</li>
-				<li class="active"><a href="http://localhost:8085/DPOC/"><i
-						class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a>
-				</li>
+				<li><a href="<c:url value='/getDashboard'/>"><i
+						class="fa fa-th-large"></i> <span class="nav-label">Dashboards
+							Process</span></a></li>
 				<li><a href="<c:url value='/algorithmProcess' />"><i
 						class="fa fa-th-large"></i> <span class="nav-label">Algorithm
 							Process</span></a></li>
@@ -257,7 +257,7 @@
 								<h5>Total EPOD</h5>
 							</div>
 							<div class="ibox-content">
-								<h1 class="no-margins" id="Topcompletedepod">600</h1>
+								 <h1 class="no-margins" id="Topcompletedepod">600</h1>
 								<!-- <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div> -->
 								<small>Created</small>
 							</div>
@@ -284,7 +284,7 @@
 								<div class="tabs-container">
 									<ul class="nav nav-tabs">
 										<li class="active"><a data-toggle="tab" href="#tab-3"
-											aria-expanded="true">Today</a></li>
+											aria-expanded="true">Days</a></li>
 										<li class=""><a data-toggle="tab" href="#tab-4"
 											aria-expanded="false">Monthly</a></li>
 										<li class=""><a data-toggle="tab" href="#tab-5"
@@ -508,8 +508,8 @@
 <div class="ibox float-e-margins">
 								<div class="ibox-title">Epod Chart</div>
 								<div class="ibox-content">
-									<%-- <canvas id="pieMatchart2" width="400" height="200"></canvas> --%>
-									<canvas id="epodChart" width="800" height="450"></canvas>
+									<%--  <canvas id="pieMatchart2" width="400" height="200"></canvas> --%> 
+									 <canvas id="epodChart" width="800" height="450"></canvas> 
 								</div>
 								</div>
 							</div>
@@ -517,7 +517,7 @@
 <div class="ibox float-e-margins">
 								<div class="ibox-title">Sales Chart</div>
 								<div class="ibox-content">
-				<canvas id="salesChart" width="auto" height="auto"></canvas>
+				 <canvas id="salesChart" width="auto" height="auto"></canvas> 
 				</div>
 				</div>
 				</div>
@@ -1291,7 +1291,7 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 						    options: {
 						      title: {
 						        display: true,
-						        text: 'Sales across different traders in 2018'
+						        text: 'Sales Across Different Traders'
 						      }
 						    }
 						});
@@ -1325,7 +1325,7 @@ $.getJSON( "http://localhost:8085/DPOC/getMonthlyOrderCount/", function( json ) 
 						    options: {
 						      title: {
 						        display: true,
-						        text: 'Epod Generated for Years'
+						        text: 'Epod Generated Yearly'
 						      }
 						    }
 						});

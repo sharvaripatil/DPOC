@@ -38,7 +38,7 @@
           </div>
           <div class="logo-element"> </div>
         </li>
-        <li> <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
+        <li> <a href="<c:url value='getDashboard' />"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
 		      <li class="active"> <a href="algorithm_process.html"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
      
       </ul>
@@ -169,7 +169,7 @@
                     <h2>Intelliship</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="<c:url value='getDashboard' />">Home</a>
                         </li>
                         <li>
                             <a>Intelliship</a>
