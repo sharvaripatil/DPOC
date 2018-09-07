@@ -70,7 +70,7 @@ public class StoreSpDetails {
 		pd2.setLatitude(14.9306781);
 		pd2.setLongitude(78.3385713);
 		PlantDetails pd3 = new PlantDetails();
-		pd3.setPlantName("Dalmia Cement East Limited - Bakaro");
+		pd3.setPlantName("Dalmia Cement East Limited - Bakaro,JHARKHAND");
 		pd3.setPlantState("JHARKHAND");
 		pd3.setLatitude(23.7012517);
 		pd3.setLongitude(86.0591489);

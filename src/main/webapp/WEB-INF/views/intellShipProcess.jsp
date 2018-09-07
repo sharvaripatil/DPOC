@@ -18,7 +18,6 @@
     <link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="resources/css/animate.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
-	 <link href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
 </head>
 
@@ -39,7 +38,7 @@
           </div>
           <div class="logo-element"> </div>
         </li>
-        <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
+        <li> <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
 		      <li class="active"> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
      
       </ul>
@@ -58,7 +57,7 @@
             </form>
         </div>
             <ul class="nav navbar-top-links navbar-right">
-                
+            
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
@@ -167,13 +166,13 @@
         </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Algorithm Process</h2>
+                    <h2>Intelliship</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.jsp">Home</a>
+                            <a href="index.html">Home</a>
                         </li>
                         <li>
-                            <a>Algorithm Process</a>
+                            <a>Intelliship</a>
                         </li>
                       
                     </ol>
@@ -188,7 +187,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Algorithm Process</h5>
+                            <h5>Intelliship</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -208,73 +207,52 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-							<div calss="row">
-									<p class="pull-left">
-								       <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-refresh"></i>
-                            </button>
-								   <a class="btn btn-success btn-rounded" href="#">Process New Order Batch</a>
-								   <a class="btn btn-primary btn-rounded" href="<c:url value='getShippingOrderHistory' />">History</a>
-								</p>
-								<p class="pull-right">
-								        <a class="btn btn-primary btn-rounded" href="<c:url value='intellShip' />">Run Itelliship Algo</a>
-								   <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#configurealgo">Configure Algo</a>
-								</p>
-							</div>
-                            <table class="table table-bordered table-hover">
+							
+                            <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>Delivery OrderNo</th>
-                                    <th>Sold-to party</th>
-                                    <th>Name of sold-to party</th>
-                                    <th>Name of the ship-to party</th>
-									<th>Material</th>
-                                    <th>Actual delivery qty</th>
-                                    <th>Route Description</th>
-                                    <th>District Name</th>
-									<th>Plant</th>
-                                    <th>Route</th>
-                                    <th>Forwarding agent name</th>
-                                    <th>Distribution Channel</th>
-                                    <th>Delivery. date(From/to)</th>
-                                    <th>Delivery Type</th>
-                                    <th>Shipping Point/Receiving Pt</th>
-                                    <th>District Code</th>
-                                    <th>Ship-to party</th>
-                                    <th>Ship to Long.</th>
-                                    <th>Ship to Latt</th>
+									
+                                    <th>Delivery Date</th>
+                                    <th>Total Order</th>
+									<th>Total Trucks</th>
+                                    <th>Truck Capacity</th>
+									   <th>Plant</th>
+                                    <th>Total Kilometers</th>
+									<th>Map</th>
+                                   
                                 </tr>
                                 </thead>
-									<tbody>
-										<c:forEach items="${shippingaOrderList}"
-											var="shippingDetails" varStatus="status">
+                                <tbody>
+										<c:forEach items="${shippingGroupList}"
+											var="shippingGroupDetails" varStatus="status">
 											<tr>
-												<td>${shippingDetails.delivery}</td>
-												<td>${shippingDetails.sold_to_party}</td>
-												<td>${shippingDetails.name_of_sold_to_party}</td>
-												<td>${shippingDetails.name_of_the_ship_to_party}</td>
-												<td>${shippingDetails.material}</td>
-												<td>${shippingDetails.actual_delivery_qty}</td>
-												<td>${purchaseOrder.route_description}</td>
-												<td>${shippingDetails.district_name}</td>
-												<td>${shippingDetails.plant}</td>
-												<td>${shippingDetails.route}</td>
-												<td>${shippingDetails.forwarding_agent_name}</td>
-												<td>${shippingDetails.distribution_channel}</td>
-												<td>${shippingDetails.deliv_date}</td>
-												<td>${shippingDetails.delivery_type}</td>
-												<td>${shippingDetails.shipping_Point}</td>
-												<td>${shippingDetails.district_code}</td>
-												<td>${shippingDetails.ship_to_party}</td>
-												<td>${shippingDetails.ship_to_long}</td>
-												<td>${shippingDetails.ship_to_latt}</td>
-												<%-- <td style="width: 50%;">${purchaseOrder.termsAndConditions}</td> --%>
+												<td>${shippingGroupDetails.delivaryDate}</td>
+											   <%-- <td><button class="btn btn-success btn-circle"
+														data-toggle="modal" data-target="#configurealgo" data-whatever='${shippingGroupDetails.orderDetailsList}'
+														type="button">${shippingGroupDetails.totalOrders}
+													</button></td> --%> 
+							
+												 <td><button class="btn btn-success btn-circle" type="button" 
+														onclick="getOrderDetailsByDate('${shippingGroupDetails.delivaryDate}')">${shippingGroupDetails.totalOrders}
+													</button></td> 
+													<td><button class="btn btn-success btn-circle" type="button" 
+														onclick="getGroupOrder('${shippingGroupDetails.delivaryDate}')">${shippingGroupDetails.truckNum}
+													</button></td> 
+												<td>${shippingGroupDetails.truckCapacity}</td>
+												<td>${shippingGroupDetails.plant}</td>
+												<td>${shippingGroupDetails.totalKilometers}</td>
+												<td>   <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#myModal">View Map</a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
-								</table>
 
+                            </table>
+                           <a href="<c:url value='/algorithmProcess' />" class="btn btn-success pull-right" type="button">Back
+                            </a>
                         </div>
+						
                     </div>
+					 
                 </div>
         
             </div>
@@ -284,95 +262,108 @@
             <div class="pull-right">
                 10GB of <strong>250GB</strong> Free.
             </div>
-            <div> <strong>Copyright</strong> A4Technology Solution Pvt. Ltd &copy; 2017-2018 </div>
+             <div> <strong>Copyright</strong> A4Technology Solution Pvt. Ltd &copy; 2017-2018 </div>
         </div>
 
         </div>
         </div>
 
-
-    <div class="modal inmodal" id="configurealgo" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog">
+  <div class="modal" id="configurealgo" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
                                 <div class="modal-content animated bounceInRight">
                                         <div class="modal-header">
                                           
                                         
-                                            <h4 class="modal-title">Configure IntellShip Alogrithm</h4>
+                                            <h4 class="modal-title">Shipping Order Details</h4>
                                          
                                         </div>
-                                        <div class="modal-body">
-                                             <table class="table">
+                                        <div class="modal-body" style="overflow-x: auto;">
+                                             <table class="table table-bordered" id="data">
                                 <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>Yes</th>
-                                    <th>No</th>
-                                    
-                                   
-                                </tr>
+									<th>Delivery</th>
+                                    <th>Reference Document</th>
+                                    <th>Sold to Party</th>
+									 <th>Name of sold to Party</th>
+                                    <th>Name of the ship tp party</th>
+                                    <th>Material</th>
+									 <th>Actual delivery Qty</th>
+                                    <th>Route Description</th>
+                                    <th>District Name</th>
+                                    <th>Plant</th>
+                                    <th>Route</th>
+									 <th>Forwarding Agent Name</th>
+                                    <th>Distribution Channel</th>
+                                    <th>Deliv.Date(From/To)</th>
+									 <th>Delivery Type</th>
+                                    <th>Shipping Point/Receiving Pt</th>
+                                    <th>District Code</th>
+									 <th>Ship to Party</th>
+                                    <th>Shio to Long</th>
+                                    <th>Ship to Latt</th>
+								 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Enable Plant Re-organization</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio2" id="radio3" value="option1">
-                                                    <label for="radio3">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio2" id="radio4" value="option2">
-                                                    <label for="radio4">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                  
-                                </tr>
-                                <tr>
-                                   <td>Include Warehouse Location</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio1" value="option1">
-                                                    <label for="radio1">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio2" value="option2">
-                                                    <label for="radio2">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                  
-                                </tr>
-                                <tr>
-                                    <td>Include Shipment to Warehouse</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio01" value="option1">
-                                                    <label for="radio01">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio02" value="option2">
-                                                    <label for="radio02">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                   
-                                </tr>
-                                </tbody>
+                                <tbody id="orderData">
+																				
+									</tbody>
                             </table>
                                                  
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary btn-rounded">Save changes</button>
+                                            <!-- <button type="button" class="btn btn-primary btn-rounded">Save changes</button> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-    <!-- Mainly scripts -->
-    <script src="resources/js/jquery-2.1.1.js"></script>
+      <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"><i class="fa fa-truck"></i> Shipping Detail</h4>
+      </div>
+      <div class="modal-body">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609997266!2d72.74109837487424!3d19.082197838387007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1534840526127" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+	<div class="modal" id="truck_quantity" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content animated bounceInRight">
+      <div class="modal-header">
+        <h4 class="modal-title">Truck Quantity</h4>
+      </div>
+      <div class="modal-body" style="overflow-x: auto;">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Order No.</th>
+              <th>Order Quantity</th>
+              <th>Truck No.</th>
+              <th>Truck Capacity</th>
+			  <th>Truck Order Quatitiy</th>
+              
+            </tr>
+          </thead>
+          <tbody id="orderGroup">
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+     <!-- Mainly scripts -->
+    <script src="resources/js/jquery-2.1.1_old.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -397,7 +388,61 @@
                 radioClass: 'iradio_square-green',
             });
         });
-    </script>
+        
+       /*  $(document).ready(function() {
+            $("#myModal").modal();
+          }); */
+        
+        function getOrderDetailsByDate(date){
+        	$.ajax({
+				type : "GET",
+				url : "getShippingOrderByDate",
+				data : "orderDate=" + date,
+				success : function(response) {
+					$("#orderData").empty();
+					$.each(response, function(i, value) {
+						 $("#orderData").append("<tr><td>" + value.delivery + "</td><td>" + value.deference_document + "</td><td>" + value.sold_to_party + 
+								"</td><td>" + value.name_of_sold_to_party + "</td><td>"  + value.name_of_the_ship_to_party + "</td><td>" + 
+								 value.material + "</td><td>" + value.actual_delivery_qty + "</td><td>" + 
+								  value.route_description + "</td><td>" + value.district_name + "</td><td>"  
+								 + value.plant + "</td><td>"+ value.route + "</td><td>" + 
+								 value.forwarding_agent_name + "</td><td>" + value.distribution_channel + "</td><td>" + value.deliv_date + "</td><td>" +
+								 value.delivery_type + "</td><td>" +value.shipping_Point + "</td><td>" +value.district_code + "</td><td>" +
+ value.ship_to_party + "</td><td>"+ value.ship_to_long + "</td><td>" + value.ship_to_latt +"</td></tr>"); 
+					});
+
+				},
+				error : function(e) {
+					 alert('Error: ' + e); 
+				}
+			});
+
+        	$("#configurealgo").modal(); 
+        	
+        }
+          function getGroupOrder(date){
+          	$.ajax({
+  				type : "GET",
+  				url : "getGroupOrderByDate",
+  				data : "orderDate=" + date,
+  				success : function(response) {
+  					$("#orderGroup").empty();
+  					$.each(response, function(i, value) {
+  						 $("#orderGroup").append("<tr><td>" + value.delivaryNo + "</td><td>" + value.originalOrderQty + "</td><td>" + value.truckNo + 
+ 								"</td><td>" + value.truckCapacity + "</td><td>"  + value.truckOrderQty +"</td></tr>");  
+  					});
+
+  				},
+  				error : function(e) {
+  					 alert('Error: ' + e); 
+  				}
+  			});
+
+          	$("#truck_quantity").modal(); 
+          	
+          }        
+
+        </script>
 
 </body>
 
