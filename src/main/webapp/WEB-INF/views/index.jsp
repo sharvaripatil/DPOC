@@ -598,7 +598,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- <script>
 $(document).ready(function(){
-        $.getJSON("http://219.91.244.206:8090/getMonthlyOrderCount/", function(result){
+        $.getJSON("getMonthlyOrderCount/", function(result){
             $.each(result, function(i, field){
                 $("div").append(field + " ");
             });
@@ -985,7 +985,7 @@ function loadScript() {
 }
 window.onload = loadScript;
 
-fetch("http://219.91.244.206:8090/getDailyOrderCount/").then(
+fetch("getDailyOrderCount/").then(
 		function(data){
 			return	data.json()
 		//var indetail= document.getElementById('invoiceDetails');
@@ -1005,7 +1005,7 @@ fetch("http://219.91.244.206:8090/getDailyOrderCount/").then(
 				
 				
 				
-		fetch("http://219.91.244.206:8090/getYearlyOrderCount/").then(
+		fetch("getYearlyOrderCount/").then(
 		function(data){
 			return	data.json()
 		//var indetail= document.getElementById('invoiceDetails');
@@ -1023,7 +1023,7 @@ fetch("http://219.91.244.206:8090/getDailyOrderCount/").then(
 				)
 				
 				
-	/* fetch("http://219.91.244.206:8090/getMonthlyOrderCount/").then(
+	/* fetch("getMonthlyOrderCount/").then(
 		function(data){
 			return	data.json()
 		//var indetail= document.getElementById('invoiceDetails');
@@ -1038,14 +1038,14 @@ fetch("http://219.91.244.206:8090/getDailyOrderCount/").then(
 				}
 				)		 */
 				
-		/* 		$.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) {
+		/* 		$.getJSON( "getMonthlyOrderCount/", function( json ) {
 					 
 					 var indetail= document.getElementById('GraphmonthyProgress');
 						
 						indetail.innerText=json.arrList[1].totalOrder; 
 					 });
 		 */			 
-$.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) {
+$.getJSON( "getMonthlyOrderCount/", function( json ) {
 	var data = json.arrList;	
 	var months = [];
 	var counts = [];
@@ -1071,7 +1071,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 });
 		 
 		 
-		 $.getJSON( "http://219.91.244.206:8090/getYearlyOrderCount/", function( json ) {
+		 $.getJSON( "getYearlyOrderCount/", function( json ) {
 				var year1 = 186;
 				var year2 = json.totalNumberOforders;
 				//console.log(year1) 
@@ -1092,7 +1092,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 				});
 			});
 		 
-		 $.getJSON( "http://219.91.244.206:8090/getDailyOrderCount/", function( json ) {
+		 $.getJSON( "getDailyOrderCount/", function( json ) {
 				var day = json.totalCount;	
 				//console.log(day)
 				var days = [23];
@@ -1113,7 +1113,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 			});
 		 
 		 $.ajax({
-			  url: 'http://219.91.244.206:8090/getMonthlyOrderCount/',
+			  url: 'getMonthlyOrderCount/',
 			  success: function(data){
 				 // var barCanvas1 = document.getElementById("todayCharts");
 			    $('#example-table').dynatable({
@@ -1127,7 +1127,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 			});
 		 
 		 
-		 fetch("http://219.91.244.206:8090/getTotalEpodCount/").then(
+		 fetch("getTotalEpodCount/").then(
 					function(data){
 						return	data.json()
 					//var indetail= document.getElementById('invoiceDetails');
@@ -1147,7 +1147,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 							
 							
 							
-							fetch("http://219.91.244.206:8090/getTotalWt/").then(
+							fetch("getTotalWt/").then(
 					function(data){
 						return	data.json()
 					//var indetail= document.getElementById('invoiceDetails');
@@ -1165,7 +1165,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 							)
 							
 						  $.ajax({
-			  url: 'http://219.91.244.206:8090/getTrucks/',
+			  url: 'getTrucks/',
 			  success: function(data){
 			   			    //console.log(data)
 			   			       var tr;
@@ -1212,7 +1212,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 			      }
 			    }
 			}); */
-		 $.getJSON("http://219.91.244.206:8090/getMaterials/", function(json ) {
+		 $.getJSON("getMaterials/", function(json ) {
 			 //alert("Alert");
 			  var cementWt = document.getElementById("pie-chart");
 				var data = json.matrlList;	
@@ -1263,7 +1263,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 				});
 			});	
 		 
-			$.getJSON("http://219.91.244.206:8090/getTraderInfo/", function(json ) {
+			$.getJSON("getTraderInfo/", function(json ) {
 				 //alert("Alert");
 				  var cementWt = document.getElementById("salesChart");
 					var data = json.matrlList;	
@@ -1297,7 +1297,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 						});
 				});	
 			
-			$.getJSON("http://219.91.244.206:8090//getEpodInfo/", function(json ) {
+			$.getJSON("getEpodInfo/", function(json ) {
 				 //alert("Alert");
 				  var cementWt = document.getElementById("epodChart");
 					var data = json.matrlList;	
@@ -1406,7 +1406,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 		    },
 		    options: counts
 		}); */
-/* fetch("http://219.91.244.206:8090/getTrucks/").then(
+/* fetch("getTrucks/").then(
 					function(data){
 						return	data.json()
 					//var indetail= document.getElementById('invoiceDetails');
@@ -1430,7 +1430,7 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
 							
 				/* 
 				$(document).ready(function () {
-    $.getJSON('http://219.91.244.206:8090/getTrucks/',
+    $.getJSON('getTrucks/',
     function (json) {
     	console.log(json);
         var tr;
@@ -1445,10 +1445,10 @@ $.getJSON( "http://219.91.244.206:8090/getMonthlyOrderCount/", function( json ) 
         }
     });
 }); */
-		// $("#example-table").tabulator("setData", "http://219.91.244.206:8090/getMonthlyOrderCount/");
+		// $("#example-table").tabulator("setData", "getMonthlyOrderCount/");
 		 
 	/* 			(function() {
-  var flickerAPI = "http://219.91.244.206:8090/getMonthlyOrderCount/";
+  var flickerAPI = "getMonthlyOrderCount/";
   $.getJSON( flickerAPI, {
     tags: "mount rainier",
     tagmode: "any",
