@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,8 +37,25 @@ public class OrderDetailsController {
         return new String (redirectUrl );
     }*/
 	@RequestMapping(value = "/getDashboard", method = RequestMethod.GET)
-    public RedirectView redirect() {
- return new RedirectView("http://localhost:8085/DPOC/");
+    public RedirectView redirect(HttpServletRequest req) {
+		/*
+		System.out.println("servername:"+req.getServerName());
+		System.out.println("contextPath:"+req.getContextPath());
+		System.out.println("uri:"+req.getRequestURI());
+		System.out.println("loacaladdrs:"+req.getLocalAddr());
+		System.out.println("contectpath:"+req.getContextPath());
+		System.out.println("port:"+req.getLocalPort());
+		System.out.println("pathinfo:"+req.getPathInfo());
+		System.out.println("querys:"+req.getQueryString());
+		System.out.println("remoteadd:"+req.getRemoteAddr());
+		System.out.println("remotehos:"+req.getRemoteHost());
+		System.out.println("servonc:"+req.getServletContext().toString());
+		*///System.out.println(req.get);
+		String url="";
+		url="http://"+req.getServerName()+":"+req.getLocalPort()+req.getContextPath();
+		System.out.println(url);
+ //return new RedirectView("http://localhost:8085/DPOC/");
+		return new RedirectView(url);
     }
     
 	/*@RequestMapping(value = "/getDashboard", method = RequestMethod.GET)
