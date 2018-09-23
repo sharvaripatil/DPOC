@@ -14,4 +14,6 @@ public interface IshippingOrderDao {
   public void saveOrderGroup(OrderGroupEntity orderGroupEntity);
   public List<OrderGroupEntity> getALLGroupOrders();
   public List<OrderGroupEntity> getOrderGroupByDate(String date);
+  public ShippingEntity getShippingDetails(String orderNo);
+  public List<String> getOrderNoByTruck(String truckNo);
 }

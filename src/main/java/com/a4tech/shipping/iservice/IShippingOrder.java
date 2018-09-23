@@ -13,4 +13,6 @@ public interface IShippingOrder {
   public void saveOrderGroup(OrderGroup orderGroup);
   public List<OrderGroup> getAllGroupOrderList();
   public List<OrderGroup> getOrderGroupByDate(String date);
+  public ShippingDetails1 getShippingDetails(String orderNo);
+  public List<String> getOrderNoByTruck(String truckNo);
 }

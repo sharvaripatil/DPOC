@@ -13,10 +13,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.sql.ordering.antlr.OrderingSpecification.Ordering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -28,12 +30,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.a4tech.map.service.MapService;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.model.IntellishipModel;
+import com.a4tech.shipping.model.IntellishipModelByMaterial;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.PlantDetails;
 import com.a4tech.shipping.model.ShippingDetails;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 import com.a4tech.shipping.model.TruckDetails;
+import com.a4tech.util.TruckTypeInfo;
 
 import saveShipping.StoreSpDetails;
 
@@ -43,7 +47,7 @@ public class ShippingDetailController {
 	/*@Autowired
 	private IOrderDataMapper dataMapper;*/
 	@Autowired 
-	private IShippingOrder shippingOrder;
+	private IShippingOrder shippingOrderService;
 	@RequestMapping(value="/getShortestDistence/{orderNo}")
 	public String getShortDistence(@PathVariable("orderNo") String orderNo){
 		System.out.println(orderNo);
@@ -61,14 +65,23 @@ public class ShippingDetailController {
   }*/
 	@RequestMapping(value="/algorithmProcess")
 	public ModelAndView algorithmProcess(){
-		List<ShippingDetails1> shippingaOrderList = shippingOrder.getAllShippingOrders();
+		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();
 		System.out.println("Total Orders: "+shippingaOrderList.size());
 		return new ModelAndView("algorithm_process", "shippingaOrderList", shippingaOrderList);
   }
 	@RequestMapping(value="/intellShip")
 	public ModelAndView intellShipPro(){
-    	List<IntellishipModel> orderGroupList = getGroupOrders();
-		return new ModelAndView("intellShipProcess", "shippingGroupList", orderGroupList);
+    	//List<IntellishipModel> orderGroupList = getGroupOrders();
+		List<ShippingDetails1> shippingaOrderListOnChannel = getAllOrdersBasedOnDistributionChannel("1");
+		Map<String, List<ShippingDetails1>> ordersOnDistrictMap = getAllOrdersBasedOnDistricts(
+				shippingaOrderListOnChannel);
+		Map<String, Map<String, List<ShippingDetails1>>> finalMaterialOrdMap = getAllOrdersBasedOnMaterial(
+				ordersOnDistrictMap);
+		Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = getOrdersFitIntoTruck(
+				finalMaterialOrdMap);
+		getFinalOrdersClub(finalTruckDetails);
+		List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
+		return new ModelAndView("intellShipProcess", "shippingGroupList", finalIntelishipModel);
 		//return "intellShipProcess";
   }
 	@RequestMapping(value = "/getShippingOrderByDate")
@@ -76,7 +89,7 @@ public class ShippingDetailController {
 	public List<ShippingDetails1> getOderDetailsByDate(HttpServletRequest req) {
 		System.out.println("Get Shipping Order details based On Date");
 		String orderDate = req.getParameter("orderDate");
-		List<ShippingDetails1> shippingaOrderList = shippingOrder.getShippingDetailsByDate(orderDate);
+		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getShippingDetailsByDate(orderDate);
 		return shippingaOrderList;
 	}
 	@RequestMapping(value = "/getGroupOrderByDate")
@@ -84,7 +97,7 @@ public class ShippingDetailController {
 	public List<OrderGroup> getGroupOrders(HttpServletRequest req) {
 		System.out.println("Get order Group Order details based On Date");
 		String orderDate = req.getParameter("orderDate");
-		List<OrderGroup> orderGroupList = shippingOrder.getOrderGroupByDate(orderDate);
+		List<OrderGroup> orderGroupList = shippingOrderService.getOrderGroupByDate(orderDate);
 		return orderGroupList;
 	}
 	@RequestMapping(value="/getShippingOrderHistory")
@@ -92,10 +105,397 @@ public class ShippingDetailController {
 		return "history";
 		//return "intellShipProcess";
   }
+	@RequestMapping(value = "/getGroupOrderByTruck")
+	@ResponseBody
+	public List<ShippingDetails1> getGroupOrdersByTruck(HttpServletRequest req) {
+		System.out.println("Get order Group Order details based On Truck");
+		String truckNo = req.getParameter("truckNo");
+		List<String> orderNoList = shippingOrderService.getOrderNoByTruck(truckNo);
+		List<ShippingDetails1> shippingaOrderList = getShippingDetailsByTruckNo(orderNoList);
+		return shippingaOrderList;
+	}
+	public List<ShippingDetails1> getAllOrdersBasedOnDistributionChannel(String distributionChannel){
+		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();
+		List<ShippingDetails1> shippingaOrderListOnChannel = shippingaOrderList.stream()
+				.filter(order -> order.getDistribution_channel().contains(distributionChannel))
+				.collect(Collectors.toList());
+		return shippingaOrderListOnChannel;
+	}
+	public Map<String, List<ShippingDetails1>> getAllOrdersBasedOnDistricts(List<ShippingDetails1> shippingOrderList){
+		Map<String, List<ShippingDetails1>> ordersOnDistrictMap = new HashMap<>();
+		
+		for (ShippingDetails1 shippingDetails1 : shippingOrderList) {
+			  String districtName = shippingDetails1.getDistrict_name();
+			  List<ShippingDetails1> ordersList = ordersOnDistrictMap.get(districtName);
+			  if(ordersList != null){
+				  ordersList.add(shippingDetails1);
+				  ordersOnDistrictMap.put(districtName, ordersList);
+			  } else {
+				  List<ShippingDetails1> ordList = new ArrayList<>();
+				  ordList.add(shippingDetails1);
+				  ordersOnDistrictMap.put(districtName, ordList);
+			  }
+		}
+		return ordersOnDistrictMap;
+	}
+	public Map<String, Map<String, List<ShippingDetails1>>> getAllOrdersBasedOnMaterial(Map<String, List<ShippingDetails1>> ordersOnDistrictMap){
+		Map<String, Map<String, List<ShippingDetails1>>> finalMaterialOrdMap = new HashMap<>();
+		 for (Map.Entry<String, List<ShippingDetails1>> orders : ordersOnDistrictMap.entrySet()) {
+			String districtName = orders.getKey();
+			List<ShippingDetails1> ordersList = orders.getValue();
+			Map<String, List<ShippingDetails1>> ordersOnMaterialsMap = new HashMap<>();
+			for (ShippingDetails1 shippingDetails1 : ordersList) {
+				String materialType = shippingDetails1.getMaterial(); 
+				  List<ShippingDetails1> materialOrdersList = ordersOnMaterialsMap.get(materialType);
+				  if(materialOrdersList != null){
+					  materialOrdersList.add(shippingDetails1);
+					  ordersOnMaterialsMap.put(materialType, materialOrdersList);
+				  } else {
+					  List<ShippingDetails1> matrlOrdList = new ArrayList<>();
+					  matrlOrdList.add(shippingDetails1);
+					  ordersOnMaterialsMap.put(materialType, matrlOrdList);
+				  }
+			}
+			finalMaterialOrdMap.put(districtName, ordersOnMaterialsMap);
+		}
+		return finalMaterialOrdMap;
+	}
+	
+	public Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> getOrdersFitIntoTruck(Map<String, Map<String, List<ShippingDetails1>>> materialOrdGroupMap){
+		//List<TruckDetails> initialTruckInfoList = shippingOrder.getAllTruckInfo();
+		List<ShippingDetails1> unGroupOrderList = new ArrayList<>();
+		List<TruckDetails> allAssignedTrucksList = new ArrayList<>(); 
+		Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = new HashMap<>();
+		for (Map.Entry<String, Map<String, List<ShippingDetails1>>> ordGrpList : materialOrdGroupMap.entrySet()) {
+			String districtName = ordGrpList.getKey();
+			Map<String, List<ShippingDetails1>> vals = ordGrpList.getValue();
+			Map<List<ShippingDetails1>, List<TruckDetails>> truckAndOrderMap = new HashMap<>();
+			for (Map.Entry<String, List<ShippingDetails1>> ordList : vals.entrySet()) {
+				List<TruckDetails> trucksList = new ArrayList<>();
+				String materialName = ordList.getKey();
+				List<ShippingDetails1> ordsList = ordList.getValue();
+				if(ordsList.size() == 1){//if single order contain for same material ,no need to group the that product
+					unGroupOrderList.add(ordsList.get(0));
+					continue;
+				}
+				String truckType = TruckTypeInfo.getTruckLoadType(districtName);
+				int totOrdQty = ordsList.stream().map(ShippingDetails1::getActual_delivery_qty)
+						.mapToInt(Integer::valueOf).sum();
+				if("Minimum".equals(truckType)){
+					trucksList = getNormalTruckList(trucksList, totOrdQty,allAssignedTrucksList);
+					allAssignedTrucksList.addAll(trucksList);
+				} else{//maximum Extra
+					trucksList = getHeavyTruckList(trucksList, totOrdQty,allAssignedTrucksList);
+					allAssignedTrucksList.addAll(trucksList);
+				}
+				truckAndOrderMap.put(ordsList, trucksList);
+			}
+			finalTruckDetails.put(districtName, truckAndOrderMap);
+		}
+		return finalTruckDetails;
+	}
+	
+	private List<TruckDetails> getNormalTruckList(List<TruckDetails> groupTruckList, int orderQty,
+			List<TruckDetails> allAssignedTrucksList) {
+		List<TruckDetails> initialTruckInfoList = shippingOrderService.getAllTruckInfo();
+		TruckDetails maxTruckDetails = initialTruckInfoList.stream().max(Comparator.comparing(TruckDetails::getVehicleType))
+				.orElseThrow(NoSuchElementException::new);	
+		int truckMaxCapacity = maxTruckDetails.getVehicleType();
+		if(orderQty > truckMaxCapacity){//check order qty with max truck capacity
+			if(orderQty != truckMaxCapacity){
+				maxTruckDetails = getOrderTruck(initialTruckInfoList, maxTruckDetails, allAssignedTrucksList);
+				allAssignedTrucksList.add(maxTruckDetails);
+				groupTruckList.add(maxTruckDetails);
+				  int remainingOrderQty = orderQty - truckMaxCapacity;
+				  if(remainingOrderQty > truckMaxCapacity){
+					  
+				  } else {
+					  for (TruckDetails truckDetails : initialTruckInfoList) {
+						   if(truckDetails.getVehicleType() == remainingOrderQty){
+							  if(!isTruckGroup(groupTruckList,truckDetails.getSlNo())){
+								  truckDetails = getOrderTruck(initialTruckInfoList, truckDetails, allAssignedTrucksList);
+								  allAssignedTrucksList.add(truckDetails);
+								  groupTruckList.add(truckDetails);
+								   break;
+							   }
+						   } /*else {
+							getfinalTruckList(groupTruckList, remainingOrderQty);  
+						   }*/
+						}  
+				  }  
+			} else {//if allOrderQty and truck capacity is same
+				
+			}
+		} else {// if orser qty is low compare to truck max capacity
+			TruckDetails tDetails = Collections.min(initialTruckInfoList,
+					Comparator.comparing(TruckDetails::getVehicleType));
+			tDetails = getOrderTruck(initialTruckInfoList, tDetails, allAssignedTrucksList);
+			allAssignedTrucksList.add(tDetails);
+			groupTruckList.add(tDetails);
+			
+		}
+				return groupTruckList;
+	}
+
+	private List<TruckDetails> getHeavyTruckList(List<TruckDetails> groupTruckList, int totOrdQty,
+			List<TruckDetails> allAssignedTrucksList) {
+		List<TruckDetails> initialTruckInfoList = shippingOrderService.getAllTruckInfo();
+		double initialTruckCap = totOrdQty - (totOrdQty*0.5);
+		TruckDetails initialTruckDetails = getTruckDetails(initialTruckInfoList, initialTruckCap);
+		if(initialTruckDetails != null){//if order qty is equal to truck capacity 
+			initialTruckDetails = getOrderTruck(initialTruckInfoList, initialTruckDetails, allAssignedTrucksList);
+			allAssignedTrucksList.add(initialTruckDetails);
+			groupTruckList.add(initialTruckDetails);
+			return groupTruckList;
+		}
+		TruckDetails tDetails = Collections.max(initialTruckInfoList,
+				Comparator.comparing(TruckDetails::getVehicleType));// maximum truck details
+		int truckMaxCapacity = tDetails.getVehicleType();
+		double truckCarryCapacity = truckMaxCapacity + (truckMaxCapacity*0.5);
+		if(totOrdQty > truckCarryCapacity){// order qty is greater than truck capacity then orders into split to assign another truck
+			tDetails = getOrderTruck(initialTruckInfoList, tDetails, allAssignedTrucksList);
+			allAssignedTrucksList.add(tDetails);
+			groupTruckList.add(tDetails);
+			double remainingOrdQty = Double.valueOf(totOrdQty) - truckCarryCapacity;
+			groupTruckList = getHeavyGroupTruckDetails(initialTruckInfoList, remainingOrdQty, groupTruckList,allAssignedTrucksList);
+			
+		} else {
+		   	
+		}
+		return groupTruckList;
+	}
+	private TruckDetails getTruckDetails(List<TruckDetails> truckInfoList ,double qty){
+		for (TruckDetails truckDetails : truckInfoList) {
+			 if(Double.valueOf(truckDetails.getVehicleType()) == qty){
+				 return truckDetails;
+			 }
+		}
+		
+		return null;
+	}
+	private TruckDetails getHeavyTruckDetails(List<TruckDetails> truckInfoList ,double qty){
+		
+		for (TruckDetails truckDetails : truckInfoList) {
+			 if(Double.valueOf(truckDetails.getVehicleType()) == qty){
+				 return truckDetails;
+			 }
+		}
+		
+		return null;
+	}
+
+	private TruckDetails getOrderTruck(List<TruckDetails> allTrucksList, TruckDetails truckDetails,
+			List<TruckDetails> assignedTruckList) {
+		/*if(CollectionUtils.isEmpty(assignedTruckList)){
+			return truckDetails;
+		}*/
+		String truckNo = truckDetails.getSlNo();
+		int    truckCapacity = truckDetails.getVehicleType();
+		String allTruckNos = assignedTruckList.stream().map(TruckDetails::getSlNo).collect(Collectors.joining(","));
+		if(!allTruckNos.contains(truckNo)){
+			return truckDetails;
+		} else {
+			for (TruckDetails truckDtls : allTrucksList) {
+				   if(truckDtls.getVehicleType() == truckCapacity && !allTruckNos.contains(truckDtls.getSlNo())){
+						   return truckDtls;
+				   }
+		}
+	}
+		 return truckDetails;
+	}
+	private List<TruckDetails> getHeavyGroupTruckDetails(List<TruckDetails> truckInfoList ,double qty,List<TruckDetails> truckGroupList,List<TruckDetails> allAssignedTrucksList){
+		if(qty < 8){
+			return truckGroupList;
+		}
+		TruckDetails maxTruckDetails = truckInfoList.stream().max(Comparator.comparing(TruckDetails::getVehicleType))
+				.orElseThrow(NoSuchElementException::new);
+		int truckCapacity = maxTruckDetails.getVehicleType();
+		double maxLoadcapacity = truckCapacity + (truckCapacity * 0.5);
+		if(qty > maxLoadcapacity){
+			maxTruckDetails = getOrderTruck(truckInfoList, maxTruckDetails, allAssignedTrucksList);
+			allAssignedTrucksList.add(maxTruckDetails);
+			truckGroupList.add(maxTruckDetails);
+			double remainingQty = qty - maxLoadcapacity;
+			getHeavyGroupTruckDetails(truckInfoList, remainingQty,truckGroupList,allAssignedTrucksList);
+		} else {
+			double truckCap = qty - (qty*0.5);
+			TruckDetails tt = truckInfoList.stream()
+					.reduce((result, current) -> Math.abs(truckCap - current.getVehicleType()) < Math
+							.abs(truckCap - result.getVehicleType()) ? current : result)
+					.get();
+			int cap = tt.getVehicleType();
+			double maxTruckLoad = cap + (cap*0.5);
+			double remCap = qty - maxTruckLoad;
+			if(remCap > 8){
+				truckGroupList.add(tt);
+				allAssignedTrucksList.add(tt);
+				getHeavyGroupTruckDetails(truckInfoList, remCap,truckGroupList,allAssignedTrucksList);
+			} else {
+				truckGroupList.add(tt);
+			}
+			
+		}
+		return truckGroupList;
+	}
+	private void getFinalOrdersClub(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails){
+		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
+			  String districtName = data.getKey();
+			  Map<List<ShippingDetails1>, List<TruckDetails>> ords = data.getValue();
+			  orderGroupByTruck1(ords);
+		}
+	}
+	private void orderGroupByTruck1(Map<List<ShippingDetails1>, List<TruckDetails>> groupTruckMap){
+		for (Map.Entry<List<ShippingDetails1>, List<TruckDetails>> allDetails: groupTruckMap.entrySet()) {
+			List<ShippingDetails1> ordersList = allDetails.getKey();
+			//List<ShippingDetails1> ordersList = intellship.getOrderDetailsList();
+			//ordersList.stream().map(ShippingDetails1::getActual_delivery_qty).
+			int allOrdsQtys = getAllOrdersQty(ordersList);
+			List<TruckDetails> groupTruckDetails = allDetails.getValue();
+			OrderGroup orderGroup = null;
+			List<OrderGroup> orderGroupList = new ArrayList<>();
+			Map<String, List<OrderGroup>> ordersMap = new HashMap<>();
+			for (TruckDetails truckDetails : groupTruckDetails) {
+				int initialOrder = 1;
+				int truckCapacity = truckDetails.getVehicleType();
+				int ordersQtyTruck = 0;
+				for (ShippingDetails1 orderDetails : ordersList) {
+					orderGroup = new OrderGroup();
+					int orderQty = Integer.parseInt(orderDetails.getActual_delivery_qty());
+					if(isOrderQtyTruck(ordersMap, orderQty, orderDetails.getDelivery())){// check is order load in truck or not,if order is loaded then skip those order
+						continue;
+					}
+					int remaingTruckCapacity = 0;
+					if(initialOrder != 1){
+						int truckOrdQty = truckCapacity -  ordersQtyTruck;
+						if(truckOrdQty < orderQty){
+							remaingTruckCapacity = truckOrdQty;
+						} else {
+							remaingTruckCapacity = orderQty;
+						}
+					}
+					if(ordersMap.containsKey(orderDetails.getDelivery())){
+						remaingTruckCapacity =  getRemainingOrderqQty(ordersMap, orderDetails.getDelivery());
+						if(initialOrder == 1){
+							orderQty = remaingTruckCapacity;
+						} 
+					}
+						orderGroup.setDelivaryNo(orderDetails.getDelivery());
+						 orderGroup.setOriginalOrderQty(orderDetails.getActual_delivery_qty());
+						 orderGroup.setTruckNo(truckDetails.getSlNo());
+						 orderGroup.setTruckCapacity(String.valueOf(truckDetails.getVehicleType()));
+						 orderGroup.setMaterialType(orderDetails.getMaterial());
+						 orderGroup.setDistrictName(orderDetails.getDistrict_name());
+						 orderGroup.setLatitude(orderDetails.getShip_to_latt());
+						 orderGroup.setLongitude(orderDetails.getShip_to_long());
+						 if(initialOrder == 1){
+							 orderGroup.setTruckOrderQty(orderQty);	
+							 ordersQtyTruck = orderQty;
+						 } else {
+							 orderGroup.setTruckOrderQty(remaingTruckCapacity);
+							 ordersQtyTruck = ordersQtyTruck + remaingTruckCapacity;
+						 }
+						 orderGroup.setDelivaryDate(orderDetails.getDeliv_date());
+						// orderGroupList.add(orderGroup);
+						 if(ordersMap.containsKey(orderDetails.getDelivery())){
+							 List<OrderGroup> orderGroupsList = ordersMap.get(orderDetails.getDelivery());
+							 orderGroupsList.add(orderGroup);
+							 ordersMap.put(orderDetails.getDelivery(), orderGroupsList);
+						 } else {
+							 List<OrderGroup> orders = new ArrayList<>();
+							 orders.add(orderGroup);
+							 ordersMap.put(orderDetails.getDelivery(), orders);	 
+						 }
+						 
+					
+					initialOrder++;
+					if(ordersQtyTruck == truckCapacity || isOrderQtyTruck(ordersMap, allOrdsQtys, orderDetails.getDelivery())){// truck is full with orders
+						break;
+					}
+				}
+				//orderGroupList = new ArrayList<>();
+			}//end truck for loop
+			for (Map.Entry<String, List<OrderGroup>> ords : ordersMap.entrySet()) {
+				List<OrderGroup> ordGroup = ords.getValue();
+				for (OrderGroup orderGroup2 : ordGroup) {
+					shippingOrderService.saveOrderGroup(orderGroup2);	
+				}
+			}
+		}  
+	}
+	public List<IntellishipModelByMaterial> getFinalGroupOrders(){
+		MapService gmapDist = new MapService();
+		StoreSpDetails sd = new StoreSpDetails();
+		 List<PlantDetails> plantDetailsList = sd.getAllPlantDetails();
+		 PlantDetails plantDetails  = plantDetailsList.get(2);
+		List<OrderGroup> orderGroupList = shippingOrderService.getAllGroupOrderList();
+		List<IntellishipModelByMaterial> finalIntelishipModel = new ArrayList<>();
+		Map<String, List<OrderGroup>> groupBasedOnTruck = new HashMap<>();
+		for (OrderGroup orderGroup : orderGroupList) {
+			String truckNo = orderGroup.getTruckNo();
+			List<OrderGroup> ordGroList = groupBasedOnTruck.get(truckNo);
+			if(ordGroList != null){
+				ordGroList.add(orderGroup);
+				groupBasedOnTruck.put(truckNo, ordGroList);
+			} else {
+				List<OrderGroup> ordGroupList = new ArrayList<>();
+				ordGroupList.add(orderGroup);
+				groupBasedOnTruck.put(truckNo, ordGroupList);
+			}
+		}
+		IntellishipModelByMaterial intellishModel = null;
+		for (Map.Entry<String, List<OrderGroup>> groupList : groupBasedOnTruck.entrySet()) {
+			intellishModel = new IntellishipModelByMaterial();
+			String truckNo = groupList.getKey();
+			List<OrderGroup> orderGrpList = groupList.getValue();
+			StringBuilder shippingLatitudeAndLonitude = new StringBuilder();
+			double distence = 0.0;
+			int totalOrdQty = 0;
+			for (OrderGroup orderGrup : orderGrpList) {
+				shippingLatitudeAndLonitude.append(orderGrup.getLatitude()).append(",").append(orderGrup.getLongitude());
+				shippingLatitudeAndLonitude.append("|");
+				int pendingQty = getPendingOrderQuantity(orderGrup.getOriginalOrderQty(), orderGrup.getTruckCapacity(),
+						orderGrup.getTruckOrderQty());
+				if(pendingQty != 0){
+					intellishModel.setPendingQuantity(pendingQty);
+				}
+				totalOrdQty = totalOrdQty + Integer.parseInt(orderGrup.getOriginalOrderQty());
+				intellishModel.setLoadType(TruckTypeInfo.getLoadType(orderGrup.getDistrictName()));
+				intellishModel.setMaterialType(orderGrup.getMaterialType());
+				intellishModel.setTruckCapacity(orderGrup.getTruckCapacity());
+			}
+			try {
+				distence = gmapDist.getMaxDistenceFromMultipleDestination(
+						plantDetails.getLatitude() + "," + plantDetails.getLongitude(),
+						shippingLatitudeAndLonitude.toString());
+			} catch (IOException e) {
+				System.out.println("Unbale to calculate distence :"+e.getCause());
+				e.printStackTrace();
+			}
+		  intellishModel.setTruckNo(truckNo);
+          intellishModel.setTotalKilometers(String.valueOf(distence));
+          intellishModel.setTotalOrders(orderGrpList.size());
+          intellishModel.setTotalOrderQuantity(totalOrdQty);
+          intellishModel.setPlant(plantDetails.getPlantName());
+          finalIntelishipModel.add(intellishModel);
+		}
+		return finalIntelishipModel;
+	}
+	
+	private int getPendingOrderQuantity(String originalOrderQty,String truckCapacity,int orderQtyInTruck){
+		int remainingQty = Integer.parseInt(originalOrderQty) - orderQtyInTruck;
+		return remainingQty;
+	}
+	private boolean isTruckGroup1(List<TruckDetails> truckList,String truckNo){
+		String allTruckNos = truckList.stream().map(TruckDetails::getSlNo).collect(Collectors.joining(","));
+		if(allTruckNos.contains(truckNo)){
+			return true;
+		}
+		return false;
+	}
 	public List<IntellishipModel> getGroupOrders(){
 		  StoreSpDetails sd = new StoreSpDetails();
 		  MapService gmapDist = new MapService();
-		  List<ShippingDetails1> shippingaOrderList = shippingOrder.getAllShippingOrders();
+		  List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();
 		  List<PlantDetails> plantDetailsList = sd.getAllPlantDetails();
 			Map<String, ShippingDetails> shippingDetailsMap = sd.getAllShippingDetailsMap();
 		  Map<Double, String> distences = new LinkedHashMap<>();
@@ -232,7 +632,7 @@ public class ShippingDetailController {
 		//split tru1cks based on order quantity
 	}
 	private List<TruckDetails> getfinalTruckList(List<TruckDetails> groupTruckList,int orderQty){
-		List<TruckDetails> initialTruckInfoList = shippingOrder.getAllTruckInfo();
+		List<TruckDetails> initialTruckInfoList = shippingOrderService.getAllTruckInfo();
 		TruckDetails maxTruckDetails = initialTruckInfoList.stream().max(Comparator.comparing(TruckDetails::getVehicleType))
 				.orElseThrow(NoSuchElementException::new);	
 		int truckMaxCapacity = maxTruckDetails.getVehicleType();
@@ -341,7 +741,7 @@ public class ShippingDetailController {
 			for (Map.Entry<String, List<OrderGroup>> ords : ordersMap.entrySet()) {
 				List<OrderGroup> ordGroup = ords.getValue();
 				for (OrderGroup orderGroup2 : ordGroup) {
-				     shippingOrder.saveOrderGroup(orderGroup2);	
+					shippingOrderService.saveOrderGroup(orderGroup2);	
 				}
 			}
 		}  
@@ -381,7 +781,7 @@ public class ShippingDetailController {
 	}
 	
 	public List<IntellishipModel> getTrucksCount(List<IntellishipModel> intellishModel){
-		List<OrderGroup> orderGroupList = shippingOrder.getAllGroupOrderList();
+		List<OrderGroup> orderGroupList = shippingOrderService.getAllGroupOrderList();
 		Map<String, Set<String>> truckGroup = new HashMap<>();
 		for (OrderGroup orderGroup : orderGroupList) {
 			String date = orderGroup.getDelivaryDate();
@@ -703,4 +1103,12 @@ public class ShippingDetailController {
 		
 	}
 	
+	private List<ShippingDetails1> getShippingDetailsByTruckNo(List<String> orderNoList){
+		List<ShippingDetails1> shippingDetailList = new ArrayList<>();
+		for (String orderNo : orderNoList) {
+			ShippingDetails1 ShippingDetailsObj = shippingOrderService.getShippingDetails(orderNo);
+			shippingDetailList.add(ShippingDetailsObj);
+		}
+		return shippingDetailList;
+	}
 }

@@ -9,6 +9,8 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -204,6 +206,63 @@ public class ShippingDao implements IshippingOrderDao{
 		}
 		return new ArrayList<>();
 	}
+	@Override
+	public ShippingEntity getShippingDetails(String orderNo) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(ShippingEntity.class);
+			criteria.add(Restrictions.eq("delivery", orderNo));
+			ShippingEntity shippingDetails = (ShippingEntity) criteria.uniqueResult();
+			transaction.commit();
+			return shippingDetails;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get shipping order data from DB based on date: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return null;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getOrderNoByTruck(String truckNo) {
+		
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(OrderGroupEntity.class);
+			criteria.add(Restrictions.eq("truckNo", truckNo));
+			Projection prop = Projections.property("delivaryNo");
+			List<String> delivaryOrderNoList = criteria.setProjection(prop).list();
+			transaction.commit();
+			return delivaryOrderNoList;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get shipping order data from DB based on date: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return null;
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -212,8 +271,4 @@ public class ShippingDao implements IshippingOrderDao{
 		this.sessionFactory = sessionFactory;
 	}
 	
-	
-	
-	
-
 }

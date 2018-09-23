@@ -7,7 +7,35 @@ public class OrderGroup {
 	private String truckCapacity;
 	private int truckOrderQty;
 	private String delivaryDate;
+	private String materialType;
+	private String districtName;
+	private String latitude;
+	private String longitude;
 	
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getMaterialType() {
+		return materialType;
+	}
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;
+	}
+	public String getDistrictName() {
+		return districtName;
+	}
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
 	public String getDelivaryNo() {
 		return delivaryNo;
 	}

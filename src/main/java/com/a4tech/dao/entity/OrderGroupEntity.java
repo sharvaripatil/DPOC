@@ -26,7 +26,39 @@ public class OrderGroupEntity {
 	private String truckOrderQty;
 	@Column(name="Delivary_Date")
 	private String delivaryDate;
+	@Column(name="Material_Name")
+	private String materialName;
+	@Column(name="District_Name")
+	private String districtName;
+	@Column(name="Ship_Latitude")
+	private String latitude;
+	@Column(name="Ship_Longitude")
+	private String longitude;
 	
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
+	public String getDistrictName() {
+		return districtName;
+	}
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
 	public String getDelivaryNo() {
 		return delivaryNo;
 	}

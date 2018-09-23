@@ -211,34 +211,33 @@
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-									
-                                    <th>Delivery Date</th>
-                                    <th>Total Order</th>
-									<th>Total Trucks</th>
-                                    <th>Truck Capacity</th>
-									   <th>Plant</th>
-                                    <th>Total Kilometers</th>
-									<th>Map</th>
-                                   
-                                </tr>
+
+											<th>Truck No.</th>
+											<th>Load Type</th>
+											<th>Material Type</th>
+											<th>Total Order</th>
+											<th>Total Order Quantity</th>
+											<th>Truck Capacity</th>
+											<th>Pending Quantity</th>
+											<th>Plant</th>
+											<th>Total Kilometers</th>
+											<th>Map</th>
+
+										</tr>
                                 </thead>
                                 <tbody>
 										<c:forEach items="${shippingGroupList}"
 											var="shippingGroupDetails" varStatus="status">
 											<tr>
-												<td>${shippingGroupDetails.delivaryDate}</td>
-											   <%-- <td><button class="btn btn-success btn-circle"
-														data-toggle="modal" data-target="#configurealgo" data-whatever='${shippingGroupDetails.orderDetailsList}'
-														type="button">${shippingGroupDetails.totalOrders}
-													</button></td> --%> 
-							
-												 <td><button class="btn btn-success btn-circle" type="button" 
-														onclick="getOrderDetailsByDate('${shippingGroupDetails.delivaryDate}')">${shippingGroupDetails.totalOrders}
+												<td>${shippingGroupDetails.truckNo}</td>
+												<td>${shippingGroupDetails.loadType}</td>
+												<td>${shippingGroupDetails.materialType}</td>
+												<td><button class="btn btn-success btn-circle" type="button" 
+														onclick="getOrderDetailsByMaterial('${shippingGroupDetails.truckNo}')">${shippingGroupDetails.totalOrders}
 													</button></td> 
-													<td><button class="btn btn-success btn-circle" type="button" 
-														onclick="getGroupOrder('${shippingGroupDetails.delivaryDate}')">${shippingGroupDetails.truckNum}
-													</button></td> 
+												<td>${shippingGroupDetails.totalOrderQuantity}</td>
 												<td>${shippingGroupDetails.truckCapacity}</td>
+												<td>${shippingGroupDetails.pendingQuantity}</td>
 												<td>${shippingGroupDetails.plant}</td>
 												<td>${shippingGroupDetails.totalKilometers}</td>
 												<td>   <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#myModal">View Map</a></td>
@@ -420,6 +419,33 @@
         	$("#configurealgo").modal(); 
         	
         }
+          function getOrderDetailsByMaterial(truckNo){
+        	  $.ajax({
+  				type : "GET",
+  				url : "getGroupOrderByTruck",
+  				data : "truckNo=" + truckNo,
+  				success : function(response) {
+  					$("#orderData").empty();
+  					$.each(response, function(i, value) {
+  						 $("#orderData").append("<tr><td>" + value.delivery + "</td><td>" + value.deference_document + "</td><td>" + value.sold_to_party + 
+  								"</td><td>" + value.name_of_sold_to_party + "</td><td>"  + value.name_of_the_ship_to_party + "</td><td>" + 
+  								 value.material + "</td><td>" + value.actual_delivery_qty + "</td><td>" + 
+  								  value.route_description + "</td><td>" + value.district_name + "</td><td>"  
+  								 + value.plant + "</td><td>"+ value.route + "</td><td>" + 
+  								 value.forwarding_agent_name + "</td><td>" + value.distribution_channel + "</td><td>" + value.deliv_date + "</td><td>" +
+  								 value.delivery_type + "</td><td>" +value.shipping_Point + "</td><td>" +value.district_code + "</td><td>" +
+   value.ship_to_party + "</td><td>"+ value.ship_to_long + "</td><td>" + value.ship_to_latt +"</td></tr>"); 
+  					});
+
+  				},
+  				error : function(e) {
+  					 alert('Error: ' + e); 
+  				}
+  			});
+
+          	$("#configurealgo").modal(); 
+  
+          }
           function getGroupOrder(date){
           	$.ajax({
   				type : "GET",
