@@ -11,6 +11,13 @@ public class IntellishipModelByMaterial {
 	private String    plant;
 	private String    totalKilometers;
 	private String    delivaryDate;
+	private String    districtName;
+	public String getDistrictName() {
+		return districtName;
+	}
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
 	public String getTruckNo() {
 		return truckNo;
 	}

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -49,15 +50,18 @@ public class ShippingDao implements IshippingOrderDao{
 		}
 	}
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<ShippingEntity> getAllShippingOrders() {
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			@SuppressWarnings("unchecked")
-			List<ShippingEntity> shippingData = session.createCriteria(ShippingEntity.class).list();
-			transaction.commit();
+			Criteria criteria = session.createCriteria(ShippingEntity.class);
+			criteria.add(Restrictions.eq("isOrderGroup", "No"));
+			List<ShippingEntity> shippingData = criteria.list();
+			//List<ShippingEntity> shippingData = session.createCriteria(ShippingEntity.class).list();
+			//transaction.commit();
 			return shippingData;
 		} catch (Exception ex) {
 			_LOGGER.error("unable to get shipping ordet data from DB: "+ex.getCause());
@@ -262,6 +266,40 @@ public class ShippingDao implements IshippingOrderDao{
 			}
 		}
 		return null;
+	}
+	@Override
+	public void updateOrderGroupFlag(String delivaryNo) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			
+			
+			Query query = session.createQuery("UPDATE ShippingEntity s SET s.isOrderGroup = :isOrderGroup WHERE s.delivery = :delivery");
+			query.setParameter("isOrderGroup", "Yes");
+			query.setParameter("delivery", delivaryNo);
+			query.executeUpdate();
+			
+			/*ShippingEntity shippingEntity = (ShippingEntity) session.get(ShippingEntity.class, delivaryNo);
+			shippingEntity.setIsOrderGroup("Yes");
+			session.saveOrUpdate(shippingEntity);*/
+			transaction.commit();
+			_LOGGER.info("Order Details data has been updated successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to update data into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		
 	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

@@ -65,6 +65,7 @@ public class ShippingMapping implements IOrderDataMapper{
 							 if(nextRow.getRowNum() != 1){
 								 System.out.println("Java object converted to JSON String, written to file");
 								 //int num = postServiceImpl.postProduct(accessToken, productExcelObj,asiNumber ,batchId, environmentType);
+								 entityObj.setIsOrderGroup("No");
 								 shippingOrderDao.saveShippingEntity(entityObj);
 							 }
 							    if(!productXids.contains(orderNo)){
@@ -192,6 +193,7 @@ public class ShippingMapping implements IOrderDataMapper{
 		{
 		System.out.println(e.getMessage());	
 		}
+		entityObj.setIsOrderGroup("No");
 		shippingOrderDao.saveShippingEntity(entityObj);
 	}
 

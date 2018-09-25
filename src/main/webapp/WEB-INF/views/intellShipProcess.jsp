@@ -213,6 +213,7 @@
                                 <tr>
 
 											<th>Truck No.</th>
+											<th>District Name</th>
 											<th>Load Type</th>
 											<th>Material Type</th>
 											<th>Total Order</th>
@@ -230,6 +231,7 @@
 											var="shippingGroupDetails" varStatus="status">
 											<tr>
 												<td>${shippingGroupDetails.truckNo}</td>
+												<td>${shippingGroupDetails.districtName}</td>
 												<td>${shippingGroupDetails.loadType}</td>
 												<td>${shippingGroupDetails.materialType}</td>
 												<td><button class="btn btn-success btn-circle" type="button" 

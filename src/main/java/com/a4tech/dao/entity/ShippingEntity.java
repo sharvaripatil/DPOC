@@ -74,6 +74,16 @@ public class ShippingEntity {
 
 	@Column(name = "ship_to_latt")
 	private String ship_to_latt;
+	@Column(name="is_order_group")
+	private String isOrderGroup;
+
+	public String getIsOrderGroup() {
+		return isOrderGroup;
+	}
+
+	public void setIsOrderGroup(String isOrderGroup) {
+		this.isOrderGroup = isOrderGroup;
+	}
 
 	public String getDeference_document() {
 		return deference_document;

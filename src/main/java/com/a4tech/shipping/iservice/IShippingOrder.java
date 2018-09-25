@@ -15,4 +15,5 @@ public interface IShippingOrder {
   public List<OrderGroup> getOrderGroupByDate(String date);
   public ShippingDetails1 getShippingDetails(String orderNo);
   public List<String> getOrderNoByTruck(String truckNo);
+  public void updateOrderGroupFlag(String delivaryNo);
 }

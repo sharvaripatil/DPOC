@@ -190,8 +190,11 @@ public class ShippingOrderImpl implements IShippingOrder{
 		return shippingDetails;
 	}
 	@Override
+	public void updateOrderGroupFlag(String delivaryNo) {
+         shippingOrderDao.updateOrderGroupFlag(delivaryNo);		
+	}
+	@Override
 	public List<String> getOrderNoByTruck(String truckNo) {
 		return shippingOrderDao.getOrderNoByTruck(truckNo);
  	}
-
 }
