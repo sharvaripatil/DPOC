@@ -37,6 +37,7 @@ import com.a4tech.shipping.model.ShippingDetails;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 import com.a4tech.shipping.model.TruckDetails;
+import com.a4tech.util.CommonUtility;
 import com.a4tech.util.TruckTypeInfo;
 
 import saveShipping.StoreSpDetails;
@@ -540,6 +541,7 @@ public class ShippingDetailController {
 			int totalOrdQty = 0;
 			int ordQty = 0;
 			int truckCapacity = 0;
+			String districName = "";
 			for (OrderGroup orderGrup : orderGrpList) {
 				shippingLatitudeAndLonitude.append(orderGrup.getLatitude()).append(",").append(orderGrup.getLongitude());
 				shippingLatitudeAndLonitude.append("|");
@@ -555,7 +557,24 @@ public class ShippingDetailController {
 				totalOrdQty = totalOrdQty + Integer.parseInt(orderGrup.getOriginalOrderQty());
 				intellishModel.setLoadType(TruckTypeInfo.getLoadType(orderGrup.getDistrictName()));
 				intellishModel.setMaterialType(orderGrup.getMaterialType());
-				intellishModel.setTruckCapacity(orderGrup.getTruckCapacity());
+				String truckType = TruckTypeInfo.getTruckLoadType(orderGrup.getDistrictName());
+				districName = orderGrup.getDistrictName();
+				if("Minimum".equals(truckType)){
+					intellishModel.setTruckCapacity(orderGrup.getTruckCapacity());
+				} else {
+					int truckCap = Integer.parseInt(orderGrup.getTruckCapacity());
+					int originalTruck = 0;
+					if(truckCap == 27){
+						originalTruck = 18;
+					} else if(truckCap == 18){
+						originalTruck = 12;
+					} else{
+						originalTruck = truckCap;
+					}
+					String finalTruckCap = originalTruck+"("+truckCap +")";
+					intellishModel.setTruckCapacity(finalTruckCap);
+				}
+				
 				intellishModel.setDistrictName(orderGrup.getDistrictName());
 				truckCapacity = Integer.parseInt(orderGrup.getTruckCapacity());
 				pendingOrderMap.put(orderGrup.getDelivaryNo(), orderGrup);
@@ -572,6 +591,12 @@ public class ShippingDetailController {
 			} catch (IOException e) {
 				System.out.println("Unbale to calculate distence :"+e.getCause());
 				e.printStackTrace();
+			}
+			
+			if(districName.equals("GODDA")){
+				distence = 295.2;
+			} else {
+			   distence = 342.6;	
 			}
 		  intellishModel.setTruckNo(truckNo);
           intellishModel.setTotalKilometers(String.valueOf(distence));
