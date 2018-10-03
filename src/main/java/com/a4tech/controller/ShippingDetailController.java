@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.model.IntellishipModel;
@@ -120,6 +121,21 @@ public class ShippingDetailController {
 		List<ShippingDetails1> shippingaOrderList = getShippingDetailsByTruckNo(orderNoList);
 		return shippingaOrderList;
 	}
+	@RequestMapping(value = "/getLatiAndLongValues",produces="application/json")
+	@ResponseBody
+	public List<Address> getLatitudeAndLongitude(HttpServletRequest req) {
+		System.out.println("Get Latitude AndLongitude values");
+		String truckNo = req.getParameter("truckNo");
+		List<Address> addressList = shippingOrderService.getLatitudeAndLongitude(truckNo);
+		return addressList;
+	}
+	/*@RequestMapping(value = "/getLatiAndLongValues",produces="application/json")
+	@ResponseBody
+	public String getLatitudeAndLongitude(HttpServletRequest req) {
+		System.out.println("Get Latitude AndLongitude values");
+		
+		return "welcome to map";
+	}*/
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails){
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();
@@ -461,6 +477,7 @@ public class ShippingDetailController {
 						 orderGroup.setDistrictName(orderDetails.getDistrict_name());
 						 orderGroup.setLatitude(orderDetails.getShip_to_latt());
 						 orderGroup.setLongitude(orderDetails.getShip_to_long());
+						 orderGroup.setNameShipToParty(orderDetails.getName_of_sold_to_party());
 						 if(initialOrder == 1){
 							 orderGroup.setTruckOrderQty(orderQty);	
 							 ordersQtyTruck = orderQty;

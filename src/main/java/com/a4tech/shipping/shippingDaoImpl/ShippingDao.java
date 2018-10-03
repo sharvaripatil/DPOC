@@ -57,10 +57,10 @@ public class ShippingDao implements IshippingOrderDao{
 		try {
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			Criteria criteria = session.createCriteria(ShippingEntity.class);
+			/*Criteria criteria = session.createCriteria(ShippingEntity.class);
 			criteria.add(Restrictions.eq("isOrderGroup", "No"));
-			List<ShippingEntity> shippingData = criteria.list();
-			//List<ShippingEntity> shippingData = session.createCriteria(ShippingEntity.class).list();
+			List<ShippingEntity> shippingData = criteria.list();*/
+			List<ShippingEntity> shippingData = session.createCriteria(ShippingEntity.class).list();
 			//transaction.commit();
 			return shippingData;
 		} catch (Exception ex) {
@@ -301,6 +301,33 @@ public class ShippingDao implements IshippingOrderDao{
 		}
 		
 	}
+	@Override
+	public List<OrderGroupEntity> getLatitudeAndLongitude(String truckNo) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			Criteria criteria = session.createCriteria(OrderGroupEntity.class);
+			criteria.add(Restrictions.eq("truckNo", truckNo));
+			List<OrderGroupEntity> ordGroupEntity = criteria.list();
+			transaction.commit();
+			return ordGroupEntity;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get order group order data from DB based on date: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -308,5 +335,6 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
 	
 }

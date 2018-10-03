@@ -34,7 +34,14 @@ public class OrderGroupEntity {
 	private String latitude;
 	@Column(name="Ship_Longitude")
 	private String longitude;
-	
+	@Column(name="Name_Ship_To_Party")
+	private String nameShipToParty;
+	public String getNameShipToParty() {
+		return nameShipToParty;
+	}
+	public void setNameShipToParty(String nameShipToParty) {
+		this.nameShipToParty = nameShipToParty;
+	}
 	public String getLatitude() {
 		return latitude;
 	}

@@ -11,7 +11,14 @@ public class OrderGroup {
 	private String districtName;
 	private String latitude;
 	private String longitude;
+	private String nameShipToParty;
 	
+	public String getNameShipToParty() {
+		return nameShipToParty;
+	}
+	public void setNameShipToParty(String nameShipToParty) {
+		this.nameShipToParty = nameShipToParty;
+	}
 	public String getLatitude() {
 		return latitude;
 	}

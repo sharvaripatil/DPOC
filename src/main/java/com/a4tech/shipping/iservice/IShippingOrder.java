@@ -2,6 +2,7 @@ package com.a4tech.shipping.iservice;
 
 import java.util.List;
 
+import com.a4tech.map.model.Address;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.TruckDetails;
@@ -16,4 +17,5 @@ public interface IShippingOrder {
   public ShippingDetails1 getShippingDetails(String orderNo);
   public List<String> getOrderNoByTruck(String truckNo);
   public void updateOrderGroupFlag(String delivaryNo);
+  public List<Address> getLatitudeAndLongitude(String truckNo);
 }

@@ -18,6 +18,18 @@
     <link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="resources/css/animate.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyYtYpllFDH6MlGZzgw4wOZqVPe6vlGwU"></script> 
+ <!-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyYtYpllFDH6MlGZzgw4wOZqVPe6vlGwU&callback=initMap"> </script> -->
+<style type="text/css">
+#map {
+  height: 500px;
+  width: 500px;
+  margin: 0px;
+  padding: 0px
+}
+ 
+</style>
 
 </head>
 
@@ -242,7 +254,8 @@
 												<td>${shippingGroupDetails.pendingQuantity}</td>
 												<td>${shippingGroupDetails.plant}</td>
 												<td>${shippingGroupDetails.totalKilometers}</td>
-												<td>   <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#myModal">View Map</a></td>
+												<td>   <a class="btn btn-primary btn-rounded" onclick="getMap('${shippingGroupDetails.truckNo}')" >View Map</a></td>
+												
 											</tr>
 										</c:forEach>
 									</tbody>
@@ -325,7 +338,10 @@
         <h4 class="modal-title"><i class="fa fa-truck"></i> Shipping Detail</h4>
       </div>
       <div class="modal-body">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609997266!2d72.74109837487424!3d19.082197838387007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1534840526127" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+      <div id="map" style="border: 2px solid #3872ac;"></div>
+      <div id="directions_panel"></div>
+      
+       <!--  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.11609997266!2d72.74109837487424!3d19.082197838387007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C+Maharashtra!5e0!3m2!1sen!2sin!4v1534840526127" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -468,9 +484,147 @@
 
           	$("#truck_quantity").modal(); 
           	
-          }        
+          }
+          var trucksData;
+          function getMap(truckNo){
+        	  
+        	  $.ajax({
+    				type : "GET",
+    				url : "getLatiAndLongValues",
+    				data : "truckNo=" + truckNo,
+    				success : function(response) {
+    					var json = JSON.stringify(response);
+    					
+    					/* var obj = JSON.parse(response);
+    					trucksData = obj; */
+    					trucksData = json;
+    				},
+    				error : function(e) {
+    					 alert('Error: ' + e); 
+    				}
+    			});
+        	  showmap();
+        	  /* alert('result:'+trucksData); */
+        	  
+          }
 
-        </script>
+          /* var MapPoints = '[{"address":{"lat":"23.7012517","lng":"86.0591489"},"title":"Dalmia Cement,JHARKHAND"},{"address":{"lat":"24.5246","lng":"84.2845"},"title":"NAVIN CEMENT STORE"},{"address":{"lat":"24.2493788","lng":"83.9261005"},"title":"SAKSHI TRADERS"}]'; */
+
+          var MY_MAPTYPE_ID = 'custom_style';
+          var directionsDisplay;
+          var directionsService = new google.maps.DirectionsService();
+          var map;
+
+
+ 
+          function showmap() {
+        	  var pointA = new google.maps.LatLng(23.7012517, 86.0591489);
+            if (jQuery('#map').length > 0) {
+            	map = new google.maps.Map(document.getElementById('map'), {
+            		 zoom: 15,
+            		center: pointA,
+            		mapTypeId: google.maps.MapTypeId.ROADMAP,
+                    scrollwheel: false 
+                  });
+            	
+            	directionsDisplay = new google.maps.DirectionsRenderer({
+            		map: map,
+                    suppressMarkers: true
+                  });
+               var locations = jQuery.parseJSON(trucksData);
+             /*  var locations =  trucksData; */
+              
+              directionsDisplay.setMap(map);
+
+              var infowindow = new google.maps.InfoWindow();
+              var shippingCoordinates = [];
+              var bounds = new google.maps.LatLngBounds();
+
+              for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                  position: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
+                  map: map
+                });
+                shippingCoordinates.push(marker.getPosition());
+                bounds.extend(marker.position);
+
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                  return function() {
+                    infowindow.setContent(locations[i].placeName);
+                    infowindow.open(map, marker);
+                  }
+                })(marker, i));
+              }
+
+              map.fitBounds(bounds);
+
+              // directions service configuration
+              var start = shippingCoordinates[0];
+              var end = shippingCoordinates[shippingCoordinates.length - 1];
+              var waypts = [];
+              for (i = 0; i < locations.length; i++) {    
+            	     waypts.push({
+            	        location: new google.maps.LatLng(locations[i].latitude, locations[i].longitude),
+            	        stopover: true
+            	     });
+            	}
+              calcRoute(start, end, waypts);
+/* 
+            	directionsService.route({
+            	  origin: new google.maps.LatLng(locations[0].latitude, locations[0].longitude),
+            	  destination: new google.maps.LatLng(locations[locations.length - 1].latitude, locations[locations.length - 1].longitude),
+            	  waypoints: waypts,
+            	  optimizeWaypoints: true,
+            	  travelMode: 'DRIVING'
+            	}, function(response, status) {
+            	  if (status === 'OK') {
+            	    directionsDisplay.setDirections(response);
+            	    var route = response.routes[0];
+            	  } else {
+            	    window.alert('Directions request failed due to ' + status);
+            	  }
+            	}); */
+              /* for (var i = 1; i < shippingCoordinates.length - 1; i++) {
+                waypts.push({
+                  location: shippingCoordinates[i],
+                  stopover: true
+                });
+              }
+              calcRoute(start, end, waypts); */
+            }
+            $("#myModal").modal();
+          }
+
+          function calcRoute(start, end, waypts) { 
+            var request = {
+              origin: start,
+              destination: end,
+              waypoints: waypts,
+              optimizeWaypoints: true,
+              travelMode: google.maps.TravelMode.DRIVING
+            };
+            directionsService.route(request, function(response, status) {
+              if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                var route = response.routes[0];
+                var summaryPanel = document.getElementById('directions_panel');
+                summaryPanel.innerHTML = '';
+                // For each route, display summary information.
+                for (var i = 0; i < route.legs.length; i++) {
+                  var routeSegment = i + 1;
+                  summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                  summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                  summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                  summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                }
+              }
+            });
+          }
+          google.maps.event.addDomListener(window, 'load', initialize);
+           
+
+          
+         </script>
 
 </body>
 

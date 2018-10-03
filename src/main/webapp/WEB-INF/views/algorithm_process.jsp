@@ -305,15 +305,15 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Yes</th>
-                                    <th>No</th>
+                                    <th>Maximum Load</th>
+                                    <th>Normal</th>
                                     
                                    
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Enable Plant Re-organization</td>
+                                    <td>Enable Truck Load Type(Maximum/Normal)</td>
                                     <td> <div class="radio">
                                                     <input type="radio" name="radio2" id="radio3" value="option1">
                                                     <label for="radio3">
@@ -328,7 +328,7 @@
                                                 </div></td>
                                   
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                    <td>Include Warehouse Location</td>
                                     <td> <div class="radio">
                                                     <input type="radio" name="radio3" id="radio1" value="option1">
@@ -359,7 +359,7 @@
                                                     </label>
                                                 </div></td>
                                    
-                                </tr>
+                                </tr> -->
                                 </tbody>
                             </table>
                                                  
@@ -372,7 +372,7 @@
                                 </div>
                             </div>
     <!-- Mainly scripts -->
-    <script src="resources/js/jquery-2.1.1.js"></script>
+    <script src="resources/js/jquery-2.1.1_old.js"></script>
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>

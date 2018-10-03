@@ -17,4 +17,5 @@ public interface IshippingOrderDao {
   public ShippingEntity getShippingDetails(String orderNo);
   public List<String> getOrderNoByTruck(String truckNo);
   public void updateOrderGroupFlag(String delivaryNo);
+  public List<OrderGroupEntity> getLatitudeAndLongitude(String truckNo);
 }

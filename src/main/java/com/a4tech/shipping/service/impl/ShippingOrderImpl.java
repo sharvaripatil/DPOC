@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
+import com.a4tech.map.model.Address;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
 import com.a4tech.shipping.model.OrderGroup;
@@ -121,6 +122,7 @@ public class ShippingOrderImpl implements IShippingOrder{
 	  ordGrpEntity.setDistrictName(orderGroup.getDistrictName());
 	  ordGrpEntity.setLatitude(orderGroup.getLatitude());
 	  ordGrpEntity.setLongitude(orderGroup.getLongitude());
+	  ordGrpEntity.setNameShipToParty(orderGroup.getNameShipToParty());
 	  shippingOrderDao.saveOrderGroup(ordGrpEntity);
 	}
 	@Override
@@ -190,6 +192,28 @@ public class ShippingOrderImpl implements IShippingOrder{
 		return shippingDetails;
 	}
 	@Override
+	public List<Address> getLatitudeAndLongitude(String truckNo) {
+		List<OrderGroupEntity> orderGroupEntityList = shippingOrderDao.getLatitudeAndLongitude(truckNo);
+		 List<Address> addressGroList = new ArrayList<>();
+		 addressGroList.add(getPlantAddress());
+		 Address address = null;
+	     for (OrderGroupEntity ordGrpEntity : orderGroupEntityList) {
+	    	 address = new Address();
+	    	 address.setLatitude(ordGrpEntity.getLatitude());
+	    	 address.setLongitude(ordGrpEntity.getLongitude());
+	    	 address.setPlaceName(ordGrpEntity.getNameShipToParty());
+	    	 addressGroList.add(address);
+		}
+			return addressGroList;
+	}
+	private Address getPlantAddress(){
+		Address address = new Address();
+		address.setLatitude("23.7012517");
+   	 address.setLongitude("86.0591489");
+   	 address.setPlaceName("Dalmia Cement,JHARKHAND");
+		return address;
+	}
+	@Override
 	public void updateOrderGroupFlag(String delivaryNo) {
          shippingOrderDao.updateOrderGroupFlag(delivaryNo);		
 	}
@@ -197,4 +221,5 @@ public class ShippingOrderImpl implements IShippingOrder{
 	public List<String> getOrderNoByTruck(String truckNo) {
 		return shippingOrderDao.getOrderNoByTruck(truckNo);
  	}
+	
 }
