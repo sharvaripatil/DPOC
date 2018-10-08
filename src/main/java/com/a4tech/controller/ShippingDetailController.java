@@ -610,11 +610,11 @@ public class ShippingDetailController {
 				e.printStackTrace();
 			}
 			
-			if(districName.equals("GODDA")){
+			/*if(districName.equals("GODDA")){
 				distence = 295.2;
 			} else {
 			   distence = 342.6;	
-			}
+			}*/
 		  intellishModel.setTruckNo(truckNo);
           intellishModel.setTotalKilometers(String.valueOf(distence));
           intellishModel.setTotalOrders(orderGrpList.size());

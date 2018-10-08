@@ -42,7 +42,7 @@ public class MapService {
       return Double.parseDouble(distenceVal);
   }
   public double getMaxDistenceFromMultipleDestination(String originCoordinates,String destinationCoordinates) throws IOException{
-	  URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+originCoordinates+"&destinations="+destinationCoordinates+"&mode=driving");
+	  URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+originCoordinates+"&destinations="+destinationCoordinates+"&mode=driving&key=AIzaSyAF27UXmyKEQpNmybxxaViJpYWo-yFzkxk");
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
       conn.setRequestMethod("GET");
       String line, outputString = "";

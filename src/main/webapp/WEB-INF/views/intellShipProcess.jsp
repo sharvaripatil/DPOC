@@ -18,7 +18,7 @@
     <link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="resources/css/animate.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyYtYpllFDH6MlGZzgw4wOZqVPe6vlGwU"></script> 
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAF27UXmyKEQpNmybxxaViJpYWo-yFzkxk"></script> 
  <!-- <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyYtYpllFDH6MlGZzgw4wOZqVPe6vlGwU&callback=initMap"> </script> -->
 <style type="text/css">
@@ -39,7 +39,7 @@
     <div class="sidebar-collapse">
       <ul class="nav metismenu" id="side-menu">
         <li class="nav-header">
-          <div class="dropdown profile-element"> <span> <img alt="image" class="img-circle" src="img/profile_small.jpg" /> </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Azam Rizvi</strong> </span> <span class="text-muted text-xs block">Admin <b class="caret"></b></span> </span> </a>
+          <div class="dropdown profile-element"> <span> <img alt="image"  src="resources/img/logo.png" /> </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear"> <!-- <span class="block m-t-xs"> <strong class="font-bold">Azam Rizvi</strong> </span> <span class="text-muted text-xs block">Admin <b class="caret"></b></span> </span> --> </a>
             <ul class="dropdown-menu animated fadeInRight m-t-xs">
               <li><a href="profile.html">Profile</a></li>
               <li><a href="contacts.html">Contacts</a></li>
@@ -610,14 +610,16 @@
                 var summaryPanel = document.getElementById('directions_panel');
                 summaryPanel.innerHTML = '';
                 // For each route, display summary information.
-                for (var i = 0; i < route.legs.length; i++) {
+                /* for (var i = 0; i < route.legs.length; i++) {
                   var routeSegment = i + 1;
                   summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
                   summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
                   summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
                   summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
-                }
-              }
+                } */
+              } else {
+          	    window.alert('Directions request failed due to ' + status);
+        	  }
             });
           }
           google.maps.event.addDomListener(window, 'load', initialize);
