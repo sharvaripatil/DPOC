@@ -549,6 +549,7 @@ public class ShippingDetailController {
 		}
 		IntellishipModelByMaterial intellishModel = null;
 		Map<String, OrderGroup> pendingOrderMap = new HashMap<>();
+		int shippingStatusCount = 1;
 		for (Map.Entry<String, List<OrderGroup>> groupList : groupBasedOnTruck.entrySet()) {
 			intellishModel = new IntellishipModelByMaterial();
 			String truckNo = groupList.getKey();
@@ -621,12 +622,26 @@ public class ShippingDetailController {
           intellishModel.setTotalOrderQuantity(totalOrdQty);
           intellishModel.setPlant(plantDetails.getPlantName());
           intellishModel.setPendingQuantity(pedningQty);
-          
+          intellishModel.setShippingStatus(getShippingStatus(shippingStatusCount));
           finalIntelishipModel.add(intellishModel);
+          shippingStatusCount++;
 		}
 		return finalIntelishipModel;
 	}
 	
+	private String getShippingStatus(int shippingStaNo){
+		String status = "";
+		if(shippingStaNo == 1){
+			status = "In Transit";
+		} else if(shippingStaNo == 2){
+			status = "Shipment Delivered";
+		} else if(shippingStaNo == 3){
+			status = "Shipment picked up";
+		} else {
+			status = "In Transit";
+		}
+		 return status;
+	}
 	private int getPendingOrderQuantity(String originalOrderQty,String truckCapacity,int orderQtyInTruck){
 		int remainingQty = Integer.parseInt(originalOrderQty) - orderQtyInTruck;
 		return remainingQty;

@@ -12,6 +12,7 @@ public class IntellishipModelByMaterial {
 	private String    totalKilometers;
 	private String    delivaryDate;
 	private String    districtName;
+	private String shippingStatus;
 	public String getDistrictName() {
 		return districtName;
 	}
@@ -78,5 +79,10 @@ public class IntellishipModelByMaterial {
 	public void setDelivaryDate(String delivaryDate) {
 		this.delivaryDate = delivaryDate;
 	}
-	
+	public String getShippingStatus() {
+		return shippingStatus;
+	}
+	public void setShippingStatus(String shippingStatus) {
+		this.shippingStatus = shippingStatus;
+	}
 }

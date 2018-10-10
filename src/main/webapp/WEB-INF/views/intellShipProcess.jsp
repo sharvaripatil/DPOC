@@ -234,6 +234,7 @@
 											<th>Pending Quantity</th>
 											<th>Plant</th>
 											<th>Total Kilometers</th>
+											<th>Shipping Status</th>
 											<th>Map</th>
 
 										</tr>
@@ -254,6 +255,7 @@
 												<td>${shippingGroupDetails.pendingQuantity}</td>
 												<td>${shippingGroupDetails.plant}</td>
 												<td>${shippingGroupDetails.totalKilometers}</td>
+												<td>${shippingGroupDetails.shippingStatus}</td>
 												<td>   <a class="btn btn-primary btn-rounded" onclick="getMap('${shippingGroupDetails.truckNo}')" >View Map</a></td>
 												
 											</tr>
