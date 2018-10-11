@@ -496,18 +496,13 @@
     				data : "truckNo=" + truckNo,
     				success : function(response) {
     					var json = JSON.stringify(response);
-    					
-    					/* var obj = JSON.parse(response);
-    					trucksData = obj; */
     					trucksData = json;
+    					showmap();
     				},
     				error : function(e) {
     					 alert('Error: ' + e); 
     				}
     			});
-        	  showmap();
-        	  /* alert('result:'+trucksData); */
-        	  
           }
 
           /* var MapPoints = '[{"address":{"lat":"23.7012517","lng":"86.0591489"},"title":"Dalmia Cement,JHARKHAND"},{"address":{"lat":"24.5246","lng":"84.2845"},"title":"NAVIN CEMENT STORE"},{"address":{"lat":"24.2493788","lng":"83.9261005"},"title":"SAKSHI TRADERS"}]'; */
@@ -516,9 +511,6 @@
           var directionsDisplay;
           var directionsService = new google.maps.DirectionsService();
           var map;
-
-
- 
           function showmap() {
         	  var pointA = new google.maps.LatLng(23.7012517, 86.0591489);
             if (jQuery('#map').length > 0) {
