@@ -74,6 +74,7 @@ public class ShippingDetailController {
 	@RequestMapping(value="/intellShip")
 	public ModelAndView intellShipPro(){
     	//List<IntellishipModel> orderGroupList = getGroupOrders();
+		shippingOrderService.deleteAllGroupOrders();
 		List<ShippingDetails1> shippingaOrderListOnChannel = getAllOrdersBasedOnDistributionChannel("1");
 		Map<String, List<ShippingDetails1>> ordersOnDistrictMap = getAllOrdersBasedOnDistricts(
 				shippingaOrderListOnChannel);
@@ -83,11 +84,12 @@ public class ShippingDetailController {
 				finalMaterialOrdMap);
 		getFinalOrdersClub(finalTruckDetails);
 		List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
-		if(isemptyValues(finalTruckDetails)){
+		return new ModelAndView("intellShipProcess", "shippingGroupList", finalIntelishipModel);
+		/*if(isemptyValues(finalTruckDetails)){
 			return new ModelAndView("intellShipProcess", "shippingGroupList", new ArrayList<>());
 		} else {
 			return new ModelAndView("intellShipProcess", "shippingGroupList", finalIntelishipModel);	
-		}
+		}*/
 		
 		//return "intellShipProcess";
   }

@@ -18,4 +18,5 @@ public interface IShippingOrder {
   public List<String> getOrderNoByTruck(String truckNo);
   public void updateOrderGroupFlag(String delivaryNo);
   public List<Address> getLatitudeAndLongitude(String truckNo);
+  public void deleteAllGroupOrders();
 }

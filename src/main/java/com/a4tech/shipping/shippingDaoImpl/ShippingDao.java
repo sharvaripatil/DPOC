@@ -328,6 +328,37 @@ public class ShippingDao implements IshippingOrderDao{
 		}
 		return new ArrayList<>();
 	}
+	@Override
+	public void deleteAllGroupOrders() {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			/*session = sessionFactory.openSession();
+			transaction = session.beginTransaction();			
+			Query q2 = session.createQuery ("TRUNCATE table OrderGroupEntity");
+            int deleted = q2.executeUpdate ();
+			
+			transaction.commit();*/
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			String hql = String.format("delete from %s","OrderGroupEntity");
+		    Query query = session.createQuery(hql);
+		    int no = query.executeUpdate();
+		    transaction.commit();
+		} catch (Exception ex) {
+			_LOGGER.error("unable to truncate order group table: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -335,6 +366,7 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
 	
 	
 }

@@ -13,6 +13,13 @@ public class IntellishipModelByMaterial {
 	private String    delivaryDate;
 	private String    districtName;
 	private String shippingStatus;
+	private String estimationTime;
+	public String getEstimationTime() {
+		return estimationTime;
+	}
+	public void setEstimationTime(String estimationTime) {
+		this.estimationTime = estimationTime;
+	}
 	public String getDistrictName() {
 		return districtName;
 	}

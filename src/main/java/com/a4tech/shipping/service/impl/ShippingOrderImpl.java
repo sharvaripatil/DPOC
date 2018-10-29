@@ -214,6 +214,10 @@ public class ShippingOrderImpl implements IShippingOrder{
 		return address;
 	}
 	@Override
+	public void deleteAllGroupOrders() {
+      shippingOrderDao.deleteAllGroupOrders();
+	}
+	@Override
 	public void updateOrderGroupFlag(String delivaryNo) {
          shippingOrderDao.updateOrderGroupFlag(delivaryNo);		
 	}
@@ -221,5 +225,6 @@ public class ShippingOrderImpl implements IShippingOrder{
 	public List<String> getOrderNoByTruck(String truckNo) {
 		return shippingOrderDao.getOrderNoByTruck(truckNo);
  	}
+	
 	
 }
