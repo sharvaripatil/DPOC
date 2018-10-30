@@ -1,46 +1,29 @@
 package com.a4tech.map.model;
 
 public class Duration {
-	private Duration duration;
+	private String text;
 
-    private Distance distance;
+    private String value;
 
-    private String status;
+	public String getText() {
+		return text;
+	}
 
-    public Duration getDuration ()
-    {
-        return duration;
-    }
+	public void setText(String text) {
+		this.text = text;
+	}
 
-    public void setDuration (Duration duration)
-    {
-        this.duration = duration;
-    }
+	public String getValue() {
+		return value;
+	}
 
-    public Distance getDistance ()
-    {
-        return distance;
-    }
-
-    public void setDistance (Distance distance)
-    {
-        this.distance = distance;
-    }
-
-    public String getStatus ()
-    {
-        return status;
-    }
-
-    public void setStatus (String status)
-    {
-        this.status = status;
-    }
-
+	public void setValue(String value) {
+		this.value = value;
+	}
 	@Override
 	public String toString() {
-		return "Duration [duration=" + duration + ", distance=" + distance
-				+ ", status=" + status + "]";
+		return "Duration [text=" + text + ", value=" + value + "]";
 	}
-    
+
+       
 }

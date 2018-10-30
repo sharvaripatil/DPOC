@@ -8,10 +8,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.util.StringUtil;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.a4tech.map.model.Distance;
 import com.a4tech.map.model.DistancePojo;
+import com.a4tech.map.model.Duration;
 import com.a4tech.map.model.Elements;
 import com.a4tech.map.model.Rows;
 import com.google.gson.Gson;
@@ -56,6 +59,44 @@ public class MapService {
      double maxDist = getFinalDistence(capRes);
       return maxDist;
   }
+  public String getMaxDistenceAndHrsFromMultipleDestination(String originCoordinates,String destinationCoordinates) throws IOException{
+	  URL url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json?origins="+originCoordinates+"&destinations="+destinationCoordinates+"&mode=driving&key=AIzaSyAF27UXmyKEQpNmybxxaViJpYWo-yFzkxk");
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+      String line, outputString = "";
+      BufferedReader reader = new BufferedReader(
+      new InputStreamReader(conn.getInputStream()));
+      while ((line = reader.readLine()) != null) {
+          outputString += line;
+      }
+      System.out.println(outputString);
+      DistancePojo capRes = new Gson().fromJson(outputString, DistancePojo.class);
+     String maxDistAndHrs = getFinalDistenceAndHrs(capRes);
+      return maxDistAndHrs;
+  }
+  public static String getFinalDistenceAndHrs(DistancePojo distances) {
+		Rows[] rows = distances.getRows();
+		double maxDist = 0.0;
+		StringBuilder finalDistenceAndHrs = new StringBuilder();
+		for (Rows rows2 : rows) {
+			Elements[] elements = rows2.getElements();
+			List<Double> allKiloMeters = new ArrayList<>();
+			List<String> allHrs = new ArrayList<>();
+			for (Elements elements2 : elements) {
+				  Distance dist = elements2.getDistance();
+				  Duration duration = elements2.getDuration();
+				  String hrs = duration.getText();
+				 String kiloMeters = dist.getText();
+				 kiloMeters = kiloMeters.replaceAll("[^0-9.]", "").trim();
+				 allKiloMeters.add(Double.parseDouble(kiloMeters));
+				 allHrs.add(hrs);
+			}
+			maxDist = getMaxKiloMeters(allKiloMeters);
+			String maxHrs = getMaxHrs(allHrs);
+			finalDistenceAndHrs.append(maxDist).append("###").append(maxHrs);
+		}
+		return finalDistenceAndHrs.toString();
+	}
   public static double getFinalDistence(DistancePojo distances) {
 		Rows[] rows = distances.getRows();
 		double maxDist = 0.0;
@@ -81,7 +122,37 @@ public class MapService {
 		}	
 		return maxKiloMeter;
 		}
-
+public static String getMaxHrs(List<String> allHrs){
+	
+	String hours = allHrs.get(0);
+	int maxHrs = Integer.parseInt(hours.split("hours")[0].trim());
+	String finalTime = "";
+	String tempTime = "";
+	int initialTime = 1;
+	for (String times : allHrs) {//5 hours 27 mins
+		  int hr = Integer.parseInt(times.split("hours")[0].trim());
+		  if (maxHrs < hr) {
+			  maxHrs = hr;
+			  finalTime = times;
+			} /*else if(maxHrs == hr){
+				int maxHrsMins = 0;
+				if(initialTime == 1){
+					String maxMins = hours.split("hours")[1].trim();
+					maxMins = maxMins.replaceAll("[^0-9]", "");
+					maxHrsMins = Integer.parseInt(maxMins);
+				} else {
+					
+				}
+				 
+			}*/
+		  tempTime = times;
+		  initialTime++;
+	}
+	if(StringUtils.isEmpty(finalTime)){
+		finalTime = tempTime;
+	}
+	return finalTime;
+}
 public RestTemplate getRestTemplate() {
 	return restTemplate;
 }

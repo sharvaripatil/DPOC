@@ -558,6 +558,7 @@ public class ShippingDetailController {
 			List<OrderGroup> orderGrpList = groupList.getValue();
 			StringBuilder shippingLatitudeAndLonitude = new StringBuilder();
 			double distence = 0.0;
+			String duration = "";
 			int totalOrdQty = 0;
 			int ordQty = 0;
 			int truckCapacity = 0;
@@ -605,9 +606,13 @@ public class ShippingDetailController {
 				totalOrdQty = totalOrdQty - ordQty;
 			}
 			try {
-				distence = gmapDist.getMaxDistenceFromMultipleDestination(
+				String distenceAndHrs = gmapDist.getMaxDistenceAndHrsFromMultipleDestination(
 						plantDetails.getLatitude() + "," + plantDetails.getLongitude(),
 						shippingLatitudeAndLonitude.toString());
+				String[] data = distenceAndHrs.split("###");
+				distence = Double.parseDouble(data[0]);
+				duration = data[1];
+				
 			} catch (IOException e) {
 				System.out.println("Unbale to calculate distence :"+e.getCause());
 				e.printStackTrace();
@@ -625,6 +630,7 @@ public class ShippingDetailController {
           intellishModel.setPlant(plantDetails.getPlantName());
           intellishModel.setPendingQuantity(pedningQty);
           intellishModel.setShippingStatus(getShippingStatus(shippingStatusCount));
+          intellishModel.setEstimationTime(duration);
           finalIntelishipModel.add(intellishModel);
           shippingStatusCount++;
 		}
