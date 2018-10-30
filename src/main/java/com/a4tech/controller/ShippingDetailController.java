@@ -1,5 +1,7 @@
 package com.a4tech.controller;
 
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,6 +68,12 @@ public class ShippingDetailController {
 		dataMapper.mapper();
 		System.out.println("Test");
   }*/
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView algorithmProcess1(){
+		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();
+		System.out.println("Total Orders: "+shippingaOrderList.size());
+		return new ModelAndView("algorithm_process", "shippingaOrderList", shippingaOrderList);
+  }
 	@RequestMapping(value="/algorithmProcess")
 	public ModelAndView algorithmProcess(){
 		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();

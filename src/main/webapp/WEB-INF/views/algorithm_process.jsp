@@ -39,7 +39,7 @@
           </div>
           <div class="logo-element"> </div>
         </li>
-        <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
+       <%--  <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li> --%>
 		      <li class="active"> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
      
       </ul>
