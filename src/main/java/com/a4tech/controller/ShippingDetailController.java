@@ -239,9 +239,10 @@ public class ShippingDetailController {
 				maxTruckDetails = getOrderTruck(initialTruckInfoList, maxTruckDetails, allAssignedTrucksList);
 				allAssignedTrucksList.add(maxTruckDetails);
 				groupTruckList.add(maxTruckDetails);
+				truckMaxCapacity = maxTruckDetails.getVehicleType();
 				  int remainingOrderQty = orderQty - truckMaxCapacity;
 				  if(remainingOrderQty > truckMaxCapacity){
-					  
+					  getNormalTruckList(groupTruckList, remainingOrderQty, allAssignedTrucksList);
 				  } else {
 					  for (TruckDetails truckDetails : initialTruckInfoList) {
 						   if(truckDetails.getVehicleType() == remainingOrderQty){
