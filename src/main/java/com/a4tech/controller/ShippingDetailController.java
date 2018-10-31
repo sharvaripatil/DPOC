@@ -47,6 +47,7 @@ import com.a4tech.util.TruckTypeInfo;
 import saveShipping.StoreSpDetails;
 
 @Controller
+@RequestMapping({ "/","/demoversion"})
 public class ShippingDetailController {
   
 	/*@Autowired
