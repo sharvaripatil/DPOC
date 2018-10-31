@@ -444,6 +444,7 @@ public class ShippingDetailController {
 			Map<String, List<OrderGroup>> ordersMap = new HashMap<>();
 			int totTrucks = groupTruckDetails.size();
 			int trucksCount = 1;
+			Map<String, List<OrderGroup>> ordersTruckMap = new HashMap<>();
 			for (TruckDetails truckDetails : groupTruckDetails) {
 				int initialOrder = 1;
 				int truckCapacity = truckDetails.getVehicleType();
@@ -451,6 +452,9 @@ public class ShippingDetailController {
 				for (ShippingDetails1 orderDetails : ordersList) {
 					orderGroup = new OrderGroup();
 					int orderQty = Integer.parseInt(orderDetails.getActual_delivery_qty());
+					if(isFullTruck(ordersTruckMap, truckCapacity, truckDetails.getSlNo())){
+						break;
+					}
 					if(isOrderQtyTruck(ordersMap, orderQty, orderDetails.getDelivery())){// check is order load in truck or not,if order is loaded then skip those order
 						continue;
 					}
@@ -482,6 +486,9 @@ public class ShippingDetailController {
 						 orderGroup.setLongitude(orderDetails.getShip_to_long());
 						 orderGroup.setNameShipToParty(orderDetails.getName_of_sold_to_party());
 						 if(initialOrder == 1){
+							 if(orderQty > truckCapacity){
+								 orderQty = truckCapacity;
+							 }
 							 orderGroup.setTruckOrderQty(orderQty);	
 							 ordersQtyTruck = orderQty;
 						 } else {
@@ -499,12 +506,23 @@ public class ShippingDetailController {
 							 orders.add(orderGroup);
 							 ordersMap.put(orderDetails.getDelivery(), orders);	 
 						 }
+                       // for checking trucks data
+						 if(ordersTruckMap.containsKey(orderGroup.getTruckNo())){
+							 List<OrderGroup> orderGroupsTruckList = ordersTruckMap.get(orderGroup.getTruckNo());
+							 orderGroupsTruckList.add(orderGroup);
+							 ordersTruckMap.put(orderGroup.getTruckNo(), orderGroupsTruckList);
+						 } else {
+							 List<OrderGroup> ordersTruck = new ArrayList<>();
+							 ordersTruck.add(orderGroup);
+							 ordersTruckMap.put(orderGroup.getTruckNo(), ordersTruck);	 
+						 }
 						 
 					initialOrder++;
 					if(ordersQtyTruck == truckCapacity || isOrderQtyTruck(ordersMap, allOrdsQtys, orderDetails.getDelivery())){// truck is full with orders
 						break;
 					}
 				}
+				ordersTruckMap = new HashMap<>();
 				//orderGroupList = new ArrayList<>();
 				trucksCount++;
 			}//end truck for loop
@@ -605,14 +623,14 @@ public class ShippingDetailController {
 				pedningQty = pedningQty - ordQty;
 				totalOrdQty = totalOrdQty - ordQty;
 			}
-			try {
+			/*try {
 				distence = gmapDist.getMaxDistenceFromMultipleDestination(
 						plantDetails.getLatitude() + "," + plantDetails.getLongitude(),
 						shippingLatitudeAndLonitude.toString());
 			} catch (IOException e) {
 				System.out.println("Unbale to calculate distence :"+e.getCause());
 				e.printStackTrace();
-			}
+			}*/
 			
 			/*if(districName.equals("GODDA")){
 				distence = 295.2;
@@ -955,6 +973,21 @@ public class ShippingDetailController {
 		return false;
 	}
 	
+	private boolean isFullTruck(Map<String, List<OrderGroup>> ordersMap ,int truckCapacity,String truckNo){
+		List<OrderGroup> orderGroupList = ordersMap.get(truckNo);
+		  if(CollectionUtils.isEmpty(orderGroupList)){
+			  return false;
+		  }
+		  int trucksQty = 0;
+		 for (OrderGroup orderGroup : orderGroupList) {
+			 int qty = orderGroup.getTruckOrderQty();
+			 trucksQty = trucksQty + qty;
+		}
+		 if(trucksQty == truckCapacity){
+			 return true;
+		 }
+		return false;
+	}
 	public List<IntellishipModel> getTrucksCount(List<IntellishipModel> intellishModel){
 		List<OrderGroup> orderGroupList = shippingOrderService.getAllGroupOrderList();
 		Map<String, Set<String>> truckGroup = new HashMap<>();
