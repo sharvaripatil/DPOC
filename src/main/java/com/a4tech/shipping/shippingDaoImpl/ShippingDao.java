@@ -242,21 +242,27 @@ public class ShippingDao implements IshippingOrderDao{
 	public List<String> getOrderNoByTruck(String truckNo) {
 		
 		Session session = null;
-		Transaction transaction = null;
+		//Transaction transaction = null;
 		try {
 			session = sessionFactory.openSession();
-			transaction = session.beginTransaction();
+			//transaction = session.beginTransaction();
 			Criteria criteria = session.createCriteria(OrderGroupEntity.class);
 			criteria.add(Restrictions.eq("truckNo", truckNo));
 			Projection prop = Projections.property("delivaryNo");
 			List<String> delivaryOrderNoList = criteria.setProjection(prop).list();
-			transaction.commit();
-			return delivaryOrderNoList;
+			List<String> finalDelivaryOrdsList = new ArrayList<>();
+			for (String delivaryOrdNo : delivaryOrderNoList) {
+			      	if(!finalDelivaryOrdsList.contains(delivaryOrdNo)){
+			      		finalDelivaryOrdsList.add(delivaryOrdNo);
+			      	}
+			}
+			//transaction.commit();
+			return finalDelivaryOrdsList;
 		} catch (Exception ex) {
 			_LOGGER.error("unable to get shipping order data from DB based on date: "+ex.getCause());
-			if (transaction != null) {
+			/*if (transaction != null) {
 				transaction.rollback();
-			}
+			}*/
 		} finally {
 			if (session != null) {
 				try {

@@ -458,15 +458,13 @@
   								 value.delivery_type + "</td><td>" +value.shipping_Point + "</td><td>" +value.district_code + "</td><td>" +
    value.ship_to_party + "</td><td>"+ value.ship_to_long + "</td><td>" + value.ship_to_latt +"</td></tr>"); 
   					});
-
+  					$("#configurealgo").modal();
   				},
   				error : function(e) {
   					 alert('Error: ' + e); 
   				}
   			});
 
-          	$("#configurealgo").modal(); 
-  
           }
           function getGroupOrder(date){
           	$.ajax({
