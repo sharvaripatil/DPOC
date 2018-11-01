@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -241,10 +242,29 @@ public class ShippingDetailController {
 				groupTruckList.add(maxTruckDetails);
 				truckMaxCapacity = maxTruckDetails.getVehicleType();
 				  int remainingOrderQty = orderQty - truckMaxCapacity;
+				  if(remainingOrderQty <2 ){
+					  return groupTruckList;
+				  }
 				  if(remainingOrderQty > truckMaxCapacity){
 					  getNormalTruckList(groupTruckList, remainingOrderQty, allAssignedTrucksList);
-				  } else {
-					  for (TruckDetails truckDetails : initialTruckInfoList) {
+				  } else {//l
+					  TruckDetails truckDtls = getTruckDetails(initialTruckInfoList, remainingOrderQty, groupTruckList, allAssignedTrucksList);
+					  if(truckDtls != null){
+						  allAssignedTrucksList.add(truckDtls);
+						  groupTruckList.add(truckDtls);
+					  } else {
+						  List<Integer> trucksCapacity = initialTruckInfoList.stream().map(truck -> truck.getVehicleType())
+									.collect(Collectors.toList());
+							int capacityNo = trucksCapacity.stream()
+						            .min(Comparator.comparingInt(i -> Math.abs(i - remainingOrderQty)))
+						            .orElseThrow(() -> new NoSuchElementException("No value present"));	
+							 truckDtls = getTruckDetails(initialTruckInfoList, capacityNo, groupTruckList, allAssignedTrucksList);
+							  if(truckDtls != null){
+								  allAssignedTrucksList.add(truckDtls);
+								  groupTruckList.add(truckDtls);
+							  }
+					  }
+					  /*for (TruckDetails truckDetails : initialTruckInfoList) {
 						   if(truckDetails.getVehicleType() == remainingOrderQty){
 							  if(!isTruckGroup(groupTruckList,truckDetails.getSlNo())){
 								  truckDetails = getOrderTruck(initialTruckInfoList, truckDetails, allAssignedTrucksList);
@@ -252,10 +272,11 @@ public class ShippingDetailController {
 								  groupTruckList.add(truckDetails);
 								   break;
 							   }
-						   } /*else {
+						   } else {
 							getfinalTruckList(groupTruckList, remainingOrderQty);  
-						   }*/
-						}  
+						   }
+						}*/
+					
 				  }  
 			} else {//if allOrderQty and truck capacity is same
 				
@@ -307,7 +328,19 @@ public class ShippingDetailController {
 				 return truckDetails;
 			 }
 		}
+		return null;
+	}
+	private TruckDetails getTruckDetails(List<TruckDetails> initialTruckInfoList, int orderQty,
+			List<TruckDetails> groupTruckList,List<TruckDetails> allAssignedTrucksList){
 		
+		for (TruckDetails truckDetails : initialTruckInfoList) {
+			   if(truckDetails.getVehicleType() == orderQty){
+				  if(!isTruckGroup(groupTruckList,truckDetails.getSlNo())){
+					  truckDetails = getOrderTruck(initialTruckInfoList, truckDetails, allAssignedTrucksList);
+					  return truckDetails;
+				  }
+			   } 
+			}
 		return null;
 	}
 	private TruckDetails getHeavyTruckDetails(List<TruckDetails> truckInfoList ,double qty){
