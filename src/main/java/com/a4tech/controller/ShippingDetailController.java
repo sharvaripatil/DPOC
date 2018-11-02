@@ -95,6 +95,10 @@ public class ShippingDetailController {
 				finalMaterialOrdMap);
 		getFinalOrdersClub(finalTruckDetails);
 		List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
+		//studentlist.sort((Student s1, Student s2)->s1.getName().compareTo(s2.getName())); 
+		// soring based on district name
+		finalIntelishipModel.sort((IntellishipModelByMaterial i1, IntellishipModelByMaterial i2) -> i1.getDistrictName()
+				.compareTo(i2.getDistrictName()));
 		return new ModelAndView("intellShipProcess", "shippingGroupList", finalIntelishipModel);
 		/*if(isemptyValues(finalTruckDetails)){
 			return new ModelAndView("intellShipProcess", "shippingGroupList", new ArrayList<>());
