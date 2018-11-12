@@ -146,13 +146,11 @@ public class ShippingDetailController {
 		List<Address> addressList = shippingOrderService.getLatitudeAndLongitude(truckNo);
 		return addressList;
 	}
-	/*@RequestMapping(value = "/getLatiAndLongValues",produces="application/json")
-	@ResponseBody
-	public String getLatitudeAndLongitude(HttpServletRequest req) {
-		System.out.println("Get Latitude AndLongitude values");
-		
-		return "welcome to map";
-	}*/
+	@RequestMapping(value="/getAllTrucksInformation")
+	public ModelAndView getAllTrucksInfo(){
+		List<TruckDetails> trucksInfoList = shippingOrderService.getAllTruckInfo();	
+		return new ModelAndView("truck_info", "trucksList", trucksInfoList);
+	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails){
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();

@@ -75,8 +75,15 @@
           </div>
           <div class="logo-element"> </div>
         </li>
-        <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li>
+        <%-- <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li> --%>
 		      <li class="active"> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
+		      <li> <a href="algorithm_process.html"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
+		  <ul class="nav nav-second-level collapse">
+            <li><a href="<c:url value='getAllTrucksInformation' />">All Trucks</a></li>
+            <li><a href="#">Loaded Trucks</a></li>
+            
+          </ul>
+		  </li>
      
       </ul>
     </div>

@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" %>
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -28,7 +29,7 @@
     <div class="sidebar-collapse">
       <ul class="nav metismenu" id="side-menu">
         <li class="nav-header">
-          <div class="dropdown profile-element"> <span> <img alt="image"  src="resources/img/logo.png" /> </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear"><!--  <span class="block m-t-xs"> <strong class="font-bold">Azam Rizvi</strong> </span> <span class="text-muted text-xs block">Admin <b class="caret"></b></span> </span> --> </a>
+          <div class="dropdown profile-element"> <span> <img alt="image"  src="resources/img/logo.png" /> </span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span class="clear"> <!-- <span class="block m-t-xs"> <strong class="font-bold">Azam Rizvi</strong> </span> <span class="text-muted text-xs block">Admin <b class="caret"></b></span> </span> --> </a>
             <ul class="dropdown-menu animated fadeInRight m-t-xs">
               <li><a href="profile.html">Profile</a></li>
               <li><a href="contacts.html">Contacts</a></li>
@@ -39,15 +40,16 @@
           </div>
           <div class="logo-element"> </div>
         </li>
-       <%--  <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li> --%>
-		      <li class="active"> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
-      <li > <a href="algorithm_process.html"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
+         <%-- <li> <a href="<c:url value='getDashboard'/>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li> --%>
+		     <li> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
+		      <li > <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
 		  <ul class="nav nav-second-level collapse">
             <li class="active"><a href="<c:url value='getAllTrucksInformation' />">All Trucks</a></li>
             <li><a href="#">Loaded Trucks</a></li>
             
           </ul>
 		  </li>
+     
       </ul>
     </div>
   </nav>
@@ -173,13 +175,13 @@
         </div>
             <div class="row wrapper border-bottom white-bg page-heading">
                 <div class="col-lg-10">
-                    <h2>Algorithm Process</h2>
+                    <h2>Truck Info</h2>
                     <ol class="breadcrumb">
                         <li>
-                            <a href="index.jsp">Home</a>
+                            <a href="index.html">Home</a>
                         </li>
                         <li>
-                            <a>Algorithm Process</a>
+                            <a>Truck Info</a>
                         </li>
                       
                     </ol>
@@ -194,7 +196,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>Algorithm Process</h5>
+                            <h5>Truck Info</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -214,70 +216,38 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-							<div calss="row">
-									<p class="pull-left">
-								       <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-refresh"></i>
-                            </button>
-								   <a class="btn btn-success btn-rounded" href="#">Process New Order Batch</a>
-								   <a class="btn btn-primary btn-rounded" href="<c:url value='getShippingOrderHistory' />">History</a>
-								</p>
-								<p class="pull-right">
-								        <a class="btn btn-primary btn-rounded" href="<c:url value='intellShip' />">Run Itelliship Algo</a>
-								   <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#configurealgo">Configure Algo</a>
-								</p>
-							</div>
-                            <table class="table table-bordered table-hover">
+						 <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Delivery OrderNo</th>
-                                    <th>Sold-to party</th>
-                                    <th>Name of sold-to party</th>
-                                    <th>Name of the ship-to party</th>
-									<th>Material</th>
-                                    <th>Actual delivery qty</th>
-                                    <th>Route Description</th>
-                                    <th>District Name</th>
-									<th>Plant</th>
-                                    <th>Route</th>
-                                    <th>Forwarding agent name</th>
-                                    <th>Distribution Channel</th>
-                                    <th>Delivery. date(From/to)</th>
-                                    <th>Delivery Type</th>
-                                    <th>Shipping Point/Receiving Pt</th>
-                                    <th>District Code</th>
-                                    <th>Ship-to party</th>
-                                    <th>Ship to Long.</th>
-                                    <th>Ship to Latt</th>
+                                    <th>Vehicle Number</th>
+                                    <th>Vehicle Type</th>
+                                    <th>Vehicle Capacity(Tones)</th>
+                                    <th>Wheels</th>
+									<th>Transporter's Name</th>
+                                    <th>Tagged Transport</th>
+                                    <th>DO No.</th>
+                                    <th>Tagged Date</th>
+								    <th>Tagged Time</th>
+                                    <th>Delay</th>   
                                 </tr>
                                 </thead>
-									<tbody>
-										<c:forEach items="${shippingaOrderList}"
-											var="shippingDetails" varStatus="status">
-											<tr>
-												<td>${shippingDetails.delivery}</td>
-												<td>${shippingDetails.sold_to_party}</td>
-												<td>${shippingDetails.name_of_sold_to_party}</td>
-												<td>${shippingDetails.name_of_the_ship_to_party}</td>
-												<td>${shippingDetails.material}</td>
-												<td>${shippingDetails.actual_delivery_qty}</td>
-												<td>${purchaseOrder.route_description}</td>
-												<td>${shippingDetails.district_name}</td>
-												<td>${shippingDetails.plant}</td>
-												<td>${shippingDetails.route}</td>
-												<td>${shippingDetails.forwarding_agent_name}</td>
-												<td>${shippingDetails.distribution_channel}</td>
-												<td>${shippingDetails.deliv_date}</td>
-												<td>${shippingDetails.delivery_type}</td>
-												<td>${shippingDetails.shipping_Point}</td>
-												<td>${shippingDetails.district_code}</td>
-												<td>${shippingDetails.ship_to_party}</td>
-												<td>${shippingDetails.ship_to_long}</td>
-												<td>${shippingDetails.ship_to_latt}</td>
-												<%-- <td style="width: 50%;">${purchaseOrder.termsAndConditions}</td> --%>
-											</tr>
-										</c:forEach>
-									</tbody>
-								</table>
+                                <tbody>
+                                    <c:forEach items="${trucksList}" var="truckDetails" varStatus="status">
+                                    <tr>
+                                    	<td>${truckDetails.slNo}</td>
+                                    	<td>${truckDetails.vehiclNo}</td>
+                                    	<td>${truckDetails.vehicleType}</td>
+                                    	<td>${truckDetails.wheels}</td>
+                                    	<td>${truckDetails.entryType}</td>
+                                    	<td>${truckDetails.taggedTranspoter}</td>
+                                    	<td>${truckDetails.doNo}</td>
+                                        <td>${truckDetails.taggedDate}</td>
+                                        <td>${truckDetails.taggedTime}</td> 
+                                        <td>${truckDetails.delay}</td>                                      
+                                    </tr>                                  
+                                    </c:forEach>
+                                </tbody>
+                            </table>
 
                         </div>
                     </div>
@@ -311,15 +281,15 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Maximum Load</th>
-                                    <th>Normal</th>
+                                    <th>Yes</th>
+                                    <th>No</th>
                                     
                                    
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Enable Truck Load Type(Maximum/Normal)</td>
+                                    <td>Enable Plant Re-organization</td>
                                     <td> <div class="radio">
                                                     <input type="radio" name="radio2" id="radio3" value="option1">
                                                     <label for="radio3">
@@ -334,7 +304,7 @@
                                                 </div></td>
                                   
                                 </tr>
-                                <!-- <tr>
+                                <tr>
                                    <td>Include Warehouse Location</td>
                                     <td> <div class="radio">
                                                     <input type="radio" name="radio3" id="radio1" value="option1">
@@ -365,7 +335,7 @@
                                                     </label>
                                                 </div></td>
                                    
-                                </tr> -->
+                                </tr>
                                 </tbody>
                             </table>
                                                  

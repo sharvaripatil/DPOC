@@ -71,6 +71,13 @@
 				<li><a href="<c:url value='/algorithmProcess' />"><i
 						class="fa fa-th-large"></i> <span class="nav-label">Algorithm
 							Process</span></a></li>
+							 <li> <a ><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
+		  <ul class="nav nav-second-level collapse">
+            <li><a href="<c:url value='getAllTrucksInformation' />">All Trucks</a></li>
+            <li><a href="#">Loaded Trucks</a></li>
+            
+          </ul>
+		  </li>
 				<!-- <li> <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Administration</span><span class="fa arrow"></span></a>
           <ul class="nav nav-second-level collapse">
             <li><a href="collages.html">Collage's</a></li>
