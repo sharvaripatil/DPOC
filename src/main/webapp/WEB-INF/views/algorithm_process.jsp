@@ -54,7 +54,7 @@
               <div calss="row">
                 <p class="pull-left">
                   <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-refresh"></i> </button>
-                  <a class="btn btn-success btn-rounded" href="#">Process New Order Batch</a> <a class="btn btn-primary btn-rounded" href="#">History</a> </p>
+                  <a class="btn btn-success btn-rounded" href="#">Process New Order Batch</a> <a class="btn btn-primary btn-rounded" href="<c:url value='getShippingOrderHistory' />">History</a> </p>
                 <p class="pull-right"> <a class="btn btn-primary btn-rounded" href="<c:url value='intellShip' />">Run Itelliship Algo</a> <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#configurealgo">Configure Algo</a> </p>
               </div>
               <table class="table table-bordered table-hover">
@@ -201,9 +201,9 @@
                             </div>
 
 <!-- Mainly scripts --> 
- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+ <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script> 
+			  crossorigin="anonymous"></script>  -->
 		<script>
 		
 $(document).ready(function(){
@@ -213,7 +213,7 @@ $(document).ready(function(){
 });
 	</script>
 <!-- Mainly scripts -->
-   <!--  <script src="resources/js/jquery-2.1.1_old.js"></script> -->
+     <script src="resources/js/jquery-2.1.1_old.js"></script> 
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>

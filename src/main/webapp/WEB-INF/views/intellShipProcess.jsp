@@ -31,7 +31,8 @@
 
 <body class="md-skin">
 <div id="wrapper">
-   <div id="navbar"></div>
+   <!-- <div id="navbar"></div> -->
+   <%@include file="navbar.jsp" %>
   <div id="page-wrapper" class="gray-bg">
    <div id="header"></div>
     <div class="row wrapper border-bottom white-bg page-heading">
@@ -112,7 +113,8 @@
         </div>
       </div>
     </div>
-     <div id="footer"></div>
+     <!-- <div id="footer"></div> -->
+     <%@include file="footer.html" %>
   </div>
 </div>
 <div class="modal" id="configurealgo" tabindex="-1" role="dialog" aria-hidden="true">
@@ -209,12 +211,12 @@
   </div>
 </div>
 <!-- Mainly scripts --> 
- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+<!--  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			  crossorigin="anonymous"></script>
-			  
+ -->			  
 <!-- Mainly scripts -->
-<!--     <script src="resources/js/jquery-2.1.1_old.js"></script> -->
+   <script src="resources/js/jquery-2.1.1_old.js"></script> 
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
     <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
