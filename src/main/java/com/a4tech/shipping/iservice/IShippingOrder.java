@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.model.OrderGroup;
+import com.a4tech.shipping.model.ShippingDeliveryOrder;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.TruckDetails;
 
@@ -19,4 +20,5 @@ public interface IShippingOrder {
   public void updateOrderGroupFlag(String delivaryNo);
   public List<Address> getLatitudeAndLongitude(String truckNo);
   public void deleteAllGroupOrders();
+  public int generateShippingOrderId(ShippingDeliveryOrder shippingDelivary);
 }

@@ -1,11 +1,18 @@
 package com.a4tech.dao.entity;
 
+
+
+import java.time.LocalDate;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="ordergroup")
@@ -36,6 +43,24 @@ public class OrderGroupEntity {
 	private String longitude;
 	@Column(name="Name_Ship_To_Party")
 	private String nameShipToParty;
+	@Temporal(TemporalType.DATE)
+	private Date order_shipping_date;
+	@Column(name="shipping_delivary_id")
+	private Integer shippingDelivaryId;
+	
+	
+	public Integer getShippingDelivaryId() {
+		return shippingDelivaryId;
+	}
+	public void setShippingDelivaryId(Integer shippingDelivaryId) {
+		this.shippingDelivaryId = shippingDelivaryId;
+	}
+	public Date getOrder_shipping_date() {
+		return order_shipping_date;
+	}
+	public void setOrder_shipping_date(Date order_shipping_date) {
+		this.order_shipping_date = order_shipping_date;
+	}
 	public String getNameShipToParty() {
 		return nameShipToParty;
 	}

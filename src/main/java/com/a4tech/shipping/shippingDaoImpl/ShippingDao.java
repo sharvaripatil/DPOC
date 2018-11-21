@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.a4tech.dao.entity.OrderGroupEntity;
+import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
@@ -365,6 +366,33 @@ public class ShippingDao implements IshippingOrderDao{
 			}
 		}		
 	}
+	@Override
+	public int generateShippingOrderId(ShippingDeliveryOrderEntity shippingDelivary) {
+		Session session = null;
+		Transaction transaction = null;
+		int shippingDelivaryId = 0;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			shippingDelivaryId = (int) session.save(shippingDelivary);
+			transaction.commit();
+			_LOGGER.info("shipping delivary order details has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to save shipping delivary order details data into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return shippingDelivaryId;
+	}
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -372,7 +400,5 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
-	
 	
 }

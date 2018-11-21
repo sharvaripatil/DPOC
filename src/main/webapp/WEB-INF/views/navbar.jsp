@@ -18,6 +18,7 @@
 		  
 		    <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
 		  <ul class="nav nav-second-level collapse">
+		  <li><a href="<c:url value='uploadTrucksInfo' />">Upload Trucks Information</a></li>
             <li><a href="<c:url value='getAllTrucksInformation' />">All Trucks</a></li>
             <li><a href="#">Loaded Trucks</a></li>
             

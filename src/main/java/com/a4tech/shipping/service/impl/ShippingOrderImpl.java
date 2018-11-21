@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a4tech.dao.entity.OrderGroupEntity;
+import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
 import com.a4tech.shipping.model.OrderGroup;
+import com.a4tech.shipping.model.ShippingDeliveryOrder;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.TruckDetails;
 
@@ -123,6 +125,8 @@ public class ShippingOrderImpl implements IShippingOrder{
 	  ordGrpEntity.setLatitude(orderGroup.getLatitude());
 	  ordGrpEntity.setLongitude(orderGroup.getLongitude());
 	  ordGrpEntity.setNameShipToParty(orderGroup.getNameShipToParty());
+	  ordGrpEntity.setOrder_shipping_date(orderGroup.getOrderShippingDate());
+	  ordGrpEntity.setShippingDelivaryId(orderGroup.getShippingDelivaryId());
 	  shippingOrderDao.saveOrderGroup(ordGrpEntity);
 	}
 	@Override
@@ -206,13 +210,6 @@ public class ShippingOrderImpl implements IShippingOrder{
 		}
 			return addressGroList;
 	}
-	private Address getPlantAddress(){
-		Address address = new Address();
-		address.setLatitude("23.7012517");
-   	 address.setLongitude("86.0591489");
-   	 address.setPlaceName("Dalmia Cement,JHARKHAND");
-		return address;
-	}
 	@Override
 	public void deleteAllGroupOrders() {
       shippingOrderDao.deleteAllGroupOrders();
@@ -225,6 +222,20 @@ public class ShippingOrderImpl implements IShippingOrder{
 	public List<String> getOrderNoByTruck(String truckNo) {
 		return shippingOrderDao.getOrderNoByTruck(truckNo);
  	}
+	@Override
+	public int generateShippingOrderId(ShippingDeliveryOrder shippingDelivary) {
+		ShippingDeliveryOrderEntity shippingDelOrd = new ShippingDeliveryOrderEntity();
+		shippingDelOrd.setTruckNo(shippingDelivary.getTruckNo());
+		shippingDelOrd.setShippingDeliveryDate(shippingDelivary.getShippingDeliveryDate());
+		int deliveryId = shippingOrderDao.generateShippingOrderId(shippingDelOrd);
+		return deliveryId;
+	}	
 	
-	
+	private Address getPlantAddress(){
+		Address address = new Address();
+		address.setLatitude("23.7012517");
+   	 address.setLongitude("86.0591489");
+   	 address.setPlaceName("Dalmia Cement,JHARKHAND");
+		return address;
+	}
 }

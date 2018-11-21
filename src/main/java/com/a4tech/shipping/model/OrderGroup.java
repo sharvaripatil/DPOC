@@ -1,18 +1,34 @@
 package com.a4tech.shipping.model;
 
+import java.util.Date;
+
 public class OrderGroup {
 	private String delivaryNo;
 	private String originalOrderQty;
 	private String truckNo;
 	private String truckCapacity;
-	private int truckOrderQty;
+	private int    truckOrderQty;
 	private String delivaryDate;
 	private String materialType;
 	private String districtName;
 	private String latitude;
 	private String longitude;
 	private String nameShipToParty;
+	private Date   orderShippingDate;
+	private Integer shippingDelivaryId;
 	
+	public Integer getShippingDelivaryId() {
+		return shippingDelivaryId;
+	}
+	public void setShippingDelivaryId(Integer shippingDelivaryId) {
+		this.shippingDelivaryId = shippingDelivaryId;
+	}
+	public Date getOrderShippingDate() {
+		return orderShippingDate;
+	}
+	public void setOrderShippingDate(Date orderShippingDate) {
+		this.orderShippingDate = orderShippingDate;
+	}
 	public String getNameShipToParty() {
 		return nameShipToParty;
 	}
