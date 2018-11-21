@@ -172,7 +172,7 @@ public class ShippingDetailController {
 		return new ModelAndView("upload_1", "fileUpload", new FileUploadBean());
 	}
 	
-	@RequestMapping(value="/uploadTrucksInfo",method = RequestMethod.POST)
+	/*@RequestMapping(value="/uploadTrucksInfo",method = RequestMethod.POST)
 	public ModelAndView processFile(@ModelAttribute("ftpFileUploadBean") FileUploadBean fileUploadBean,Model model){
 		
 		
@@ -185,7 +185,7 @@ public class ShippingDetailController {
 	
 	
 		return new ModelAndView("fileUpload", "ftpFileUploadBean", new FileUploadBean());	
-	}
+	}*/
 
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {

@@ -33,16 +33,16 @@
                         <h2>UPLOAD FILES</h2>
                        
                     </div>
-                  <%--   <div class="ibox-content">
+                  <div class="ibox-content">
                         <form id="my-awesome-dropzone" class="dropzone" action="#">
                             <div class="dropzone-previews"></div>
-                        <a href="index.html" type="button" class="btn btn-w-m btn-default">Back</a>
-		 <button type="button" class="btn btn-w-m btn-success">Submit</button> 
+                        
                         </form>
-                      	
-                    </div> --%>
+                      	 <a href="index.html" type="button" class="btn btn-w-m btn-default">Back</a>
+		 <button type="button" class="btn btn-w-m btn-success">Submit</button>
+                    </div>
                     
-                     <div class="form-bottom">
+      <%--                <div class="form-bottom">
               <form:form action="uploadFile" name="ftpFileUploadBean" enctype="multipart/form-data" modelAttribute="ftpFileUploadBean">
              <div class="form-group">
                <input type="file" name="file" id="file" class="file">
@@ -61,7 +61,7 @@
               </div>
               <br>
              </form:form>
-          </div>
+          </div> --%>
 				
                 </div>
             </div>
