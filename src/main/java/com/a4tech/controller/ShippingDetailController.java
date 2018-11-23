@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -166,14 +167,14 @@ public class ShippingDetailController {
 		return new ModelAndView("truck_info", "trucksList", trucksInfoList);
 	}
 
-	@RequestMapping(value = "/uploadTrucksInfo")
+	@RequestMapping(value = "/uploadTrucksInfo",method = RequestMethod.GET)
 	public ModelAndView uploadTruckInfo() {
 
-		return new ModelAndView("upload_1", "fileUpload", new FileUploadBean());
+		return new ModelAndView("upload_1", "fileUploadBean", new FileUploadBean());
 	}
 	
-	/*@RequestMapping(value="/uploadTrucksInfo",method = RequestMethod.POST)
-	public ModelAndView processFile(@ModelAttribute("ftpFileUploadBean") FileUploadBean fileUploadBean,Model model){
+	@RequestMapping(value="/uploadTrucksInfo",method = RequestMethod.POST)
+	public ModelAndView processFile(@ModelAttribute("fileUploadBean") FileUploadBean fileUploadBean,Model model){
 		
 		
 		MultipartFile   mfile= fileUploadBean.getFile();
@@ -184,9 +185,9 @@ public class ShippingDetailController {
 	
 	
 	
-		return new ModelAndView("fileUpload", "ftpFileUploadBean", new FileUploadBean());	
-	}*/
-
+		return new ModelAndView("fileUpload", "fileUploadBean", new FileUploadBean());	
+	}
+	
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();
