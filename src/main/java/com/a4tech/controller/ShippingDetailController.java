@@ -46,6 +46,7 @@ import com.a4tech.shipping.model.ShippingDetails;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 import com.a4tech.shipping.model.TruckDetails;
+import com.a4tech.shipping.services.ShippingService;
 import com.a4tech.util.TruckTypeInfo;
 
 import saveShipping.StoreSpDetails;
@@ -59,6 +60,8 @@ public class ShippingDetailController {
 	 */
 	@Autowired
 	private IShippingOrder shippingOrderService;
+	@Autowired
+	private ShippingService shippingService;
 
 	@RequestMapping(value = "/getShortestDistence/{orderNo}")
 	public String getShortDistence(@PathVariable("orderNo") String orderNo) {
