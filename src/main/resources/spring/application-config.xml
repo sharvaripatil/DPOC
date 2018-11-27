@@ -35,6 +35,9 @@
 				p:readTimeout="90000" p:connectTimeout="90000" />
 		</constructor-arg>
 	</bean>  
+	 <bean id = "multipartResolver"
+      class = "org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 	
 	 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -88,6 +91,6 @@
 		
 	</bean>
 	
-	
 	</beans>
+	
 
