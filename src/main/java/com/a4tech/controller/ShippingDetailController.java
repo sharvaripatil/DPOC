@@ -2,6 +2,7 @@ package com.a4tech.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,13 +23,16 @@ import java.util.stream.Collectors;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +46,7 @@ import saveShipping.StoreSpDetails;
 
 import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
+import com.a4tech.service.mapper.IOrderDataMapper;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.model.FileUploadBean;
 import com.a4tech.shipping.model.IntellishipModel;
@@ -72,6 +77,9 @@ public class ShippingDetailController {
 	@Autowired
 	private ShippingService shippingService;
 
+	@Autowired
+	private IOrderDataMapper dataMapper;
+	
 	@RequestMapping(value = "/getShortestDistence/{orderNo}")
 	public String getShortDistence(@PathVariable("orderNo") String orderNo) {
 		System.out.println(orderNo);
@@ -185,10 +193,19 @@ public class ShippingDetailController {
 	      return modelAndView;
 	   }
 	  @RequestMapping(value="/uploadTrucksInfo", method = RequestMethod.POST)
-	   public String fileUpload(FileUploadBean mfile, ModelMap model) throws IOException {
+	   public String fileUpload(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+		  if(mfile.getFile().getSize() == 0)
+		  {
+			  model.addAttribute("showMessage", "select");
+		  }
+		  else{
 		  File file = convertMultiPartFileIntoFile(mfile.getFile());
 			long fileSize = file.length(); 
 			Workbook wb = getWorkBook(file);
+			dataMapper.readTruckExcel(wb);
+			
+			model.addAttribute("showMessage", "success");
+		  }
 		  return "upload";
 	   }
 	

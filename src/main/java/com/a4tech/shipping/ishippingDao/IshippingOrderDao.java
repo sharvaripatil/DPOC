@@ -21,4 +21,6 @@ public interface IshippingOrderDao {
   public List<OrderGroupEntity> getLatitudeAndLongitude(String truckNo);
   public void deleteAllGroupOrders();
   public int generateShippingOrderId(ShippingDeliveryOrderEntity shippingDelivary);
+  public void saveTruckdetailsEntity(TruckDetailsEntity truckEntity);
+  
 }

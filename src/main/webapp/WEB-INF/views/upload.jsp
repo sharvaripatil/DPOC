@@ -19,7 +19,12 @@
 	 <link href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
 </head>
-
+<style>
+h4 {
+ font-size:20px;
+ font-style: italic;
+}
+</style>
 <body class="md-skin">
 <div id="wrapper">
 	   <%@include file="navbar.jsp" %>
@@ -36,9 +41,19 @@
 						<center>
 					 <form:form method = "POST" modelAttribute = "fileUpload"
          enctype = "multipart/form-data" style="margin: 10% 0px;">
-						 <h2>Please select a file to upload  </h2>
+				 <h2>Please select a file to upload  </h2> 
          <input class="btn btn-primary btn-rounded" type = "file" name = "file" />
          <input class="btn btn-success btn-rounded" type = "submit" value = "upload" />
+         
+           <c:choose>
+             	<c:when test="${showMessage == 'success'}">
+             	<h4 style="color: green;">Truck details data has been saved successfully</h4> 
+             	</c:when>
+             	<c:when test="${showMessage == 'select'}">
+             	<h4 style="color: red;">select proper file to upload</h4> 
+             	</c:when>
+             	</c:choose>
+        
       </form:form>
 						</center>
 					</div>    
@@ -54,6 +69,16 @@
   </div>
 </div>
 
+<!-- <script type="text/javascript">
+    var popup;
+    function SelectName() {
+        popup = window.open("Popup.htm", "Popup", "width=300,height=100");
+        popup.focus();
+    }
+</script> -->
+
+
+
 <!-- Mainly scripts --> 
 <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -67,6 +92,12 @@ $(document).ready(function(){
 	 $("#footer").load("footer.html");
 });
 	</script>
+<script>
+
+function popup() {
+    window.open("../popup/searchspring", 'window', 'width=200,height=100');
+}
+</script>
 
 <script src="resources/js/jquery-2.1.1_old.js"></script> 
     <script src="resources/js/bootstrap.min.js"></script>
