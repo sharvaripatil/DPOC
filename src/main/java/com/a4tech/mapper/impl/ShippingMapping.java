@@ -9,12 +9,16 @@ import java.util.Set;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.a4tech.controller.ShippingDetailController;
 import com.a4tech.dao.entity.ShippingEntity;
+import com.a4tech.dao.entity.TruckDetailsEntity;
 import com.a4tech.service.mapper.IOrderDataMapper;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
 import com.a4tech.util.ApplicationConstants;
@@ -196,8 +200,130 @@ public class ShippingMapping implements IOrderDataMapper{
 		entityObj.setIsOrderGroup("No");
 		shippingOrderDao.saveShippingEntity(entityObj);
 	}
+	
+	@Override
+	public String readTruckExcel(Workbook workbook) {
+	{
+		ShippingDetailController conObj=new ShippingDetailController();
+		TruckDetailsEntity entityObj=new TruckDetailsEntity();
+		
+		Sheet sheet=workbook.getSheetAt(0);
+		Iterator<Row> iterator = sheet.iterator();
+		Set<String>  productXids = new HashSet<String>();
+		//String TruckValue="";
+		String SL_NO="";
+		Cell xidCell = null ;
+		while (iterator.hasNext()) {
+			
+			Row nextRow = iterator.next();
+			if(nextRow.getRowNum() == ApplicationConstants.CONST_NUMBER_ZERO){
+				continue;
+			}
+			Iterator<Cell> cellIterator = nextRow.cellIterator();
+			if(SL_NO != null){
+				productXids.add(SL_NO);
+			}
+			 boolean checkXid  = false;
+			while (cellIterator.hasNext()) {
+				Cell cell = cellIterator.next();
+				int columnIndex = cell.getColumnIndex();
+				if(columnIndex  == 0){
+					 xidCell = nextRow.getCell(1);
+					 SL_NO = CommonUtility.getCellValueStrinOrInt(xidCell);
+					//xid = CommonUtility.getCellValueStrinOrInt(cell);
+					checkXid = true;
+				}else{
+					checkXid = false;
+				}
+				if(checkXid){
+					 if(!productXids.contains(SL_NO)){
+						 if(nextRow.getRowNum() != 1){
+							 //int num = postServiceImpl.postProduct(accessToken, productExcelObj,asiNumber ,batchId, environmentType);
+							 shippingOrderDao.saveTruckdetailsEntity(entityObj);
+						 }
+						    if(!productXids.contains(SL_NO)){
+						    	productXids.add(SL_NO);
+						    }
+						    entityObj=new TruckDetailsEntity();
+					 }
+				}
+					switch (columnIndex + 1) {
+					
+			/*		case 1:
+						TruckValue=CommonUtility.getCellValueStrinOrInt(xidCell);
+						int id=Integer.parseInt(TruckValue);
+						entityObj.setTruckId(id);
+						
+						break;*/
+						
+					case 1:
+					    SL_NO=cell.getStringCellValue(); 
+						entityObj.setSlNo(SL_NO);
+						
+						break;	
+						
+					case 2:
+						String VEHICLE_NO=cell.getStringCellValue(); 
+						entityObj.setVehiclNo(VEHICLE_NO);
+						
+						break;
+						
+					case 3:
+						Double VEHICLE_TYPE=cell.getNumericCellValue();
+						int intVehicleType=VEHICLE_TYPE.intValue();
+						entityObj.setVehicleType(intVehicleType);
+						break;
+	
+					case 4:
+						String WHEELS=cell.getStringCellValue(); 
+						entityObj.setWheels(WHEELS);
+						break;
+	
+					case 5:
+						String ENTRY_TYPE=cell.getStringCellValue(); 
+						entityObj.setEntryType(ENTRY_TYPE);
+						break;
+	
+					case 6:
+						String TRANSPORTER=cell.getStringCellValue(); 
+						entityObj.setTaggedTranspoter(TRANSPORTER);
+						break;
+	
+					case 7:
+						String DO_NO=cell.getStringCellValue(); 
+						entityObj.setDoNo(DO_NO);
+						break;
+	
+					case 8:
+						String TAGGED_DATE=cell.getStringCellValue(); 
+						entityObj.setTaggedDate(TAGGED_DATE);
+						break;
+	
+					case 9:
+						String TAGGED_TIME=cell.getStringCellValue(); 
+						entityObj.setTaggedTime(TAGGED_TIME);
+						break;
+	
+					case 10:
+						String DELAY=cell.getStringCellValue(); 
+						entityObj.setDelay(DELAY);
+						break;
+	
+					}
+				}
+			
+			shippingOrderDao.saveTruckdetailsEntity(entityObj);
 
+			}
+		
+		
+		//shippingDao.saveShippingEntity(entityObj);
 
+		
+	}
+	return "Success";	
+		
+	}
 
 	/*public ShippingDao getShippingDao() {
 		return shippingDao;

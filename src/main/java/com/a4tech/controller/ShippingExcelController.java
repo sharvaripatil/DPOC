@@ -19,4 +19,14 @@ public class ShippingExcelController {
 		return "ShippingOrderDetails has been saved successfully in DB";
   }
 	
+	
+	public String saveTruckdetails()
+	{		
+		
+		return "Truckdetails entity has been saved";
+		
+	}
+	
+	
+	
 }
