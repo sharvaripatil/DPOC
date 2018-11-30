@@ -2,6 +2,8 @@ package com.a4tech.shipping.iservice;
 
 import java.util.List;
 
+import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
+import com.a4tech.dao.entity.TruckHistoryDetails;
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
@@ -21,4 +23,7 @@ public interface IShippingOrder {
   public List<Address> getLatitudeAndLongitude(String truckNo);
   public void deleteAllGroupOrders();
   public int generateShippingOrderId(ShippingDeliveryOrder shippingDelivary);
+  public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
+  public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
+  public List<TruckHistoryDetails> getAllTrucksHistoryDetails();
 }

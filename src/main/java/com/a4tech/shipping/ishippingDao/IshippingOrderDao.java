@@ -2,10 +2,12 @@ package com.a4tech.shipping.ishippingDao;
 
 import java.util.List;
 
+import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
+import com.a4tech.dao.entity.TruckHistoryDetails;
 
 public interface IshippingOrderDao {
   public void saveShippingEntity(ShippingEntity shippingEntity);
@@ -21,4 +23,7 @@ public interface IshippingOrderDao {
   public List<OrderGroupEntity> getLatitudeAndLongitude(String truckNo);
   public void deleteAllGroupOrders();
   public int generateShippingOrderId(ShippingDeliveryOrderEntity shippingDelivary);
+  public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
+  public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
+  public List<TruckHistoryDetails> getAllTrucksHistoryDetails();
 }
