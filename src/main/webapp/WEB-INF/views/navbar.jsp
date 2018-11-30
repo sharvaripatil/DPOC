@@ -14,17 +14,28 @@
           <div class="logo-element"> </div>
         </li>
         <!-- <li class="active"> <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a> </li> -->
-		      <li> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process</span></a> </li>
-		  
+		      <li> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process
+		      <span class="fa arrow"></span></a> 
+		     <ul class="nav nav-first-level collapse">
+		     <ul style="list-style-type:square">
+		  <li><a href="<c:url value='intellShip' />">Run Itelliship Algo</a></li>
+            <li><a href="<c:url value='/getShippingOrderHistory'/>">History</a></li>
+            <li><a href="#">Process New Order Batch</a></li>
+		  </ul>
+		  </li>
+		  </ul>
 		    <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
-		  <ul class="nav nav-second-level collapse">
+		  <ul class="nav nav-first-level collapse">
+		  <ul style="list-style-type:square">
 		  <li><a href="<c:url value='uploadTrucksInfo' />">Upload Trucks Information</a></li>
             <li><a href="<c:url value='getAllTrucksInformation' />">All Available Trucks</a></li>
             <li><a href="#">Clubbed Order Loaded Trucks</a></li>
-            
+             </ul>           
           </ul>
-		  </li>
-       
-      </ul>
+          
+           <%-- <li> <a href="<c:url value='/confProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration<span class="fa arrow"></span></a> 
+            <ul class="nav nav-third-level collapse">
+           <li><a href="<c:url value='/intellShip' />">Configure Algo</a></li>
+           </ul> --%>
     </div>
   </nav>

@@ -135,6 +135,33 @@ public class ShippingDao implements IshippingOrderDao{
 		}
        return new ArrayList<>();
 	}
+	
+	@Override
+	public void saveTruckdetailsEntity(TruckDetailsEntity truckEntity) {
+
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.save(truckEntity);
+			transaction.commit();
+			_LOGGER.info("Truck Details data has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to save Truck Details into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	}
+	
 	@Override
 	public void saveOrderGroup(OrderGroupEntity orderGroupEntity) {
 		Session session = null;

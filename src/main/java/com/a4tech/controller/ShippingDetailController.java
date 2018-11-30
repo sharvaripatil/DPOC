@@ -1,6 +1,8 @@
 package com.a4tech.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,23 +20,33 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import saveShipping.StoreSpDetails;
+
 import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
+import com.a4tech.service.mapper.IOrderDataMapper;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.model.FileUploadBean;
 import com.a4tech.shipping.model.IntellishipModel;
@@ -47,14 +59,16 @@ import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 import com.a4tech.shipping.model.TruckDetails;
 import com.a4tech.shipping.services.ShippingService;
+import com.a4tech.util.ApplicationConstants;
+import com.a4tech.util.CommonUtility;
 import com.a4tech.util.TruckTypeInfo;
-
-import saveShipping.StoreSpDetails;
 
 @Controller
 @RequestMapping({ "/", "/demoversion" })
 public class ShippingDetailController {
 
+	
+	 
 	/*
 	 * @Autowired private IOrderDataMapper dataMapper;
 	 */
@@ -63,6 +77,9 @@ public class ShippingDetailController {
 	@Autowired
 	private ShippingService shippingService;
 
+	@Autowired
+	private IOrderDataMapper dataMapper;
+	
 	@RequestMapping(value = "/getShortestDistence/{orderNo}")
 	public String getShortDistence(@PathVariable("orderNo") String orderNo) {
 		System.out.println(orderNo);
@@ -172,27 +189,28 @@ public class ShippingDetailController {
 		List<TruckDetails> trucksInfoList = shippingOrderService.getAllTruckInfo();
 		return new ModelAndView("truck_info", "trucksList", trucksInfoList);
 	}
-
-	@RequestMapping(value = "/uploadTrucksInfo",method = RequestMethod.GET)
-	public ModelAndView uploadTruckInfo() {
-
-		return new ModelAndView("upload_1", "fileUploadBean", new FileUploadBean());
-	}
-	
-	@RequestMapping(value="/uploadTrucksInfo",method = RequestMethod.POST)
-	public ModelAndView processFile(@ModelAttribute("fileUploadBean") FileUploadBean fileUploadBean,Model model){
-		
-		
-		MultipartFile   mfile= fileUploadBean.getFile();
-		File file = convertMultiPartFileIntoFile(mfile);
-		long fileSize = file.length(); 
-		
-		//Workbook wb = getWorkBook(file);
-	
-	
-	
-		return new ModelAndView("fileUpload", "fileUploadBean", new FileUploadBean());	
-	}
+	  @RequestMapping(value = "/uploadTrucksInfo", method = RequestMethod.GET)
+	   public ModelAndView fileUploadPage() {
+		  FileUploadBean file = new FileUploadBean();
+	      ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+	      return modelAndView;
+	   }
+	  @RequestMapping(value="/uploadTrucksInfo", method = RequestMethod.POST)
+	   public String fileUpload(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+		  if(mfile.getFile().getSize() == 0)
+		  {
+			  model.addAttribute("showMessage", "select");
+		  }
+		  else{
+		  File file = convertMultiPartFileIntoFile(mfile.getFile());
+			long fileSize = file.length(); 
+			Workbook wb = getWorkBook(file);
+			dataMapper.readTruckExcel(wb);
+			
+			model.addAttribute("showMessage", "success");
+		  }
+		  return "upload";
+	   }
 	
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
@@ -1558,4 +1576,29 @@ public class ShippingDetailController {
 		
 		return file;
 	}
+	 private  Workbook getWorkBook(File file){
+		    String fileExtension = CommonUtility.getFileExtension(file.getName());
+		    ZipSecureFile.setMinInflateRatio(0.001d);
+		   // File file = convertMultiPartFileIntoFile(mfile);
+		    Workbook workBook = null;
+		    if(ApplicationConstants.CONST_STRING_XLS.equalsIgnoreCase(fileExtension)){
+		    	try(Workbook workbook1 = new HSSFWorkbook(new FileInputStream(file))) {
+					return workbook1;
+				} catch (IOException e) {
+					//_LOGGER.error("unable to file convert into excelsheet"+e);
+				}
+		     }else if(ApplicationConstants.CONST_STRING_XLSX.equalsIgnoreCase(fileExtension)){
+		    	try(Workbook workBook2 = new XSSFWorkbook(file)) {
+		    		return workBook2;
+				} catch (InvalidFormatException | IOException e) {
+					//_LOGGER.error("unable to file convert into excelsheet"+e);
+				}
+		    }else if(ApplicationConstants.CONST_STRING_CSV.equalsIgnoreCase(fileExtension)){
+		    	//workBook = getExcel(file);
+		    	return workBook;
+		    }else{
+		    	
+		    }
+			return workBook;
+		}
 }

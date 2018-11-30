@@ -26,4 +26,5 @@ public interface IshippingOrderDao {
   public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
   public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
   public List<TruckHistoryDetails> getAllTrucksHistoryDetails();
+  public void saveTruckdetailsEntity(TruckDetailsEntity truckEntity);
 }
