@@ -32,13 +32,14 @@ public class ShippingMapping implements IOrderDataMapper{
 	@Autowired
 	private IshippingOrderDao shippingOrderDao;
 	@Override
-	public void mapper()
+	public void pendingOrderMapper(Workbook workbook)
 	{
 		ShippingEntity entityObj=new ShippingEntity();
 		try{
-			@SuppressWarnings("resource")
+			/*@SuppressWarnings("resource")
 			XSSFWorkbook workbook=new XSSFWorkbook(new  FileInputStream("D://A4 ESPUpdate//dpoc//Pending order details 5300_old.XLSX"));
-			XSSFSheet sheet=workbook.getSheetAt(0);
+			*/
+			Sheet sheet=workbook.getSheetAt(0);
 			Iterator<Row> iterator = sheet.iterator();
 			Set<String>  productXids = new HashSet<String>();
 			String orderNo = null;

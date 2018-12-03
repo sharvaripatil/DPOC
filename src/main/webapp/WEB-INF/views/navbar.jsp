@@ -18,9 +18,10 @@
 		      <span class="fa arrow"></span></a> 
 		     <ul class="nav nav-first-level collapse">
 		     <ul style="list-style-type:square">
-		  <li><a href="<c:url value='intellShip' />">Run Itelliship Algo</a></li>
+		    <li><a href="<c:url value='/showPendingOrders'/>">Pending Orders</a></li>
+		    <li><a href="<c:url value='intellShip' />">Run Itelliship Algo</a></li>
             <li><a href="<c:url value='/getShippingOrderHistory'/>">History</a></li>
-            <li><a href="#">Process New Order Batch</a></li>
+            <li><a href="<c:url value='/processBatchFile'/>">Process New Order Batch</a></li>
 		  </ul>
 		  </li>
 		  </ul>
