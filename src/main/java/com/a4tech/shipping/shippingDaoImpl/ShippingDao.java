@@ -15,10 +15,12 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
+import com.a4tech.dao.entity.TruckHistoryDetails;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
 
 
@@ -419,7 +421,71 @@ public class ShippingDao implements IshippingOrderDao{
 		}
 		return shippingDelivaryId;
 	}
-
+	@Override
+	public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads() {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<DistrictWiseNormalLoadCapacity> districtWiseLoadData = session
+					.createCriteria(DistrictWiseNormalLoadCapacity.class).list();
+			return districtWiseLoadData;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get DistrictWise trucks load type from DB: "+ex.getCause());
+			
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
+	@Override
+	public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(ShippingEntity.class);
+			criteria.add(Restrictions.eq("districtName", districtName));
+			DistrictWiseNormalLoadCapacity districtData = (DistrictWiseNormalLoadCapacity) criteria.uniqueResult();
+			return districtData;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get district truck load types from DB based on date: "+ex.getCause());
+			
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return null;
+	}
+	@Override
+	public List<TruckHistoryDetails> getAllTrucksHistoryDetails() {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<TruckHistoryDetails> districtWiseLoadData = session
+					.createCriteria(DistrictWiseNormalLoadCapacity.class).list();
+			return districtWiseLoadData;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get trucks history data from DB: "+ex.getCause());
+			
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -427,5 +493,8 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
+	
+	
 	
 }

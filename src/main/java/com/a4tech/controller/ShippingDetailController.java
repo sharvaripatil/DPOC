@@ -44,8 +44,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import saveShipping.StoreSpDetails;
-
+import com.a4tech.dao.entity.TruckHistoryDetails;
 import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
 import com.a4tech.service.mapper.IOrderDataMapper;
@@ -64,6 +63,8 @@ import com.a4tech.shipping.services.ShippingService;
 import com.a4tech.util.ApplicationConstants;
 import com.a4tech.util.CommonUtility;
 import com.a4tech.util.TruckTypeInfo;
+
+import saveShipping.StoreSpDetails;
 
 @Controller
 @RequestMapping({ "/", "/demoversion" })
@@ -128,10 +129,18 @@ public class ShippingDetailController {
 				shippingaOrderListOnChannel);
 		Map<String, Map<String, List<ShippingDetails1>>> finalMaterialOrdMap = getAllOrdersBasedOnMaterial(
 				ordersOnDistrictMap);
-		Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = getOrdersFitIntoTruck(
-				finalMaterialOrdMap);
-		getFinalOrdersClub(finalTruckDetails);
-		List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
+		//here new map
+		Map<String, Map<String, Map<Integer, List<ShippingDetails1>>>> groupByDistance = shippingService
+				.getOrdersBasedOnDistence(finalMaterialOrdMap);
+	Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = shippingService.getOrdersFitIntoTruck(groupByDistance);
+		/*Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = getOrdersFitIntoTruck(
+				groupByDistance);*/
+	//shippingService.getFinalOrdersClub
+	shippingService.getFinalOrdersClub(finalTruckDetails);
+	//getFinalOrdersClub(finalTruckDetails);
+	List<IntellishipModelByMaterial> finalIntelishipModel = shippingService.getFinalGroupOrders();
+		
+		//List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
 		// studentlist.sort((Student s1, Student
 		// s2)->s1.getName().compareTo(s2.getName()));
 		// soring based on district name
@@ -227,40 +236,42 @@ public class ShippingDetailController {
 		  }
 		  return "upload";
 	   }
-	
 	  
 	  @RequestMapping(value = "/processBatchFile", method = RequestMethod.GET)
-	   public ModelAndView batchFileUpload() {
-		  FileUploadBean file = new FileUploadBean();
-	      ModelAndView modelAndView = new ModelAndView("upload", "command", file);
-	      return modelAndView;
-	   }
-	  @RequestMapping(value="/processBatchFile", method = RequestMethod.POST)
-	   public String processBatchFile(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
-		  int countTruckDetailsFile=20;
-		  int numberOfCells=0;
-		  if(mfile.getFile().getSize() == 0)
-		  {
-			  model.addAttribute("showMessage", "select");
-		  }
-		  else{
-		  File file = convertMultiPartFileIntoFile(mfile.getFile());
-	//		long fileSize = file.length();
-			Workbook wb = getWorkBook(file);
-			Sheet sheet = wb.getSheetAt(0);
-            numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
-
+   public ModelAndView batchFileUpload() {
+	  FileUploadBean file = new FileUploadBean();
+      ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+      return modelAndView;
+   }
+  @RequestMapping(value="/processBatchFile", method = RequestMethod.POST)
+   public String processBatchFile(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+	  int countTruckDetailsFile=20;
+	  int numberOfCells=0;
+	  if(mfile.getFile().getSize() == 0)
+	  {
+		  model.addAttribute("showMessage", "select");
+	  }
+	  else{
+	  File file = convertMultiPartFileIntoFile(mfile.getFile());
+//		long fileSize = file.length();
+		Workbook wb = getWorkBook(file);
+		Sheet sheet = wb.getSheetAt(0);
+        numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
 			if (numberOfCells == countTruckDetailsFile) {
-				dataMapper.pendingOrderMapper(wb);
-				model.addAttribute("pendingOrderMessage", "success");
-			} else {
-				model.addAttribute("showMessage", "format");
-			}
-		  }
-		  return "upload";
-	   }
-	  
-	  
+			dataMapper.pendingOrderMapper(wb);
+			model.addAttribute("pendingOrderMessage", "success");
+		} else {
+			model.addAttribute("showMessage", "format");
+		}
+	  }
+	  return "upload";
+   }
+  
+	  @RequestMapping(value = "/showTruckHistoryDetails")
+		public ModelAndView showTruckHistoryDetails() {
+			List<TruckHistoryDetails> trucksHistoryData = shippingOrderService.getAllTrucksHistoryDetails();
+			return new ModelAndView("truckHistoryDetails", "truckHistoryData", trucksHistoryData);
+		}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();
@@ -322,38 +333,44 @@ public class ShippingDetailController {
 	}
 
 	public Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> getOrdersFitIntoTruck(
-			Map<String, Map<String, List<ShippingDetails1>>> materialOrdGroupMap) {
+			Map<String, Map<String, Map<Integer, List<ShippingDetails1>>>> groupByDistance) {
 		// List<TruckDetails> initialTruckInfoList =
 		// shippingOrder.getAllTruckInfo();
 		List<ShippingDetails1> unGroupOrderList = new ArrayList<>();
 		List<TruckDetails> allAssignedTrucksList = new ArrayList<>();
 		Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = new HashMap<>();
-		for (Map.Entry<String, Map<String, List<ShippingDetails1>>> ordGrpList : materialOrdGroupMap.entrySet()) {
+		for (Map.Entry<String, Map<String, Map<Integer, List<ShippingDetails1>>>> ordGrpList : groupByDistance.entrySet()) {
 			String districtName = ordGrpList.getKey();
-			Map<String, List<ShippingDetails1>> vals = ordGrpList.getValue();
+			Map<String, Map<Integer, List<ShippingDetails1>>> vals = ordGrpList.getValue();
 			Map<List<ShippingDetails1>, List<TruckDetails>> truckAndOrderMap = new HashMap<>();
-			for (Map.Entry<String, List<ShippingDetails1>> ordList : vals.entrySet()) {
-				List<TruckDetails> trucksList = new ArrayList<>();
-				String materialName = ordList.getKey();
-				List<ShippingDetails1> ordsList = ordList.getValue();
-				if (ordsList.size() == 1) {// if single order contain for same
-											// material ,no need to group the
-											// that product
-					unGroupOrderList.add(ordsList.get(0));
-					continue;
-				}
-				String truckType = TruckTypeInfo.getTruckLoadType(districtName);
-				int totOrdQty = ordsList.stream().map(ShippingDetails1::getActual_delivery_qty)
-						.mapToInt(Integer::valueOf).sum();
-				if ("Minimum".equals(truckType)) {
-					trucksList = getNormalTruckList(trucksList, totOrdQty, allAssignedTrucksList);
-					allAssignedTrucksList.addAll(trucksList);
-				} else {// maximum Extra
-					trucksList = getHeavyTruckList(trucksList, totOrdQty, allAssignedTrucksList);
-					allAssignedTrucksList.addAll(trucksList);
-				}
-				truckAndOrderMap.put(ordsList, trucksList);
+			for (Map.Entry<String, Map<Integer, List<ShippingDetails1>>> distanceByGroup : vals.entrySet()) {
+				String materialName = distanceByGroup.getKey();
+				Map<Integer, List<ShippingDetails1>> vals1 = distanceByGroup.getValue();
+				for (Map.Entry<Integer, List<ShippingDetails1>> ordList : vals1.entrySet()) {
+					List<TruckDetails> trucksList = new ArrayList<>();
+					Integer orderDistance = ordList.getKey();
+					List<ShippingDetails1> ordsList = ordList.getValue();
+					/*if (ordsList.size() == 1) {// if single order contain for same
+												// material ,no need to group the
+												// that product
+						unGroupOrderList.add(ordsList.get(0));
+						continue;
+					}*/
+					String truckType = TruckTypeInfo.getTruckLoadType(districtName);
+					int totOrdQty = ordsList.stream().map(ShippingDetails1::getActual_delivery_qty)
+							.mapToInt(Integer::valueOf).sum();
+					if ("Minimum".equals(truckType)) {
+						trucksList = getNormalTruckList(trucksList, totOrdQty, allAssignedTrucksList);
+						allAssignedTrucksList.addAll(trucksList);
+					} else {// maximum Extra
+						trucksList = getHeavyTruckList(trucksList, totOrdQty, allAssignedTrucksList);
+						allAssignedTrucksList.addAll(trucksList);
+					}
+					truckAndOrderMap.put(ordsList, trucksList);
+				}	
 			}
+			//Map<List<ShippingDetails1>, List<TruckDetails>> truckAndOrderMap = new HashMap<>();
+			
 			finalTruckDetails.put(districtName, truckAndOrderMap);
 		}
 		return finalTruckDetails;

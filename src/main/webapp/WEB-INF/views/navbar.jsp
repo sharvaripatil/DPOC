@@ -30,6 +30,7 @@
 		  <ul style="list-style-type:square">
 		  <li><a href="<c:url value='uploadTrucksInfo' />">Upload Trucks Information</a></li>
             <li><a href="<c:url value='getAllTrucksInformation' />">All Available Trucks</a></li>
+            <li><a href="<c:url value='showTruckHistoryDetails' />">Show Trucks History Details</a></li>
             <li><a href="#">Clubbed Order Loaded Trucks</a></li>
              </ul>           
           </ul>
