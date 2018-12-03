@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -108,6 +110,14 @@ public class ShippingDetailController {
 		System.out.println("Total Orders: " + shippingaOrderList.size());
 		return new ModelAndView("algorithm_process", "shippingaOrderList", shippingaOrderList);
 	}
+	
+	@RequestMapping(value = "/showPendingOrders")
+	public ModelAndView pendingOrders() {
+		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();
+		System.out.println("Total Orders: " + shippingaOrderList.size());
+		return new ModelAndView("algorithm_process", "shippingaOrderList", shippingaOrderList);
+	}
+
 
 	@RequestMapping(value = "/intellShip")
 	public ModelAndView intellShipPro() {
@@ -194,21 +204,63 @@ public class ShippingDetailController {
 	   }
 	  @RequestMapping(value="/uploadTrucksInfo", method = RequestMethod.POST)
 	   public String fileUpload(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+		  
+		  int countTruckDetailsFile=10;
+		  int numberOfCells=0;
 		  if(mfile.getFile().getSize() == 0)
 		  {
 			  model.addAttribute("showMessage", "select");
 		  }
 		  else{
 		  File file = convertMultiPartFileIntoFile(mfile.getFile());
-			long fileSize = file.length(); 
+			//long fileSize = file.length(); 
 			Workbook wb = getWorkBook(file);
+			Sheet sheet = wb.getSheetAt(0);
+            numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+            if(numberOfCells==countTruckDetailsFile){
 			dataMapper.readTruckExcel(wb);
-			
 			model.addAttribute("showMessage", "success");
+            }else
+            {
+    		model.addAttribute("showMessage", "format");
+            }
 		  }
 		  return "upload";
 	   }
 	
+	  
+	  @RequestMapping(value = "/processBatchFile", method = RequestMethod.GET)
+	   public ModelAndView batchFileUpload() {
+		  FileUploadBean file = new FileUploadBean();
+	      ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+	      return modelAndView;
+	   }
+	  @RequestMapping(value="/processBatchFile", method = RequestMethod.POST)
+	   public String processBatchFile(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+		  int countTruckDetailsFile=20;
+		  int numberOfCells=0;
+		  if(mfile.getFile().getSize() == 0)
+		  {
+			  model.addAttribute("showMessage", "select");
+		  }
+		  else{
+		  File file = convertMultiPartFileIntoFile(mfile.getFile());
+	//		long fileSize = file.length();
+			Workbook wb = getWorkBook(file);
+			Sheet sheet = wb.getSheetAt(0);
+            numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+
+			if (numberOfCells == countTruckDetailsFile) {
+				dataMapper.pendingOrderMapper(wb);
+				model.addAttribute("pendingOrderMessage", "success");
+			} else {
+				model.addAttribute("showMessage", "format");
+			}
+		  }
+		  return "upload";
+	   }
+	  
+	  
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();

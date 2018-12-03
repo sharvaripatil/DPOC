@@ -52,6 +52,12 @@ h4 {
              	<c:when test="${showMessage == 'select'}">
              	<h4 style="color: red;">select proper file to upload</h4> 
              	</c:when>
+             	<c:when test="${showMessage == 'format'}">
+             	<h4 style="color: red;">select proper format file to upload</h4> 
+             	</c:when>
+             	<c:when test="${pendingOrderMessage == 'success'}">
+             	<h4 style="color: green;">Pending Orders data has been saved successfully</h4> 
+             	</c:when>
              	</c:choose>
         
       </form:form>

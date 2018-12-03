@@ -14,7 +14,7 @@ public class ShippingExcelController {
 	private Logger _LOGGER = Logger.getLogger(ShippingExcelController.class);
 	@RequestMapping(value="/saveShippingMapping")
 	public String saveShippingData(){
-		dataMapper.mapper();
+		//dataMapper.mapper();
 		_LOGGER.info("ShippingOrderDetails has been saved successfully in DB");
 		return "ShippingOrderDetails has been saved successfully in DB";
   }
