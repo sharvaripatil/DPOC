@@ -236,6 +236,37 @@ public class ShippingDetailController {
 		  }
 		  return "upload";
 	   }
+	  
+	  @RequestMapping(value = "/processBatchFile", method = RequestMethod.GET)
+   public ModelAndView batchFileUpload() {
+	  FileUploadBean file = new FileUploadBean();
+      ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+      return modelAndView;
+   }
+  @RequestMapping(value="/processBatchFile", method = RequestMethod.POST)
+   public String processBatchFile(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+	  int countTruckDetailsFile=20;
+	  int numberOfCells=0;
+	  if(mfile.getFile().getSize() == 0)
+	  {
+		  model.addAttribute("showMessage", "select");
+	  }
+	  else{
+	  File file = convertMultiPartFileIntoFile(mfile.getFile());
+//		long fileSize = file.length();
+		Workbook wb = getWorkBook(file);
+		Sheet sheet = wb.getSheetAt(0);
+        numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+			if (numberOfCells == countTruckDetailsFile) {
+			dataMapper.pendingOrderMapper(wb);
+			model.addAttribute("pendingOrderMessage", "success");
+		} else {
+			model.addAttribute("showMessage", "format");
+		}
+	  }
+	  return "upload";
+   }
+  
 	  @RequestMapping(value = "/showTruckHistoryDetails")
 		public ModelAndView showTruckHistoryDetails() {
 			List<TruckHistoryDetails> trucksHistoryData = shippingOrderService.getAllTrucksHistoryDetails();
