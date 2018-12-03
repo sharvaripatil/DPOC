@@ -2,7 +2,6 @@ package com.a4tech.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,14 +19,11 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import saveShipping.StoreSpDetails;
-
+import com.a4tech.dao.entity.TruckHistoryDetails;
 import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
 import com.a4tech.service.mapper.IOrderDataMapper;
@@ -62,6 +57,8 @@ import com.a4tech.shipping.services.ShippingService;
 import com.a4tech.util.ApplicationConstants;
 import com.a4tech.util.CommonUtility;
 import com.a4tech.util.TruckTypeInfo;
+
+import saveShipping.StoreSpDetails;
 
 @Controller
 @RequestMapping({ "/", "/demoversion" })
@@ -121,10 +118,15 @@ public class ShippingDetailController {
 		//here new map
 		Map<String, Map<String, Map<Integer, List<ShippingDetails1>>>> groupByDistance = shippingService
 				.getOrdersBasedOnDistence(finalMaterialOrdMap);
-		Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = getOrdersFitIntoTruck(
-				groupByDistance);
-		getFinalOrdersClub(finalTruckDetails);
-		List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
+	Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = shippingService.getOrdersFitIntoTruck(groupByDistance);
+		/*Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails = getOrdersFitIntoTruck(
+				groupByDistance);*/
+	//shippingService.getFinalOrdersClub
+	shippingService.getFinalOrdersClub(finalTruckDetails);
+	//getFinalOrdersClub(finalTruckDetails);
+	List<IntellishipModelByMaterial> finalIntelishipModel = shippingService.getFinalGroupOrders();
+		
+		//List<IntellishipModelByMaterial> finalIntelishipModel = getFinalGroupOrders();
 		// studentlist.sort((Student s1, Student
 		// s2)->s1.getName().compareTo(s2.getName()));
 		// soring based on district name
@@ -211,7 +213,11 @@ public class ShippingDetailController {
 		  }
 		  return "upload";
 	   }
-	
+	  @RequestMapping(value = "/showTruckHistoryDetails")
+		public ModelAndView showTruckHistoryDetails() {
+			List<TruckHistoryDetails> trucksHistoryData = shippingOrderService.getAllTrucksHistoryDetails();
+			return new ModelAndView("truckHistoryDetails", "truckHistoryData", trucksHistoryData);
+		}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();
