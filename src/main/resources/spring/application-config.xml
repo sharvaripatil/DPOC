@@ -56,13 +56,14 @@
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.a4tech.dao.entity.ShippingEntity</value>
 				<value>com.a4tech.dao.entity.OrderEntity</value>
 				<value>com.a4tech.dao.entity.ShippingEntity</value>
 				<value>com.a4tech.dao.entity.TruckDetailsEntity</value>
 				<value>com.a4tech.dao.entity.OrderGroupEntity</value>
 				<value>com.a4tech.dao.entity.ShippingDeliveryOrderEntity</value>
-				<value>com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity</value>
+				<value>com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity</value> 
+				<value>com.a4tech.dao.entity.TruckHistoryDetailsEntity</value>
+				
 			</list>
 		</property>
 		

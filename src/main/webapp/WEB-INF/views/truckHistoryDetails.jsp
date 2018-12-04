@@ -89,13 +89,13 @@
 								</div>
 								  <div class="col-lg-4">
 								     
-                             <div class="form-group" id="data_1">
+                             <!-- <div class="form-group" id="data_1">
                                 <label class="font-noraml">Select Date</label>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
                                 </div>
                             </div>
-
+ -->
 								</div>
 								  <div class="col-lg-2">
 								     
@@ -105,24 +105,25 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th>Vehcile No</th>
-                                    <th>District Name</th>
-                                    <th>Rated Load</th>
-                                    <th>Normal Load</th>
-									<th>Last Transaction of Normal Load</th>
-                                   
-                                </tr>
+                                     <th>Truck_No</th>
+                                     <th>SP_District_Code</th>
+                                     <th>SP_District_Name</th>
+                                     <th>Rated_Load</th>
+                                     <th>Normal_Load</th>
+<!--                                      <th>Last_Transaction_Of_Normal_Load</th>
+ -->                                </tr>
                                 </thead>
                                 <tbody>
-										<c:forEach items="${truckHistoryData}"
+										<c:forEach items="${truckHistoryList}"
 											var="historyData" varStatus="status">
 											<tr>
 												<td>${historyData.truckNo}</td>
+												<td>${historyData.districtCode}</td>
 												<td>${historyData.districtName}</td>
 												<td>${historyData.ratedLoad}</td>
 												<td>${historyData.normalLoad}</td>
-												<td>${historyData.lastTransactionOfNormalLoad}</td>
-											</tr>
+<%-- 												<td>${historyData.lastTransactionOfNormalLoad}</td>
+ --%>											</tr>
 										</c:forEach>
 									</tbody>                            </table>
 

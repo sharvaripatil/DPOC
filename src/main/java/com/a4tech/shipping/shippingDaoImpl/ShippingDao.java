@@ -20,7 +20,7 @@ import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
-import com.a4tech.dao.entity.TruckHistoryDetails;
+import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
 
 
@@ -66,6 +66,33 @@ public class ShippingDao implements IshippingOrderDao{
 			List<ShippingEntity> shippingData = session.createCriteria(ShippingEntity.class).list();
 			//transaction.commit();
 			return shippingData;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get shipping ordet data from DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails() {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+		    List<TruckHistoryDetailsEntity> truckData = session.createCriteria(TruckHistoryDetailsEntity.class).list();
+			//transaction.commit();
+			return truckData;
 		} catch (Exception ex) {
 			_LOGGER.error("unable to get shipping ordet data from DB: "+ex.getCause());
 			if (transaction != null) {
@@ -465,7 +492,7 @@ public class ShippingDao implements IshippingOrderDao{
 		}
 		return null;
 	}
-	@Override
+/*	@Override
 	public List<TruckHistoryDetails> getAllTrucksHistoryDetails() {
 		Session session = null;
 		try {
@@ -485,7 +512,35 @@ public class ShippingDao implements IshippingOrderDao{
 				}
 			}
 		}
-		return new ArrayList<>();}
+		return new ArrayList<>();}*/
+	
+	@Override
+	public void saveTruckhistory(TruckHistoryDetailsEntity truckHistory) {
+		
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.save(truckHistory);
+			transaction.commit();
+			_LOGGER.info("Truck History Details data has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to save Truck History Details into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	}
+	
+	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -493,7 +548,7 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
+
 	
 	
 	

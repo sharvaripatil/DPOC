@@ -11,7 +11,7 @@ import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
-import com.a4tech.dao.entity.TruckHistoryDetails;
+import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
@@ -19,6 +19,7 @@ import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.TruckDetails;
+import com.a4tech.shipping.model.TruckHistoryDetail;
 
 @Service
 public class ShippingOrderImpl implements IShippingOrder {
@@ -59,6 +60,31 @@ public class ShippingOrderImpl implements IShippingOrder {
 
 		return shippingOrderList;
 	}
+
+
+	@Override
+	public List<TruckHistoryDetail> getAllTrucksHistoryDetails() {
+
+	List<TruckHistoryDetailsEntity> truckEntityDetailsList = shippingOrderDao.getAllTrucksHistoryDetails();
+	List<TruckHistoryDetail> truckHistoryDetailList = new ArrayList<>();
+	TruckHistoryDetail truckDetailsObj = null;
+	for (TruckHistoryDetailsEntity truck : truckEntityDetailsList) {
+		 truckDetailsObj = new TruckHistoryDetail();
+		 truckDetailsObj.setTruckNo(truck.getTruckNo());
+		 truckDetailsObj.setNormalLoad(truck.getNormalLoad());
+		 truckDetailsObj.setRatedLoad(truck.getRatedLoad());
+		 truckDetailsObj.setDistrictCode(truck.getDistrictCode());
+		 truckDetailsObj.setDistrictName(truck.getDistrictName());
+		 truckDetailsObj.setSr_No(truck.getSr_No());
+		/* if(truck.getLastTransactionOfNormalLoad() != null){
+		 truckDetailsObj.setLastTransactionOfNormalLoad(truck.getLastTransactionOfNormalLoad());
+		 }*/
+		 truckHistoryDetailList.add(truckDetailsObj);
+		}
+
+			return truckHistoryDetailList;
+		}
+
 
 	@Override
 	public List<ShippingDetails1> getShippingDetailsByDate(String date) {
@@ -248,10 +274,8 @@ public class ShippingOrderImpl implements IShippingOrder {
 	public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads() {
 		return shippingOrderDao.getAllDistrictWiseLoads();
 	}
-	@Override
-	public List<TruckHistoryDetails> getAllTrucksHistoryDetails() {
-		return shippingOrderDao.getAllTrucksHistoryDetails();
-	}
+		
+
 	@Override
 	public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName) {
 		return shippingOrderDao.getDistrictTruckLoad(districtName);
