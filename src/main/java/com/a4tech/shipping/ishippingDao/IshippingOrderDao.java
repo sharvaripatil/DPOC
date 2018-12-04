@@ -7,7 +7,7 @@ import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
-import com.a4tech.dao.entity.TruckHistoryDetails;
+import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 
 public interface IshippingOrderDao {
   public void saveShippingEntity(ShippingEntity shippingEntity);
@@ -25,6 +25,8 @@ public interface IshippingOrderDao {
   public int generateShippingOrderId(ShippingDeliveryOrderEntity shippingDelivary);
   public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
   public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
-  public List<TruckHistoryDetails> getAllTrucksHistoryDetails();
+  public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails();
   public void saveTruckdetailsEntity(TruckDetailsEntity truckEntity);
+  public void saveTruckhistory(TruckHistoryDetailsEntity truckHistory);
+
 }

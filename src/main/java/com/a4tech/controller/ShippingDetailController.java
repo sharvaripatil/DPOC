@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.a4tech.dao.entity.TruckHistoryDetails;
+import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
 import com.a4tech.service.mapper.IOrderDataMapper;
@@ -59,6 +59,7 @@ import com.a4tech.shipping.model.ShippingDetails;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 import com.a4tech.shipping.model.TruckDetails;
+import com.a4tech.shipping.model.TruckHistoryDetail;
 import com.a4tech.shipping.services.ShippingService;
 import com.a4tech.util.ApplicationConstants;
 import com.a4tech.util.CommonUtility;
@@ -267,11 +268,45 @@ public class ShippingDetailController {
 	  return "upload";
    }
   
-	  @RequestMapping(value = "/showTruckHistoryDetails")
-		public ModelAndView showTruckHistoryDetails() {
-			List<TruckHistoryDetails> trucksHistoryData = shippingOrderService.getAllTrucksHistoryDetails();
-			return new ModelAndView("truckHistoryDetails", "truckHistoryData", trucksHistoryData);
+  @RequestMapping(value = "/uploadTruckHistoryDetails", method = RequestMethod.GET)
+  public ModelAndView truckHistoryFileUpload() {
+	  FileUploadBean file = new FileUploadBean();
+     ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+     return modelAndView;
+  }
+  
+@RequestMapping(value="/uploadTruckHistoryDetails", method = RequestMethod.POST)
+  public String processHistory(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+	  int countTruckDetailsFile=5;
+	  int numberOfCells=0;
+	  if(mfile.getFile().getSize() == 0)
+	  {
+		  model.addAttribute("showMessage", "select");
+	  }
+	  else{
+	  File file = convertMultiPartFileIntoFile(mfile.getFile());
+//		long fileSize = file.length();
+		Workbook wb = getWorkBook(file);
+		Sheet sheet = wb.getSheetAt(0);
+       numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+			if (numberOfCells == countTruckDetailsFile) {
+			dataMapper.readTruckHistoryExcel(wb);
+			model.addAttribute("truckHistoryMessage", "success");
+		} else {
+			model.addAttribute("showMessage", "format");
 		}
+	  }
+	  return "upload";
+  }
+  
+  
+  
+	@RequestMapping(value = "/showTruckHistoryDetails", method = RequestMethod.GET)
+	public ModelAndView showTruckHistory() {
+		List<TruckHistoryDetail> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
+		return new ModelAndView("truckHistoryDetails", "truckHistoryList", truckHistoryList);
+	}
+	
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();

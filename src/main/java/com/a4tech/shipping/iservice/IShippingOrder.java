@@ -3,12 +3,13 @@ package com.a4tech.shipping.iservice;
 import java.util.List;
 
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
-import com.a4tech.dao.entity.TruckHistoryDetails;
+import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.TruckDetails;
+import com.a4tech.shipping.model.TruckHistoryDetail;
 
 public interface IShippingOrder {
   public List<ShippingDetails1> getAllShippingOrders();
@@ -25,5 +26,5 @@ public interface IShippingOrder {
   public int generateShippingOrderId(ShippingDeliveryOrder shippingDelivary);
   public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
   public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
-  public List<TruckHistoryDetails> getAllTrucksHistoryDetails();
+  public List<TruckHistoryDetail> getAllTrucksHistoryDetails();
 }
