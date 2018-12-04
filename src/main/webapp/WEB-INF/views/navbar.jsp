@@ -17,22 +17,30 @@
 		      <li> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process
 		      <span class="fa arrow"></span></a> 
 		     <ul class="nav nav-first-level collapse">
-		     <ul style="list-style-type:square">
-		    <li><a href="<c:url value='/showPendingOrders'/>">Pending Orders</a></li>
-		    <li><a href="<c:url value='intellShip' />">Run Itelliship Algo</a></li>
-            <li><a href="<c:url value='/getShippingOrderHistory'/>">History</a></li>
-            <li><a href="<c:url value='/processBatchFile'/>">Process New Order Batch</a></li>
+		    <li ><a href="<c:url value='/showPendingOrders'/>"> <span class="fa fa-chevron-right submenu"></span>  Pending Orders</a></li>
+		    <li><a href="<c:url value='intellShip' />"> <span class="fa fa-chevron-right submenu"></span>  Run Itelliship Algo</a></li>
+            <li><a href="<c:url value='/getShippingOrderHistory'/>"> <span class="fa fa-chevron-right submenu"></span>  History</a></li>
+            <li><a href="<c:url value='/processBatchFile'/>"> <span class="fa fa-chevron-right submenu"></span>  Process New Order Batch</a></li>
 		  </ul>
 		  </li>
-		  </ul>
+		  
+		   <!-- <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a>
+		     <ul class="nav nav-first-level collapse">
+		  </ul> -->
 		    <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
 		  <ul class="nav nav-first-level collapse">
-		  <ul style="list-style-type:square">
+		  <li><a href="<c:url value='uploadTrucksInfo' />"> <span class="fa fa-chevron-right submenu"></span> Upload Trucks Information</a></li>
+            <li><a href="<c:url value='getAllTrucksInformation' />"> <span class="fa fa-chevron-right submenu"></span> All Available Trucks</a></li>
+            <li><a href="<c:url value='showTruckHistoryDetails' />"> <span class="fa fa-chevron-right submenu"></span> Show Trucks History Details</a></li>
+            <li><a href="#"> <span class="fa fa-chevron-right submenu"></span> Clubbed Order Loaded Trucks</a></li>
+             </ul>
+             </li>
+		  <%-- <ul >
 		  <li><a href="<c:url value='uploadTrucksInfo' />">Upload Trucks Information</a></li>
             <li><a href="<c:url value='getAllTrucksInformation' />">All Available Trucks</a></li>
             <li><a href="<c:url value='showTruckHistoryDetails' />">Show Trucks History Details</a></li>
             <li><a href="#">Clubbed Order Loaded Trucks</a></li>
-             </ul>           
+             </ul> --%>           
           </ul>
           
            <%-- <li> <a href="<c:url value='/confProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration<span class="fa arrow"></span></a> 
