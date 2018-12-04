@@ -8,6 +8,9 @@ public interface IOrderDataMapper {
 	
 	public String readTruckExcel(Workbook wb);
 	
+	public String readTruckHistoryExcel(Workbook wb);
+
+	
 }
 
 
