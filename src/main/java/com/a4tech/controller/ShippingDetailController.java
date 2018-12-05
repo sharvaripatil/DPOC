@@ -288,7 +288,10 @@ public class ShippingDetailController {
 //		long fileSize = file.length();
 		Workbook wb = getWorkBook(file);
 		Sheet sheet = wb.getSheetAt(0);
-       numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+       //numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+		int numberOfCells123=sheet.getRow(0).getPhysicalNumberOfCells();
+		 numberOfCells=sheet.getRow(0).getLastCellNum();
+		 String name = sheet.getSheetName();
 			if (numberOfCells == countTruckDetailsFile) {
 			dataMapper.readTruckHistoryExcel(wb);
 			model.addAttribute("truckHistoryMessage", "success");
@@ -300,7 +303,7 @@ public class ShippingDetailController {
   }
 	@RequestMapping(value = "/showTruckHistoryDetails", method = RequestMethod.GET)
 	public ModelAndView showTruckHistory() {
-		List<TruckHistoryDetail> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
+		List<TruckHistoryDetailsEntity> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
 		return new ModelAndView("truckHistoryDetails", "truckHistoryList", truckHistoryList);
 	}
 

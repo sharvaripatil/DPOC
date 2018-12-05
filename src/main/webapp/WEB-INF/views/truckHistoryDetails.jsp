@@ -53,7 +53,7 @@
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
-                            <h5>History</h5>
+                            <h5>DistrictWise Truck History Details</h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
@@ -105,11 +105,11 @@
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                     <th>Truck_No</th>
-                                     <th>SP_District_Code</th>
-                                     <th>SP_District_Name</th>
-                                     <th>Rated_Load</th>
-                                     <th>Normal_Load</th>
+                                     <th>Truck No</th>
+                                     <th>District Code</th>
+                                     <th>District Name</th>
+                                     <th>Rated Load</th>
+                                     <th>Normal Load</th>
 <!--                                      <th>Last_Transaction_Of_Normal_Load</th>
  -->                                </tr>
                                 </thead>

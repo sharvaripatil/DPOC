@@ -26,5 +26,5 @@ public interface IShippingOrder {
   public int generateShippingOrderId(ShippingDeliveryOrder shippingDelivary);
   public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
   public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
-  public List<TruckHistoryDetail> getAllTrucksHistoryDetails();
+  public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails();
 }

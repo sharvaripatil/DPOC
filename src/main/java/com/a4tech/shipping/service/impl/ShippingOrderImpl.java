@@ -63,9 +63,10 @@ public class ShippingOrderImpl implements IShippingOrder {
 
 
 	@Override
-	public List<TruckHistoryDetail> getAllTrucksHistoryDetails() {
+	public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails() {
 
-	List<TruckHistoryDetailsEntity> truckEntityDetailsList = shippingOrderDao.getAllTrucksHistoryDetails();
+		return shippingOrderDao.getAllTrucksHistoryDetails();
+	/*List<TruckHistoryDetailsEntity> truckEntityDetailsList = shippingOrderDao.getAllTrucksHistoryDetails();
 	List<TruckHistoryDetail> truckHistoryDetailList = new ArrayList<>();
 	TruckHistoryDetail truckDetailsObj = null;
 	for (TruckHistoryDetailsEntity truck : truckEntityDetailsList) {
@@ -76,14 +77,14 @@ public class ShippingOrderImpl implements IShippingOrder {
 		 truckDetailsObj.setDistrictCode(truck.getDistrictCode());
 		 truckDetailsObj.setDistrictName(truck.getDistrictName());
 		 truckDetailsObj.setSr_No(truck.getSr_No());
-		/* if(truck.getLastTransactionOfNormalLoad() != null){
+		 if(truck.getLastTransactionOfNormalLoad() != null){
 		 truckDetailsObj.setLastTransactionOfNormalLoad(truck.getLastTransactionOfNormalLoad());
-		 }*/
+		 }
 		 truckHistoryDetailList.add(truckDetailsObj);
 		}
 
 			return truckHistoryDetailList;
-		}
+*/		}
 
 
 	@Override
