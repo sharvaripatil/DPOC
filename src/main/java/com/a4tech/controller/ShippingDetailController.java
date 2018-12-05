@@ -298,15 +298,16 @@ public class ShippingDetailController {
 	  }
 	  return "upload";
   }
-  
-  
-  
 	@RequestMapping(value = "/showTruckHistoryDetails", method = RequestMethod.GET)
 	public ModelAndView showTruckHistory() {
 		List<TruckHistoryDetail> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
 		return new ModelAndView("truckHistoryDetails", "truckHistoryList", truckHistoryList);
 	}
-	
+
+	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.GET)
+	public String normalLoadConfiguration() {
+		return "configure_districtWise_Normal_load";
+	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();

@@ -24,9 +24,6 @@
 		  </ul>
 		  </li>
 		  
-		   <!-- <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a>
-		     <ul class="nav nav-first-level collapse">
-		  </ul> -->
 		    <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Transport Info</span><span class="fa arrow"></span></a> 
 		  <ul class="nav nav-first-level collapse">
 		  <li><a href="<c:url value='uploadTrucksInfo' />"> <span class="fa fa-chevron-right submenu"></span> Upload Trucks Information</a></li>
@@ -36,17 +33,12 @@
             <li><a href="#"> <span class="fa fa-chevron-right submenu"></span> Clubbed Order Loaded Trucks</a></li>
              </ul>
              </li>
-		  <%-- <ul >
-		  <li><a href="<c:url value='uploadTrucksInfo' />">Upload Trucks Information</a></li>
-            <li><a href="<c:url value='getAllTrucksInformation' />">All Available Trucks</a></li>
-            <li><a href="<c:url value='showTruckHistoryDetails' />">Show Trucks History Details</a></li>
-            <li><a href="#">Clubbed Order Loaded Trucks</a></li>
-             </ul> --%>           
+             
+              <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span><span class="fa arrow"></span></a>
+               <ul class="nav nav-first-level collapse">
+               <li><a href="<c:url value='normalLoadConfiguration' />"> <span class="fa fa-chevron-right submenu"></span> DistrictWise Normal Load Configuration</a></li>
+               </ul>
+              </li>
           </ul>
-          
-           <%-- <li> <a href="<c:url value='/confProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration<span class="fa arrow"></span></a> 
-            <ul class="nav nav-third-level collapse">
-           <li><a href="<c:url value='/intellShip' />">Configure Algo</a></li>
-           </ul> --%>
     </div>
   </nav>
