@@ -30,22 +30,22 @@
 <div class="col-lg-12">
 			<div class="ibox-title">
 				 <h5> Normal Load Configuration</h5> 
-				<div class="ibox-content">
+				<div class="ibox-content" style="color:black">
                             <form class="form-horizontal m-l-md">
-                                <div class="form-group"><label class="col-lg-2 control-label">District Name :</label>
+                                <div class="form-group"><label class="col-lg-2 control-label" >District Name :</label>
 
                                     <div class="col-lg-3"><input type="text" placeholder="District Name" class="form-control"> <span class="help-block m-b-none  text-danger">Validation content</span>
                                     </div>
                                 </div>
                                 <div class="form-group"><label class="col-lg-2 control-label">Rated Load :</label>
 
-                                    <div class="col-lg-3"><input type="input" placeholder="Rated Load" class="form-control">
+                                    <div class="col-lg-3"><input type="text" placeholder="Rated Load" class="form-control">
 									<span class="help-block m-b-none text-danger">Validation content</span>
 									</div>
                                 </div>
 								 <div class="form-group"><label class="col-lg-2 control-label">Normal Load :</label>
 
-                                    <div class="col-lg-3"><input type="input" placeholder="Normal Load" class="form-control">
+                                    <div class="col-lg-3"><input type="text" placeholder="Normal Load" class="form-control">
 									 <span class="help-block m-b-none  text-danger">Validation content</span>
 									 </div>
                                 </div>

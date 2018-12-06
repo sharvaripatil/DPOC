@@ -1,15 +1,13 @@
 package com.a4tech.util;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.springframework.util.StringUtils;
 
 public class CommonUtility {
@@ -46,15 +44,14 @@ public class CommonUtility {
 	public static String getCellValueDouble(Cell cell) {
 		String value = ApplicationConstants.CONST_STRING_EMPTY;
 		try {
-			if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+			CellType cellType = cell.getCellTypeEnum();
+			if(cellType == CellType.STRING){
 				value = cell.getStringCellValue().trim();
-			} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+			} else if(cellType == CellType.NUMERIC){
 				double doubleValue = cell.getNumericCellValue();
 				value = String.valueOf(doubleValue).trim();
-			}else if(cell.getCellType() == Cell.CELL_TYPE_ERROR){
-				//value = String.valueOf(cell.getErrorCellValue());
-				value = Byte.toString(cell.getErrorCellValue()).trim();
-				value="";
+			} else {
+				value = "";
 			}
 		} catch (Exception e) {
 			_LOGGER.error("Cell value convert into Double: " + e.getMessage());
@@ -66,21 +63,15 @@ public class CommonUtility {
 	public static String getCellValueStrinOrInt(Cell cell) {
 		String value = ApplicationConstants.CONST_STRING_EMPTY;
 		try {
-			if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+			CellType cellType = cell.getCellTypeEnum();
+			if(cellType == CellType.STRING){
 				value = cell.getStringCellValue().trim();
-			} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+			} else if(cellType == CellType.NUMERIC){
 				int numericValue = (int) cell.getNumericCellValue();
 				value = String.valueOf(numericValue).trim();
-			}else if(cell.getCellType() == Cell.CELL_TYPE_ERROR){
-				//value = String.valueOf(cell.getErrorCellValue());
-				value = Byte.toString(cell.getErrorCellValue()).trim();
-				value="";
-			}else if(cell.getCellType() == Cell.CELL_TYPE_BOOLEAN){
-				//value = String.valueOf(cell.getErrorCellValue());
-				boolean val = cell.getBooleanCellValue();
-				value=String.valueOf(val);
+			} else {
+				value = "";
 			}
-			
 		} catch (Exception e) {
 			/*_LOGGER.error("Cell value convert into String/Int format: "
 					+ e.getMessage());*/
@@ -92,11 +83,14 @@ public class CommonUtility {
 	public static String getCellValueStrinOrLong(Cell cell) {
 		String value = ApplicationConstants.CONST_STRING_EMPTY;
 		try {
-			if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+			CellType cellType = cell.getCellTypeEnum();
+			if(cellType == CellType.STRING){
 				value = cell.getStringCellValue().trim();
-			} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+			} else if(cellType == CellType.NUMERIC){
 				long numericValue = (long) cell.getNumericCellValue();
 				value = String.valueOf(numericValue).trim();
+			} else {
+				value = "";
 			}
 		} catch (Exception e) {
 			/*_LOGGER.error("Cell value convert into String/Int format: "
@@ -109,11 +103,14 @@ public class CommonUtility {
 	public static String getCellValueStrinOrDecimal(Cell cell){
 		String value = ApplicationConstants.CONST_STRING_EMPTY;
 		try{
-	if(cell.getCellType() == Cell.CELL_TYPE_STRING){
-		value = cell.getStringCellValue();
-		}else if(cell.getCellType() == Cell.CELL_TYPE_NUMERIC){
-			value = String.valueOf(BigDecimal.valueOf(cell.getNumericCellValue()));
-		}
+			CellType cellType = cell.getCellTypeEnum();
+			if(cellType == CellType.STRING){
+				value = cell.getStringCellValue().trim();
+			} else if(cellType == CellType.NUMERIC){
+				value = String.valueOf(BigDecimal.valueOf(cell.getNumericCellValue()));
+			} else {
+				value = "";
+			}
 	}catch(Exception e){
 		_LOGGER.error("Cell value convert into String/decimal: "+e.getMessage());
 	}

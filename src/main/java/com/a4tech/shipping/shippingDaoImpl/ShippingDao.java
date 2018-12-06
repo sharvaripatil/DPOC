@@ -173,7 +173,7 @@ public class ShippingDao implements IshippingOrderDao{
 			transaction = session.beginTransaction();
 			session.save(truckEntity);
 			transaction.commit();
-			_LOGGER.info("Truck Details data has been saved successfully in db");
+			_LOGGER.info(truckEntity.getSlNo()+":Truck Details data has been saved successfully in db");
 		} catch (Exception ex) {
 			_LOGGER.error("unable to save Truck Details into DB: "+ex.getCause());
 			if (transaction != null) {
