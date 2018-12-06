@@ -1,6 +1,7 @@
 package com.a4tech.mapper;
 
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +21,6 @@ import com.a4tech.shipping.model.Month;
 import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
 import com.a4tech.shipping.model.Year;
-import com.mysql.jdbc.Connection;
 
 public class EpodMapping {
 	public static  HashMap<String, String> monthMap = new HashMap<String, String>();
