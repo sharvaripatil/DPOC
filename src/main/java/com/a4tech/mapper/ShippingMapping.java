@@ -1,5 +1,6 @@
 package com.a4tech.mapper;
 import java.io.FileInputStream;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +20,6 @@ import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
 import com.a4tech.shipping.model.Year;
 import com.a4tech.shipping.shippingDaoImpl.ShippingDao;
-import com.mysql.jdbc.Connection;
 
 public class ShippingMapping {
 	public static  HashMap<String, String> monthMap = new HashMap<String, String>();

@@ -1,5 +1,4 @@
 package com.a4tech.daoService;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,19 +8,14 @@ import java.util.HashMap;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.connection.ConnectionProvider;
-import org.hibernate.engine.SessionFactoryImplementor;
 import org.hibernate.jdbc.Work;
 
 import com.a4tech.shipping.model.Material;
 import com.a4tech.shipping.model.Month;
-import com.a4tech.shipping.model.Months;
 import com.a4tech.shipping.model.OneDay;
 import com.a4tech.shipping.model.Truck;
 import com.a4tech.shipping.model.Weight;
 import com.a4tech.shipping.model.Year;
-import com.mysql.jdbc.Connection;
 
 public class OrdersDao {
 	SessionFactory sessionFactory;
