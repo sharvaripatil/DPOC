@@ -2,7 +2,9 @@ package com.a4tech.shipping.shippingDaoImpl;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -540,6 +542,51 @@ public class ShippingDao implements IshippingOrderDao{
 		}		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(
+			String TruckNo,String type) {
+
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+		//   List<TruckHistoryDetailsEntity> truckData = session.createCriteria(TruckHistoryDetailsEntity.class).list();
+		    Criteria criteria = session.createCriteria(TruckHistoryDetailsEntity.class);
+
+		    List<TruckHistoryDetailsEntity> truckData;
+		    
+		    if(type.equalsIgnoreCase("Vehicle No")){
+		    	
+		    criteria.add(Restrictions.eq("truckNo", TruckNo));
+		     truckData = criteria.list();
+		   
+		    }else{
+			criteria.add(Restrictions.eq("districtName",TruckNo ));
+		     truckData = criteria.list();
+
+		    }
+			
+			//transaction.commit();
+			return truckData;
+		} catch (Exception ex) {
+			_LOGGER.error("Unable to get data from vehicle no. "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+		
+
+	}
 	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -549,7 +596,5 @@ public class ShippingDao implements IshippingOrderDao{
 		this.sessionFactory = sessionFactory;
 	}
 
-	
-	
 	
 }

@@ -28,5 +28,6 @@ public interface IshippingOrderDao {
   public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails();
   public void saveTruckdetailsEntity(TruckDetailsEntity truckEntity);
   public void saveTruckhistory(TruckHistoryDetailsEntity truckHistory);
+  List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(String value,String type);
 
 }
