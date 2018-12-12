@@ -306,9 +306,15 @@ public class ShippingOrderImpl implements IShippingOrder {
 	}
 
 
+
+	@Override
+	public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(String value,String type) {
+
+		return shippingOrderDao.getSearchTrucksHistoryDetails(value,type);
+	}
+
 	
 
 
-	
 
 }

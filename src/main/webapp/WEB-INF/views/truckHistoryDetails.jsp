@@ -22,7 +22,6 @@
     <link href="resources/css/animate.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
 	 <link href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-</head>
 
 <body class="md-skin">
 <div id="wrapper">
@@ -74,21 +73,30 @@
                         </div>
                         <div class="ibox-content">
 							<div calss="row">
-								  <div class="col-lg-6">
+								  <div class="col-lg-4">
 								       <div class="form-group">
-                <label class="font-noraml">Select</label>
+               <label class="font-normal">Select for search</label> 
                 <div class="input-group">
-                <select data-placeholder="" class="chosen-select" style="width:300px;">
+              <select id = "selected" name = "selected">
                 <option value="">Select</option>
-                <option value="1">Vehcile No</option>
-                <option value="2">District Name</option>
+                <option value="Vehicle No">Vehicle No</option>
+                <option value="District Name">District Name</option>
               
                 </select>
                 </div>
                 </div>	
 								</div>
-								  <div class="col-lg-4">
-								     
+									
+								  <div class="col-lg-4"><br/>
+								   <div class="form-group">
+								   
+ 							  <input type="text" id="textId" name="name" value="" placeholder="Search By" />
+                              <button id="searchId">Search</button> 
+			                  <button id="RestoreId">Restore</button> 
+			
+								<!--   <a class="btn btn-success btn-rounded" type="submit">Search</a> -->
+								  </div>
+								 
                              <!-- <div class="form-group" id="data_1">
                                 <label class="font-noraml">Select Date</label>
                                 <div class="input-group date">
@@ -97,11 +105,14 @@
                             </div>
  -->
 								</div>
-								  <div class="col-lg-2">
-								     
-                             <a class="btn btn-success btn-rounded" href="#">Search</a>
-								</div>
-							</div>
+
+			
+				<c:choose>
+             	<c:when test="${showMessage == 'format'}">
+             	<h4 style="color: red;">select proper format file to upload</h4> 
+             	</c:when>
+             	</c:choose>
+								
                             <table class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
@@ -113,7 +124,7 @@
 <!--                                      <th>Last_Transaction_Of_Normal_Load</th>
  -->                                </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="searchData">
 										<c:forEach items="${truckHistoryList}"
 											var="historyData" varStatus="status">
 											<tr>
@@ -125,7 +136,43 @@
 <%-- 												<td>${historyData.lastTransactionOfNormalLoad}</td>
  --%>											</tr>
 										</c:forEach>
-									</tbody>                            </table>
+											</tbody> 
+										
+								  <tbody id="search">
+										
+											<c:forEach items="${searchHistoryList}"
+											var="searchData" varStatus="status">
+											<tr>
+												<td>${searchData.truckNo}</td>
+												<td>${searchData.districtCode}</td>
+												<td>${searchData.districtName}</td>
+												<td>${searchData.ratedLoad}</td>
+												<td>${searchData.normalLoad}</td>
+<%-- 												<td>${historyData.lastTransactionOfNormalLoad}</td>
+ --%>											</tr>
+										</c:forEach>
+										
+						      		</tbody>
+										
+										
+								                        
+
+
+  				<%-- 				  <tbody>
+										<c:forEach items="${searchHistoryList}"
+											var="searchData" varStatus="status">
+											<tr>
+												<td>${searchData.truckNo}</td>
+												<td>${searchData.districtCode}</td>
+												<td>${searchData.districtName}</td>
+												<td>${searchData.ratedLoad}</td>
+												<td>${searchData.normalLoad}</td>
+ 											</tr>
+										</c:forEach>
+									</tbody>   --%>
+
+                                           
+   								</table>
 
                         </div>
                     </div>
@@ -138,6 +185,8 @@
  <%@include file="footer.html" %>
         </div>
         </div>
+
+
 
 
     <div class="modal inmodal" id="configurealgo" tabindex="-1" role="dialog" aria-hidden="true">
@@ -231,8 +280,46 @@ $(document).ready(function(){
 	 $("#header").load("header.html");
 	 $("#footer").load("footer.html");
 });
-	</script>
+
+  $('#searchId').on("click", function () {
+	var type=$("#selected").val();
+	var type1=$("#textId").val();
+
+	$.ajax({
+			type : "GET",
+			url : "searchByVehicleNo",
+			data : "type=" + type +"&type1="+type1,
+			success : function(response) {
+				$("#searchData").empty();
+			 	if(response != ''){
+					$.each(response, function(i, value) {
+						 $("#searchData").append("<tr><td>" + value.truckNo + "</td><td>" + value.districtCode + "</td><td>" + value.districtName + 
+								"</td><td>" + value.ratedLoad + "</td><td>"  + value.normalLoad +"</td></tr>");  
+					});
+				}else{
+					 $("#searchData").append("Data is not present").css({
+						    fontSize: "20px"
+						 /*    color: "red", */
+					});
+				} 
+			},
+			error : function(e) {
+				 alert('Error: ' + e); 
+			} 
+		});
+	
+}); 
+	
+  	</script>  
  
+<script>
+$('#RestoreId').on("click", function () {
+	window.location.replace("http://localhost:8080/DPOC/showTruckHistoryDetails"); 
+});
+</script>
+
+
+
 <!--     <script src="js/bootstrap.min.js"></script>
 
     Custom and plugin javascript

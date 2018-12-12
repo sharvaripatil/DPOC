@@ -20,6 +20,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+import org.apache.catalina.User;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -40,6 +46,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -314,6 +321,47 @@ public class ShippingDetailController {
 		List<TruckHistoryDetailsEntity> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
 		return new ModelAndView("truckHistoryDetails", "truckHistoryList", truckHistoryList);
 	}
+	
+	
+	@RequestMapping(value = "/searchByVehicleNo" ,produces = "application/json")
+	@ResponseBody
+	public  List<TruckHistoryDetailsEntity> getSearch(HttpServletRequest req,Model model) {
+
+		String type = req.getParameter("type");
+		String value = req.getParameter("type1");
+		List<TruckHistoryDetailsEntity> searchHistoryList =null;
+		
+		if(type.equals("Vehicle No"))
+		{
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+
+		}else{//base on district name
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+		
+		}
+		return searchHistoryList;
+	
+	}
+	
+	/*@RequestMapping(value = "/searchByVehicleNo")
+	@ResponseBody
+	public ModelAndView searchHistory(HttpServletRequest req) {
+
+		String type = req.getParameter("type");
+		String value = req.getParameter("type1");
+		List<TruckHistoryDetailsEntity> searchHistoryList =null;
+		if(type.equals("Vehicle No"))
+		{
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+
+		}else{//base on district name
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+		
+		}
+		
+		return new ModelAndView("truckHistoryDetails", "searchHistoryList", searchHistoryList);
+	
+	}*/
 
 	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.GET)
 	public ModelAndView showNormalLoadConfiguration() {
