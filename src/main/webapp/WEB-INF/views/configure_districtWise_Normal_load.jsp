@@ -8,8 +8,8 @@
 <html lang="en">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <meta charset="utf-8"> -->
+<meta  name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Normal Load Configuration</title>
 
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -17,7 +17,6 @@
     <link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
     <link href="resources/css/animate.css" rel="stylesheet">
     <link href="resources/css/style.css" rel="stylesheet">
-	<!--  <link href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet"> -->
 
 </head>
 
@@ -30,33 +29,54 @@
 <div class="col-lg-12">
 			<div class="ibox-title">
 				 <h5> Normal Load Configuration</h5> 
-				<div class="ibox-content">
-                            <form class="form-horizontal m-l-md">
-                                <div class="form-group"><label class="col-lg-2 control-label">District Name :</label>
+				 
+				
+				<div class="ibox-content" style="color:black">
+				  <c:choose>
+				    <c:when test="${message == 'success'}">
+				    <center>
+				    <h4 style="color: green;">New District Normal Load Data has been saved successfully</h4>
+				    </center>
+				    </c:when>
+				     <c:when test="${update == 'updateSuccess'}">
+				    <center>
+				    <h4 style="color: green;"> District Normal Load Data has been updated successfully</h4>
+				    </center>
+				    </c:when>
+				  </c:choose>
+                             <form:form action="normalLoadConfiguration" class="form-horizontal m-l-md" modelAttribute="normalLoadConfig" method="post">
+                            
+                                <div class="form-group"><label class="col-lg-2 control-label" >District Name :</label>
 
-                                    <div class="col-lg-3"><input type="text" placeholder="District Name" class="form-control"> <span class="help-block m-b-none  text-danger">Validation content</span>
+                                    <div class="col-lg-3">
+                                    <form:input path="districtName"  type="text" placeholder="District Name" onchange="checkDistrictName()" class="form-control"/>
+                                    <form:errors path="districtName" class="help-block m-b-none  text-danger"></form:errors>
+                                    <label id="districtError"></label>
                                     </div>
                                 </div>
                                 <div class="form-group"><label class="col-lg-2 control-label">Rated Load :</label>
-
-                                    <div class="col-lg-3"><input type="input" placeholder="Rated Load" class="form-control">
-									<span class="help-block m-b-none text-danger">Validation content</span>
+                                    <div class="col-lg-3">
+                                    <form:input path="ratedLoad"  type="text" placeholder="Rated Load" class="form-control"/>
+                                    <form:errors path="ratedLoad" class="help-block m-b-none  text-danger"></form:errors>
 									</div>
                                 </div>
 								 <div class="form-group"><label class="col-lg-2 control-label">Normal Load :</label>
-
-                                    <div class="col-lg-3"><input type="input" placeholder="Normal Load" class="form-control">
-									 <span class="help-block m-b-none  text-danger">Validation content</span>
+                                    <div class="col-lg-3">
+                                    <form:input path="normalLoad"  type="text" placeholder="Normal Load" class="form-control"/>
+                                    <form:errors path="normalLoad" class="help-block m-b-none  text-danger"></form:errors>
 									 </div>
                                 </div>
-                               
                                 <div class="form-group">
+                               <%--  <spring:url value="" var=""></spring:url> --%>
                                     <div class="col-lg-offset-2 col-lg-10">
-                                        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-sm btn-primary" name="add" type="submit">Add</button>
+                                        <button class="btn btn-sm btn-primary"  style="margin-left: 14%;" name="update" type="submit">Update</button>
                                     </div>
+                                   
                                 </div>
-                            </form>
+                        </form:form>
                         </div>
+                        
 
 			</div>
         </div>
@@ -73,7 +93,28 @@ $(document).ready(function(){
 	 $("#header").load("header.html");
 	 $("#footer").load("footer.html");
 });
-</script>
+
+function checkDistrictName(){
+	var districtName = $('#districtName').val();
+	$.ajax({
+			type : "GET",
+			url : "checkDistrictName",
+			data : "districtName=" + districtName,
+			success : function(response) {
+               if(response == true){
+            	   $('#districtError').text('District name is already avaialble').css('color','red');
+               } else {
+            	   $('#districtError').text('');
+               }
+			},
+			error : function(e) {
+				 alert('Error: ' + e); 
+			}
+		});
+
+}
+
+ </script>
 	<!-- Mainly scripts -->
      <script src="resources/js/jquery-2.1.1_old.js"></script> 
     <script src="resources/js/bootstrap.min.js"></script>

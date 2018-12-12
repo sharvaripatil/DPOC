@@ -265,14 +265,13 @@ public class ShippingMapping implements IOrderDataMapper{
 						break;	
 						
 					case 2:
-						String VEHICLE_NO=cell.getStringCellValue(); 
+						String VEHICLE_NO=CommonUtility.getCellValueStrinOrInt(cell); 
 						entityObj.setVehiclNo(VEHICLE_NO);
 						
 						break;
 						
 					case 3:
-						Double VEHICLE_TYPE=cell.getNumericCellValue();
-						int intVehicleType=VEHICLE_TYPE.intValue();
+						int intVehicleType = Integer.parseInt(CommonUtility.getCellValueStrinOrInt(cell));
 						entityObj.setVehicleType(intVehicleType);
 						break;
 	

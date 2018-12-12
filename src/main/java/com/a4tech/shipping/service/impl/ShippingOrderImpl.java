@@ -15,11 +15,11 @@ import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
+import com.a4tech.shipping.model.NormalLoadConfiguration;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.TruckDetails;
-import com.a4tech.shipping.model.TruckHistoryDetail;
 
 @Service
 public class ShippingOrderImpl implements IShippingOrder {
@@ -281,7 +281,22 @@ public class ShippingOrderImpl implements IShippingOrder {
 	public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName) {
 		return shippingOrderDao.getDistrictTruckLoad(districtName);
 	}
-
+	@Override
+	public void saveDistrictWiseNormalLoad(NormalLoadConfiguration normal) {
+     DistrictWiseNormalLoadCapacity normalLoadEntity = new DistrictWiseNormalLoadCapacity();
+     normalLoadEntity.setDistrictName(normal.getDistrictName());
+     normalLoadEntity.setRatedLoad(normal.getRatedLoad());
+     normalLoadEntity.setTruckOverLoading(Double.parseDouble(normal.getNormalLoad()));
+     shippingOrderDao.saveDistrictWiseNormalLoad(normalLoadEntity);
+	}
+	@Override
+	public void updateDistrictWiseNormalLoad(NormalLoadConfiguration normal) {
+		DistrictWiseNormalLoadCapacity normalLoadEntity = new DistrictWiseNormalLoadCapacity();
+	     normalLoadEntity.setDistrictName(normal.getDistrictName());
+	     normalLoadEntity.setRatedLoad(normal.getRatedLoad());
+	     normalLoadEntity.setTruckOverLoading(Double.parseDouble(normal.getNormalLoad()));
+	     shippingOrderDao.updateDistrictWiseNormalLoad(normalLoadEntity);
+	}
 	private Address getPlantAddress() {
 		Address address = new Address();
 		address.setLatitude("23.7012517");
@@ -291,6 +306,7 @@ public class ShippingOrderImpl implements IShippingOrder {
 	}
 
 
+
 	@Override
 	public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(String value,String type) {
 
@@ -298,5 +314,7 @@ public class ShippingOrderImpl implements IShippingOrder {
 	}
 
 	
-	
+
+
+
 }
