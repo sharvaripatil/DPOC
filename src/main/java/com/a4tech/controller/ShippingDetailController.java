@@ -323,7 +323,7 @@ public class ShippingDetailController {
 	}
 	
 	
-	@RequestMapping(value = "/searchByVehicleNo" ,produces = "application/json")
+	/*@RequestMapping(value = "/searchByVehicleNo" ,produces = "application/json")
 	@ResponseBody
 	public  List<TruckHistoryDetailsEntity> getSearch(HttpServletRequest req,Model model) {
 
@@ -341,6 +341,24 @@ public class ShippingDetailController {
 		}
 		return searchHistoryList;
 	
+	}
+*/	
+	@RequestMapping(value = "/searchByVehicleNoDistrictName")
+	public ModelAndView getSearch1(HttpServletRequest req, Model model) {
+
+		String type = req.getParameter("selected");
+		String value = req.getParameter("value");
+		List<TruckHistoryDetailsEntity> searchHistoryList = null;
+
+		if ("Vehicle No".equals(type)) {
+			searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value, type);
+		} else if("District Name".equals(type)){// base on district name
+			searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value, type);
+		} else {
+			 searchHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
+		}
+		return new ModelAndView("truckHistoryDetails", "truckHistoryList", searchHistoryList);
+
 	}
 	
 	/*@RequestMapping(value = "/searchByVehicleNo")
