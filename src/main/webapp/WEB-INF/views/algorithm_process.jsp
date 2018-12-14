@@ -54,7 +54,7 @@
               <div calss="row">
                 <p class="pull-right">
                 
-              <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#configurealgo">Configure Algo</a> </p>
+              <!-- <a class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#configurealgo">Configure Algo</a> </p> -->
                 
 <%--                   <button class="btn btn-warning btn-circle" type="button"><i class="fa fa-refresh"></i> </button>
                   <a class="btn btn-success btn-rounded" href="#">Process New Order Batch</a> <a class="btn btn-primary btn-rounded" href="<c:url value='getShippingOrderHistory' />">History</a> </p>

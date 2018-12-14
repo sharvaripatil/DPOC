@@ -23,6 +23,10 @@
 <link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
 <link href="resources/css/animate.css" rel="stylesheet">
 <link href="resources/css/style.css" rel="stylesheet">
+
+<link href="resources/css/dataTables/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="resources/css/dataTables/fixedHeader.bootstrap.min.css" rel="stylesheet">
+<link href="resources/css/dataTables/responsive.bootstrap.min.css" rel="stylesheet">
 <link
 	href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
 	rel="stylesheet">
@@ -109,7 +113,7 @@
 											</c:when>
 										</c:choose>
 
-										<table class="table table-bordered table-hover">
+										<table id= "tableData" class="table table-bordered table-hover nowrap">
 											<thead>
 												<tr>
 													<th>Truck No</th>
@@ -266,9 +270,13 @@ $(document).ready(function(){
    	</script>
 
 		<script>
-$('#RestoreId').on("click", function () {
-	window.location.replace("http://localhost:8080/DPOC/showTruckHistoryDetails"); 
-});
+$(document).ready(function() {
+    var table = $('#tableData').DataTable( {
+        responsive: true
+    } );
+ 
+    new $.fn.dataTable.FixedHeader( table );
+} );
 </script>
 
 		<!-- <script src="resources/js/jquery-2.1.1_old.js"></script> -->
@@ -276,6 +284,13 @@ $('#RestoreId').on("click", function () {
 		<script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 		<script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
+   <!-- Data Tables -->
+   <script src="resources/js/dataTables/dataTables.bootstrap.min.js"></script>
+   <script src="resources/js/dataTables/dataTables.fixedHeader.min.js"></script>
+   <script src="resources/js/dataTables/dataTables.responsive.min.js"></script>
+   <script src="resources/js/dataTables/jquery.dataTables.min.js"></script>
+   <script src="resources/js/dataTables/responsive.bootstrap.min.js"></script>
+   
 		<!-- Peity -->
 		<script src="resources/js/plugins/peity/jquery.peity.min.js"></script>
 
