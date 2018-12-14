@@ -5,6 +5,7 @@ import java.util.List;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
+import com.a4tech.shipping.model.NormalLoadConfiguration;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
 import com.a4tech.shipping.model.ShippingDetails1;
@@ -24,7 +25,10 @@ public interface IShippingOrder {
   public List<Address> getLatitudeAndLongitude(String truckNo);
   public void deleteAllGroupOrders();
   public int generateShippingOrderId(ShippingDeliveryOrder shippingDelivary);
+  public void saveDistrictWiseNormalLoad(NormalLoadConfiguration normal);
   public List<DistrictWiseNormalLoadCapacity> getAllDistrictWiseLoads();
   public DistrictWiseNormalLoadCapacity getDistrictTruckLoad(String districtName);
+  public void updateDistrictWiseNormalLoad(NormalLoadConfiguration normal);
   public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails();
+  public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(String value,String type);
 }

@@ -2,7 +2,6 @@ package com.a4tech.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +12,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,14 +19,17 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+
+import org.apache.catalina.User;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -37,13 +38,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
@@ -52,6 +60,7 @@ import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.model.FileUploadBean;
 import com.a4tech.shipping.model.IntellishipModel;
 import com.a4tech.shipping.model.IntellishipModelByMaterial;
+import com.a4tech.shipping.model.NormalLoadConfiguration;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.PlantDetails;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
@@ -59,8 +68,8 @@ import com.a4tech.shipping.model.ShippingDetails;
 import com.a4tech.shipping.model.ShippingDetails1;
 import com.a4tech.shipping.model.ShortestDistLantiAndLongti;
 import com.a4tech.shipping.model.TruckDetails;
-import com.a4tech.shipping.model.TruckHistoryDetail;
 import com.a4tech.shipping.services.ShippingService;
+import com.a4tech.shipping.validator.NormalLoadValidator;
 import com.a4tech.util.ApplicationConstants;
 import com.a4tech.util.CommonUtility;
 import com.a4tech.util.TruckTypeInfo;
@@ -72,7 +81,6 @@ import saveShipping.StoreSpDetails;
 public class ShippingDetailController {
 
 	
-	 
 	/*
 	 * @Autowired private IOrderDataMapper dataMapper;
 	 */
@@ -84,6 +92,13 @@ public class ShippingDetailController {
 	@Autowired
 	private IOrderDataMapper dataMapper;
 	
+	@Autowired
+	private NormalLoadValidator normalLoadValidatior;
+	
+	@InitBinder("normalLoadConfig")
+	protected void initBinder(WebDataBinder binder){
+		binder.setValidator(normalLoadValidatior);
+	}
 	@RequestMapping(value = "/getShortestDistence/{orderNo}")
 	public String getShortDistence(@PathVariable("orderNo") String orderNo) {
 		System.out.println(orderNo);
@@ -306,10 +321,104 @@ public class ShippingDetailController {
 		List<TruckHistoryDetailsEntity> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
 		return new ModelAndView("truckHistoryDetails", "truckHistoryList", truckHistoryList);
 	}
+	
+	
+	/*@RequestMapping(value = "/searchByVehicleNo" ,produces = "application/json")
+	@ResponseBody
+	public  List<TruckHistoryDetailsEntity> getSearch(HttpServletRequest req,Model model) {
+
+		String type = req.getParameter("type");
+		String value = req.getParameter("type1");
+		List<TruckHistoryDetailsEntity> searchHistoryList =null;
+		
+		if(type.equals("Vehicle No"))
+		{
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+
+		}else{//base on district name
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+		
+		}
+		return searchHistoryList;
+	
+	}
+*/	
+	@RequestMapping(value = "/searchByVehicleNoDistrictName")
+	public ModelAndView getSearch1(HttpServletRequest req, Model model) {
+
+		String type = req.getParameter("selected");
+		String value = req.getParameter("value");
+		List<TruckHistoryDetailsEntity> searchHistoryList = null;
+
+		if ("Vehicle No".equals(type)) {
+			searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value, type);
+		} else if("District Name".equals(type)){// base on district name
+			searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value, type);
+		} else {
+			 searchHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
+		}
+		return new ModelAndView("truckHistoryDetails", "truckHistoryList", searchHistoryList);
+
+	}
+	
+	/*@RequestMapping(value = "/searchByVehicleNo")
+	@ResponseBody
+	public ModelAndView searchHistory(HttpServletRequest req) {
+
+		String type = req.getParameter("type");
+		String value = req.getParameter("type1");
+		List<TruckHistoryDetailsEntity> searchHistoryList =null;
+		if(type.equals("Vehicle No"))
+		{
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+
+		}else{//base on district name
+			 searchHistoryList = shippingOrderService.getSearchTrucksHistoryDetails(value,type);
+		
+		}
+		
+		return new ModelAndView("truckHistoryDetails", "searchHistoryList", searchHistoryList);
+	
+	}*/
 
 	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.GET)
-	public String normalLoadConfiguration() {
+	public ModelAndView showNormalLoadConfiguration() {
+		return new ModelAndView("configure_districtWise_Normal_load", "normalLoadConfig",
+				new NormalLoadConfiguration());
+		/*return "configure_districtWise_Normal_load";*/
+	}
+	
+	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.POST,params="add")
+	public String addNormalLoadConfiguration(
+			@ModelAttribute("normalLoadConfig") @Validated NormalLoadConfiguration normalLoadConfig,BindingResult result,Model model) {
+		System.out.println("add configuration");
+		if(result.hasErrors()){
+			return "configure_districtWise_Normal_load";
+		}
+     shippingOrderService.saveDistrictWiseNormalLoad(normalLoadConfig);
+       model.addAttribute("message", "success");
 		return "configure_districtWise_Normal_load";
+	}
+	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.POST,params="update")
+	public String updateNormalLoadConfiguration(
+			@ModelAttribute("normalLoadConfig") @Validated NormalLoadConfiguration normalLoadConfig,BindingResult result,Model model) {
+		System.out.println("Update configuration");
+		if(result.hasErrors()){
+			return "configure_districtWise_Normal_load";
+		}
+     shippingOrderService.updateDistrictWiseNormalLoad(normalLoadConfig);
+       model.addAttribute("update", "updateSuccess");
+		return "configure_districtWise_Normal_load";
+	}
+	@RequestMapping(value="/checkDistrictName")
+	@ResponseBody
+	public boolean isDistrictNameAvailable(HttpServletRequest req){
+		String districtName = req.getParameter("districtName");
+		DistrictWiseNormalLoadCapacity districtData = shippingOrderService.getDistrictTruckLoad(districtName);
+		if(districtData != null){
+			return true;
+		}
+		return false;
 	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
@@ -320,7 +429,7 @@ public class ShippingDetailController {
 		}
 		return false;
 	}
-
+   
 	public List<ShippingDetails1> getAllOrdersBasedOnDistributionChannel(String distributionChannel) {
 		List<ShippingDetails1> shippingaOrderList = shippingOrderService.getAllShippingOrders();
 		List<ShippingDetails1> shippingaOrderListOnChannel = shippingaOrderList.stream()

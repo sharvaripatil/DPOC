@@ -2,7 +2,9 @@ package com.a4tech.shipping.shippingDaoImpl;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -475,7 +477,7 @@ public class ShippingDao implements IshippingOrderDao{
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			Criteria criteria = session.createCriteria(ShippingEntity.class);
+			Criteria criteria = session.createCriteria(DistrictWiseNormalLoadCapacity.class);
 			criteria.add(Restrictions.eq("districtName", districtName));
 			DistrictWiseNormalLoadCapacity districtData = (DistrictWiseNormalLoadCapacity) criteria.uniqueResult();
 			return districtData;
@@ -539,8 +541,115 @@ public class ShippingDao implements IshippingOrderDao{
 			}
 		}		
 	}
+
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(
+			String TruckNo,String type) {
+
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+		//   List<TruckHistoryDetailsEntity> truckData = session.createCriteria(TruckHistoryDetailsEntity.class).list();
+		    Criteria criteria = session.createCriteria(TruckHistoryDetailsEntity.class);
+
+		    List<TruckHistoryDetailsEntity> truckData;
+		    
+		    if(type.equalsIgnoreCase("Vehicle No")){
+		    	
+		    criteria.add(Restrictions.eq("truckNo", TruckNo));
+		     truckData = criteria.list();
+		   
+		    }else{
+			criteria.add(Restrictions.eq("districtName",TruckNo ));
+		     truckData = criteria.list();
+
+		    }
+			
+			//transaction.commit();
+			return truckData;
+		} catch (Exception ex) {
+			_LOGGER.error("Unable to get data from vehicle no. "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+		
+
+	}
 	
+
+	@Override
+	public void saveDistrictWiseNormalLoad(DistrictWiseNormalLoadCapacity normalLoad) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.save(normalLoad);
+			transaction.commit();
+			_LOGGER.info("Added New district normal load configuration data has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to save New district normal load configuration data into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	}
+	@Override
+	public void updateDistrictWiseNormalLoad(DistrictWiseNormalLoadCapacity normalLoad) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			/*session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.update(normalLoad);
+			transaction.commit();*/
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			
+			String hqlUpdate = "update DistrictWiseNormalLoadCapacity n set n.ratedLoad = :ratedLoad ,n.truckOverLoading=:overLoading where n.districtName = :districtName";
+			// or String hqlUpdate = "update Customer set name = :newName where name = :oldName";
+			int updatedEntities = session.createQuery( hqlUpdate )
+					.setString("districtName", normalLoad.getDistrictName())
+			       .setInteger("ratedLoad", normalLoad.getRatedLoad())
+			        .setDouble("overLoading", normalLoad.getTruckOverLoading())
+			        .executeUpdate();
+			        transaction.commit();
+
+			        _LOGGER.info("Updated  district normal load configuration data has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to Updated  district normal load configuration data into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	}
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -548,8 +657,8 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+	
+	
 
-	
-	
 	
 }

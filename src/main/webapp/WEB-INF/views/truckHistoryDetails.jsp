@@ -1,229 +1,260 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page session="false" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page session="false"%>
 <html lang="en">
 
 <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title></title>
+<title></title>
 
 <link href="resources/css/plugins/chosen/chosen.css" rel="stylesheet">
-   <link href="resources/css/plugins/select2/select2.min.css" rel="stylesheet">
-   <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="resources/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="resources/css/animate.css" rel="stylesheet">
-    <link href="resources/css/style.css" rel="stylesheet">
-	 <link href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-</head>
-
+<link href="resources/css/plugins/select2/select2.min.css"
+	rel="stylesheet">
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/font-awesome/css/font-awesome.css"
+	rel="stylesheet">
+<link href="resources/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="resources/css/animate.css" rel="stylesheet">
+<link href="resources/css/style.css" rel="stylesheet">
+<link
+	href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+	rel="stylesheet">
+	<style>
+	.text-large {
+  font-size: 100%;
+}
+	</style>
 <body class="md-skin">
-<div id="wrapper">
-  <!--  <div id="navbar"></div> -->
- <%@include file="navbar.jsp" %>
-        <div id="page-wrapper" class="gray-bg">
-       <div id="header"></div>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>History</h2>
-                    <ol class="breadcrumb">
-                        <li>
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li>
-                            <a>History</a>
-                        </li>
-                      
-                    </ol>
-                </div>
-                <div class="col-lg-2">
+	<div id="wrapper">
+		<!--  <div id="navbar"></div> -->
+		<%@include file="navbar.jsp"%>
+		<div id="page-wrapper" class="gray-bg">
+			<div id="header"></div>
+			<div class="row wrapper border-bottom white-bg page-heading">
+				<div class="col-lg-10">
+					<h2>History</h2>
+					<ol class="breadcrumb">
+						<li><a href="index.html">Home</a></li>
+						<li><a>History</a></li>
 
-                </div>
-            </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-      
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="ibox float-e-margins">
-                        <div class="ibox-title">
-                            <h5>DistrictWise Truck History Details</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="ibox-content">
-							<div calss="row">
-								  <div class="col-lg-6">
-								       <div class="form-group">
-                <label class="font-noraml">Select</label>
-                <div class="input-group">
-                <select data-placeholder="" class="chosen-select" style="width:300px;">
-                <option value="">Select</option>
-                <option value="1">Vehcile No</option>
-                <option value="2">District Name</option>
-              
-                </select>
-                </div>
-                </div>	
-								</div>
-								  <div class="col-lg-4">
-								     
-                             <!-- <div class="form-group" id="data_1">
-                                <label class="font-noraml">Select Date</label>
-                                <div class="input-group date">
-                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
-                                </div>
-                            </div>
- -->
-								</div>
-								  <div class="col-lg-2">
-								     
-                             <a class="btn btn-success btn-rounded" href="#">Search</a>
+					</ol>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<div class="wrapper wrapper-content animated fadeInRight">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="ibox float-e-margins">
+							<div class="ibox-title">
+								<h5>DistrictWise Truck History Details</h5>
+								<div class="ibox-tools">
+									<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+									</a> <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+										<i class="fa fa-wrench"></i>
+									</a>
+									<ul class="dropdown-menu dropdown-user">
+										<li><a href="#">Config option 1</a></li>
+										<li><a href="#">Config option 2</a></li>
+									</ul>
+									<a class="close-link"> <i class="fa fa-times"></i>
+									</a>
 								</div>
 							</div>
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                     <th>Truck No</th>
-                                     <th>District Code</th>
-                                     <th>District Name</th>
-                                     <th>Rated Load</th>
-                                     <th>Normal Load</th>
-<!--                                      <th>Last_Transaction_Of_Normal_Load</th>
- -->                                </tr>
-                                </thead>
-                                <tbody>
-										<c:forEach items="${truckHistoryList}"
-											var="historyData" varStatus="status">
-											<tr>
-												<td>${historyData.truckNo}</td>
-												<td>${historyData.districtCode}</td>
-												<td>${historyData.districtName}</td>
-												<td>${historyData.ratedLoad}</td>
-												<td>${historyData.normalLoad}</td>
-<%-- 												<td>${historyData.lastTransactionOfNormalLoad}</td>
- --%>											</tr>
-										</c:forEach>
-									</tbody>                            </table>
+							<div class="ibox-content">
+								<form:form action="searchByVehicleNoDistrictName">
+									<div calss="row">
+										<div class="col-lg-4">
+											<div class="form-group">
 
-                        </div>
-                    </div>
-                </div>
-        
-            </div>
-       
-        </div>
-      <!--  <div id="footer"></div> -->
- <%@include file="footer.html" %>
-        </div>
-        </div>
+												<label class="font-normal ">Select for search</label>
+												<div class="input-group text-large">
+													<select id="selected" name="selected" class="chosen-select" style="width:200px;">
+														<option value="Select">Select</option>
+														<option value="Vehicle No">Vehicle No</option>
+														<option value="District Name">District Name</option>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-lg-3">
+											<br />
+											<div class="form-group">
+
+												<input type="text" class="form-control" id="textId" name="value" value=""
+													placeholder="Search By" />
+												
+
+											</div>
+ 
+
+										</div>
+										<div class="col-lg-1"><br/>
+										<button class="btn btn-sm btn-primary"  type="submit">Search</button>
+										</div>
 
 
-    <div class="modal inmodal" id="configurealgo" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog">
-                                <div class="modal-content animated bounceInRight">
-                                        <div class="modal-header">
-                                          
-                                        
-                                            <h4 class="modal-title">Configure IntellShip Alogrithm</h4>
-                                         
-                                        </div>
-                                        <div class="modal-body">
-                                             <table class="table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Yes</th>
-                                    <th>No</th>
-                                    
-                                   
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Enable Plant Re-organization</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio2" id="radio3" value="option1">
-                                                    <label for="radio3">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio2" id="radio4" value="option2">
-                                                    <label for="radio4">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                  
-                                </tr>
-                                <tr>
-                                   <td>Include Warehouse Location</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio1" value="option1">
-                                                    <label for="radio1">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio2" value="option2">
-                                                    <label for="radio2">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                  
-                                </tr>
-                                <tr>
-                                    <td>Include Shipment to Warehouse</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio01" value="option1">
-                                                    <label for="radio01">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio02" value="option2">
-                                                    <label for="radio02">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                   
-                                </tr>
-                                </tbody>
-                            </table>
-                                                 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary btn-rounded">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-  <!-- Mainly scripts -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script> 
+										<c:choose>
+											<c:when test="${showMessage == 'format'}">
+												<h4 style="color: red;">select proper format file to
+													upload</h4>
+											</c:when>
+										</c:choose>
+
+										<table class="table table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>Truck No</th>
+													<th>District Code</th>
+													<th>District Name</th>
+													<th>Rated Load</th>
+													<th>Normal Load</th>
+													<!--                                      <th>Last_Transaction_Of_Normal_Load</th>
+ -->
+												</tr>
+											</thead>
+											<tbody id="searchData">
+												<c:choose>
+												
+													<c:when test="${not empty truckHistoryList}">
+														<c:forEach items="${truckHistoryList}" var="historyData"
+															varStatus="status">
+															<tr>
+																<td>${historyData.truckNo}</td>
+																<td>${historyData.districtCode}</td>
+																<td>${historyData.districtName}</td>
+																<td>${historyData.ratedLoad}</td>
+																<td>${historyData.normalLoad}</td>
+																<%-- 												<td>${historyData.lastTransactionOfNormalLoad}</td>
+ --%>
+															</tr>
+														</c:forEach>
+													</c:when>
+													<c:when test="${empty truckHistoryList}">
+														<tr>
+															<td colspan='5'><center>
+																	<p style="color: red; font-size: 15px;">Data is
+																		not present</p>
+																</center></td>
+														</tr>
+													
+													</c:when>
+												</c:choose>
+											</tbody>
+
+										</table>
+
+									</div>
+								</form:form>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+				<!--  <div id="footer"></div> -->
+				<%@include file="footer.html"%>
+			</div>
+		</div>
+
+
+
+
+		<div class="modal inmodal" id="configurealgo" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content animated bounceInRight">
+					<div class="modal-header">
+
+
+						<h4 class="modal-title">Configure IntellShip Alogrithm</h4>
+
+					</div>
+					<div class="modal-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Yes</th>
+									<th>No</th>
+
+
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Enable Plant Re-organization</td>
+									<td>
+										<div class="radio">
+											<input type="radio" name="radio2" id="radio3" value="option1">
+											<label for="radio3"> </label>
+										</div>
+									</td>
+									<td>
+										<div class="radio">
+											<input type="radio" name="radio2" id="radio4" value="option2">
+											<label for="radio4"> </label>
+										</div>
+									</td>
+
+								</tr>
+								<tr>
+									<td>Include Warehouse Location</td>
+									<td>
+										<div class="radio">
+											<input type="radio" name="radio3" id="radio1" value="option1">
+											<label for="radio1"> </label>
+										</div>
+									</td>
+									<td>
+										<div class="radio">
+											<input type="radio" name="radio3" id="radio2" value="option2">
+											<label for="radio2"> </label>
+										</div>
+									</td>
+
+								</tr>
+								<tr>
+									<td>Include Shipment to Warehouse</td>
+									<td>
+										<div class="radio">
+											<input type="radio" name="radio3" id="radio01"
+												value="option1"> <label for="radio01"> </label>
+										</div>
+									</td>
+									<td>
+										<div class="radio">
+											<input type="radio" name="radio3" id="radio02"
+												value="option2"> <label for="radio02"> </label>
+										</div>
+									</td>
+
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-white btn-rounded"
+							data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary btn-rounded">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Mainly scripts -->
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"></script>
 		<script>
 		
 $(document).ready(function(){
@@ -231,135 +262,91 @@ $(document).ready(function(){
 	 $("#header").load("header.html");
 	 $("#footer").load("footer.html");
 });
-	</script>
- 
-<!--     <script src="js/bootstrap.min.js"></script>
 
-    Custom and plugin javascript
-    <script src="js/inspinia.js"></script>
-    <script src="js/plugins/pace/pace.min.js"></script>
-    <script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+   	</script>
 
-    Chosen
-    <script src="js/plugins/chosen/chosen.jquery.js"></script>
+		<script>
+$('#RestoreId').on("click", function () {
+	window.location.replace("http://localhost:8080/DPOC/showTruckHistoryDetails"); 
+});
+</script>
 
-   JSKnob
-   <script src="js/plugins/jsKnob/jquery.knob.js"></script>
+		<!-- <script src="resources/js/jquery-2.1.1_old.js"></script> -->
+		<script src="resources/js/bootstrap.min.js"></script>
+		<script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-   Input Mask
-    <script src="js/plugins/jasny/jasny-bootstrap.min.js"></script>
+		<!-- Peity -->
+		<script src="resources/js/plugins/peity/jquery.peity.min.js"></script>
 
-   Data picker
-   <script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+		<!-- Custom and plugin javascript -->
+		<script src="resources/js/inspinia.js"></script>
+		<script src="resources/js/plugins/pace/pace.min.js"></script>
 
-   NouSlider
-   <script src="js/plugins/nouslider/jquery.nouislider.min.js"></script>
+		<!-- iCheck -->
+		<script src="resources/js/plugins/iCheck/icheck.min.js"></script>
 
-   Switchery
-   <script src="js/plugins/switchery/switchery.js"></script>
+		<!-- Peity -->
+		<script src="resources/js/demo/peity-demo.js"></script>
 
-    IonRangeSlider
-    <script src="js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+		<!-- Custom and plugin javascript -->
+		<script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    iCheck
-    <script src="js/plugins/iCheck/icheck.min.js"></script>
+		<!-- Chosen -->
+		<script src="resources/js/plugins/chosen/chosen.jquery.js"></script>
+		<!-- <!-- Chosen -->
+		<script src="js/plugins/chosen/chosen.jquery.js"></script>
+		-->
+		<!-- JSKnob -->
+		<script src="resources/js/plugins/jsKnob/jquery.knob.js"></script>
 
-    MENU
-    <script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+		<!-- Input Mask-->
+		<script src="resources/js/plugins/jasny/jasny-bootstrap.min.js"></script>
 
-    Color picker
-    <script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+		<!-- Data picker -->
+		<script src="resources/js/plugins/datapicker/bootstrap-datepicker.js"></script>
 
-    Clock picker
-    <script src="js/plugins/clockpicker/clockpicker.js"></script>
+		<!-- NouSlider -->
+		<script src="resources/js/plugins/nouslider/jquery.nouislider.min.js"></script>
 
-    Image cropper
-    <script src="js/plugins/cropper/cropper.min.js"></script>
+		<!-- Switchery -->
+		<script src="resources/js/plugins/switchery/switchery.js"></script>
 
-    Date range use moment.js same as full calendar plugin
-    <script src="js/plugins/fullcalendar/moment.min.js"></script>
+		<!-- IonRangeSlider -->
+		<script
+			src="resources/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
 
-    Date range picker
-    <script src="js/plugins/daterangepicker/daterangepicker.js"></script>
+		<!-- iCheck -->
+		<script src="resources/js/plugins/iCheck/icheck.min.js"></script>
 
-    Select2
-    <script src="js/plugins/select2/select2.full.min.js"></script>
+		<!-- MENU -->
+		<script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 
-    TouchSpin
-    <script src="js/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
- -->
-    <!-- <script src="resources/js/jquery-2.1.1_old.js"></script> -->
-    <script src="resources/js/bootstrap.min.js"></script>
-    <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		<!-- Color picker -->
+		<script
+			src="resources/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
 
-    <!-- Peity -->
-    <script src="resources/js/plugins/peity/jquery.peity.min.js"></script>
+		<!-- Clock picker -->
+		<script src="resources/js/plugins/clockpicker/clockpicker.js"></script>
 
-    <!-- Custom and plugin javascript -->
-    <script src="resources/js/inspinia.js"></script>
-    <script src="resources/js/plugins/pace/pace.min.js"></script>
+		<!-- Image cropper -->
+		<script src="resources/js/plugins/cropper/cropper.min.js"></script>
 
-    <!-- iCheck -->
-    <script src="resources/js/plugins/iCheck/icheck.min.js"></script>
+		<!-- Date range use moment.js same as full calendar plugin -->
+		<script src="resources/js/plugins/fullcalendar/moment.min.js"></script>
 
-    <!-- Peity -->
-    <script src="resources/js/demo/peity-demo.js"></script>
- 
-    <!-- Custom and plugin javascript -->
-    <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+		<!-- Date range picker -->
+		<script src="resources/js/plugins/daterangepicker/daterangepicker.js"></script>
 
-    <!-- Chosen -->
-    <script src="resources/js/plugins/chosen/chosen.jquery.js"></script>
-       <!-- <!-- Chosen -->
-    <script src="js/plugins/chosen/chosen.jquery.js"></script> -->
-   <!-- JSKnob -->
-   <script src="resources/js/plugins/jsKnob/jquery.knob.js"></script>
+		<!-- Select2 -->
+		<script src="resources/js/plugins/select2/select2.full.min.js"></script>
 
-   <!-- Input Mask-->
-    <script src="resources/js/plugins/jasny/jasny-bootstrap.min.js"></script>
-
-   <!-- Data picker -->
-   <script src="resources/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
-   <!-- NouSlider -->
-   <script src="resources/js/plugins/nouslider/jquery.nouislider.min.js"></script>
-
-   <!-- Switchery -->
-   <script src="resources/js/plugins/switchery/switchery.js"></script>
-
-    <!-- IonRangeSlider -->
-     <script src="resources/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
-
-    <!-- iCheck -->
-    <script src="resources/js/plugins/iCheck/icheck.min.js"></script>
-
-    <!-- MENU -->
-    <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-
-    <!-- Color picker -->
-     <script src="resources/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script> 
-
-    <!-- Clock picker -->
-     <script src="resources/js/plugins/clockpicker/clockpicker.js"></script> 
-
-    <!-- Image cropper -->
-    <script src="resources/js/plugins/cropper/cropper.min.js"></script>
-
-    <!-- Date range use moment.js same as full calendar plugin -->
-    <script src="resources/js/plugins/fullcalendar/moment.min.js"></script>
-
-    <!-- Date range picker -->
-    <script src="resources/js/plugins/daterangepicker/daterangepicker.js"></script>
-
-    <!-- Select2 -->
-    <script src="resources/js/plugins/select2/select2.full.min.js"></script>
-
-    <!-- TouchSpin -->
-    <script src="resources/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+		<!-- TouchSpin -->
+		<script
+			src="resources/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
 
 
-    <script>
+		<script>
         $(document).ready(function(){
 
             var $image = $(".image-crop > img")
@@ -660,7 +647,7 @@ $(document).ready(function(){
 
     </script>
 
-    <script>
+		<script>
         $(document).ready(function(){
             $('.i-checks').iCheck({
                 checkboxClass: 'icheckbox_square-green',
@@ -668,7 +655,6 @@ $(document).ready(function(){
             });
         });
     </script>
-
 </body>
 
 </html>
