@@ -24,10 +24,26 @@
 <link href="resources/css/animate.css" rel="stylesheet">
 <link href="resources/css/style.css" rel="stylesheet">
 
+<link href="resources/css/dataTables/truck_history_bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/dataTables/dataTables.bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/dataTables/fixedHeader.bootstrap.min.css" rel="stylesheet">
 <link href="resources/css/dataTables/responsive.bootstrap.min.css" rel="stylesheet">
-<link
+ 
+ 
+ 
+ 
+ <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/fixedheader/3.1.5/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css" rel="stylesheet">
+  -->
+
+
+
+
+
+ 
+ <link
 	href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
 	rel="stylesheet">
 	<style>
@@ -75,7 +91,7 @@
 							<div class="ibox-content">
 								<form:form action="searchByVehicleNoDistrictName">
 									<div calss="row">
-										<div class="col-lg-4">
+										<!-- <div class="col-lg-4">
 											<div class="form-group">
 
 												<label class="font-normal ">Select for search</label>
@@ -88,8 +104,8 @@
 												</div>
 											</div>
 										</div>
-
-										<div class="col-lg-3">
+ -->
+										<!-- <div class="col-lg-3">
 											<br />
 											<div class="form-group">
 
@@ -105,7 +121,7 @@
 										<button class="btn btn-sm btn-primary"  type="submit">Search</button>
 										</div>
 
-
+ -->
 										<c:choose>
 											<c:when test="${showMessage == 'format'}">
 												<h4 style="color: red;">select proper format file to
@@ -113,7 +129,7 @@
 											</c:when>
 										</c:choose>
 
-										<table id= "tableData" class="table table-bordered table-hover nowrap">
+										<table id= "dataTable" class="table table-striped table-bordered nowrap">
 											<thead>
 												<tr>
 													<th>Truck No</th>
@@ -255,10 +271,43 @@
 				</div>
 			</div>
 		</div>
+		
+	<!-- 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script> -->
+
+<!-- Data Tables   -->
+<script src="resources/js/dataTables/truck_history_jquery-3.3.1.js"></script>
+<script src="resources/js/dataTables/jquery.dataTables.min.js"></script>
+   <script src="resources/js/dataTables/dataTables.bootstrap.min.js"></script>
+   <script src="resources/js/dataTables/dataTables.fixedHeader.min.js"></script>
+   <script src="resources/js/dataTables/dataTables.responsive.min.js"></script>
+   <script src="resources/js/dataTables/responsive.bootstrap.min.js"></script> 
+
+
+<script>
+		$(document).ready(function() {
+		    var table = $('#dataTable').DataTable( {
+		        responsive: true
+		    } );
+		 
+		    new $.fn.dataTable.FixedHeader( table );
+		} );
+</script>
+
+
 		<!-- Mainly scripts -->
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			crossorigin="anonymous"></script>
+		 -->
+		
+		
+		
+		
 		<script>
 		
 $(document).ready(function(){
@@ -269,27 +318,14 @@ $(document).ready(function(){
 
    	</script>
 
-		<script>
-$(document).ready(function() {
-    var table = $('#tableData').DataTable( {
-        responsive: true
-    } );
- 
-    new $.fn.dataTable.FixedHeader( table );
-} );
-</script>
-
+		
 		<!-- <script src="resources/js/jquery-2.1.1_old.js"></script> -->
 		<script src="resources/js/bootstrap.min.js"></script>
 		<script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 		<script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-   <!-- Data Tables -->
-   <script src="resources/js/dataTables/dataTables.bootstrap.min.js"></script>
-   <script src="resources/js/dataTables/dataTables.fixedHeader.min.js"></script>
-   <script src="resources/js/dataTables/dataTables.responsive.min.js"></script>
-   <script src="resources/js/dataTables/jquery.dataTables.min.js"></script>
-   <script src="resources/js/dataTables/responsive.bootstrap.min.js"></script>
+   
+
    
 		<!-- Peity -->
 		<script src="resources/js/plugins/peity/jquery.peity.min.js"></script>
@@ -359,7 +395,6 @@ $(document).ready(function() {
 		<!-- TouchSpin -->
 		<script
 			src="resources/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
-
 
 		<script>
         $(document).ready(function(){
