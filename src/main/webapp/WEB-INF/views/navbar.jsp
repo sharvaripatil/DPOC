@@ -17,10 +17,11 @@
 		      <li> <a href="<c:url value='/algorithmProcess' />"><i class="fa fa-th-large"></i> <span class="nav-label">Algorithm Process
 		      <span class="fa arrow"></span></a> 
 		     <ul class="nav nav-first-level collapse">
+		      <li><a href="<c:url value='/processBatchFile'/>"> <span class="fa fa-chevron-right submenu"></span>  Process New Order Batch</a></li>
 		    <li ><a href="<c:url value='/showPendingOrders'/>"> <span class="fa fa-chevron-right submenu"></span>  Pending Orders</a></li>
 		    <li><a href="<c:url value='intellShip' />"> <span class="fa fa-chevron-right submenu"></span>  Run Itelliship Algo</a></li>
             <li><a href="<c:url value='/getShippingOrderHistory'/>"> <span class="fa fa-chevron-right submenu"></span>  History</a></li>
-            <li><a href="<c:url value='/processBatchFile'/>"> <span class="fa fa-chevron-right submenu"></span>  Process New Order Batch</a></li>
+           
 		  </ul>
 		  </li>
 		  
