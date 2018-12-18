@@ -1078,7 +1078,7 @@ public class ShippingDetailController {
 			intellishModel.setTotalOrderQuantity(totalOrdQty);
 			intellishModel.setPlant(plantDetails.getPlantName());
 			intellishModel.setPendingQuantity(pedningQty);
-			intellishModel.setShippingStatus(getShippingStatus(shippingStatusCount));
+			//intellishModel.setShippingStatus(getShippingStatus(shippingStatusCount));
 			intellishModel.setEstimationTime(duration);
 			finalIntelishipModel.add(intellishModel);
 			shippingStatusCount++;

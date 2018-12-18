@@ -6,14 +6,8 @@ import java.util.Map;
 public class TruckTypeInfo {
 	static Map<String, String>  truckLoadType = new HashMap<>();
   static{
-	  truckLoadType.put("PALAMU", "Normal Load");
-	  truckLoadType.put("BOKARO", "Normal Load");
-	  truckLoadType.put("BANKA", "Normal Load");
-	  truckLoadType.put("NALANDA", "Normal Load");
-	  truckLoadType.put("DUMKA", "Normal Load");
-	  truckLoadType.put("WEST SINGHBHUM", "Normal Load");
-	  truckLoadType.put("HAZARIBAGH", "Normal Load");
-	  
+	  truckLoadType.put("GODDA", "Minimum");
+	  truckLoadType.put("NAWADA", "Minimum");
   }
   
   public static String getTruckLoadType(String districtName){
@@ -21,6 +15,6 @@ public class TruckTypeInfo {
   }
   public static String getLoadType(String districtName){
 	  String loadType = truckLoadType.get(districtName);
-	  return "Minimum".equals(loadType)?"Normal Load":"Maximum Load(Extra 50%)";
+	  return "Minimum".equals(loadType)?"Rated Load":"Normal Load(Extra 50%)";
   }
 }
