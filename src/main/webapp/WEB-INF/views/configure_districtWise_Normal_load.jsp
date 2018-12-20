@@ -44,7 +44,7 @@
 				    </center>
 				    </c:when>
 				  </c:choose>
-                             <form:form action="normalLoadConfiguration" class="form-horizontal m-l-md" modelAttribute="normalLoadConfig" method="post">
+                             <form:form id="formId" action="normalLoadConfiguration" class="form-horizontal m-l-md" modelAttribute="normalLoadConfig" method="post">
                             
                                 <div class="form-group"><label class="col-lg-2 control-label" >District Name :</label>
 
@@ -71,6 +71,7 @@
                                     <div class="col-lg-offset-2 col-lg-10">
                                         <button class="btn btn-sm btn-primary" name="add" type="submit">Add</button>
                                         <button class="btn btn-sm btn-primary"  style="margin-left: 14%;" name="update" type="submit">Update</button>
+<!--                                         <button class="btn btn-sm btn-primary"  style="margin-left: 9%;" name="Reset" type="reset" id="resetId">Reset</button> -->
                                     </div>
                                    
                                 </div>
@@ -94,6 +95,12 @@ $(document).ready(function(){
 	 $("#footer").load("footer.html");
 });
 
+/* $('#resetId').click(function(){
+	alert('reset');
+	$('#formId').trigger("reset");
+	//$('#formId').reset();
+}); */
+
 function checkDistrictName(){
 	var districtName = $('#districtName').val();
 	$.ajax({
@@ -101,11 +108,14 @@ function checkDistrictName(){
 			url : "checkDistrictName",
 			data : "districtName=" + districtName,
 			success : function(response) {
-               if(response == true){
+				
+				$('#ratedLoad').val(response.ratedLoad);
+				$('#normalLoad').val(response.truckOverLoading);
+               /* if(response == true){
             	   $('#districtError').text('District name is already avaialble').css('color','red');
                } else {
             	   $('#districtError').text('');
-               }
+               } */
 			},
 			error : function(e) {
 				 alert('Error: ' + e); 
