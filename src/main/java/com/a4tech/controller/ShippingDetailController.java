@@ -419,13 +419,13 @@ public class ShippingDetailController {
 	}
 	@RequestMapping(value="/checkDistrictName")
 	@ResponseBody
-	public boolean isDistrictNameAvailable(HttpServletRequest req){
+	public DistrictWiseNormalLoadCapacity isDistrictNameAvailable(HttpServletRequest req){
 		String districtName = req.getParameter("districtName");
 		DistrictWiseNormalLoadCapacity districtData = shippingOrderService.getDistrictTruckLoad(districtName);
 		if(districtData != null){
-			return true;
+			return districtData;
 		}
-		return false;
+		return new DistrictWiseNormalLoadCapacity();
 	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
