@@ -56,16 +56,23 @@
                                 </div>
                                 <div class="form-group"><label class="col-lg-2 control-label">Rated Load :</label>
                                     <div class="col-lg-3">
-                                    <form:input path="ratedLoad"  type="text" placeholder="Rated Load" class="form-control"/>
+                                    <form:input path="ratedLoad"  type="text" placeholder="Rated Load" class="form-control" id="txt1"/>
                                     <form:errors path="ratedLoad" class="help-block m-b-none  text-danger"></form:errors>
 									</div>
                                 </div>
-								 <div class="form-group"><label class="col-lg-2 control-label">Normal Load :</label>
+								 <div class="form-group"><label class="col-lg-2 control-label">Normal Load (%) :</label>
                                     <div class="col-lg-3">
-                                    <form:input path="normalLoad"  type="text" placeholder="Normal Load" class="form-control"/>
+                                    <form:input path="normalLoad"  type="text" placeholder="Normal Load in percentage" class="form-control" id="txt2"/>
                                     <form:errors path="normalLoad" class="help-block m-b-none  text-danger"></form:errors>
 									 </div>
                                 </div>
+                                	 <div class="form-group"><label class="col-lg-2 control-label">Normal Load (Tonns):</label>
+                                    <div class="col-lg-3">
+                                    <form:input path="normalLoad"  type="text" placeholder="Normal Load in tonns" class="form-control" id="rate"/>
+                                    <form:errors path="normalLoad" class="help-block m-b-none  text-danger"></form:errors>
+									 </div>
+                                </div>
+                                
                                 <div class="form-group">
                                <%--  <spring:url value="" var=""></spring:url> --%>
                                     <div class="col-lg-offset-2 col-lg-10">
@@ -89,17 +96,18 @@
 </div>
 <!-- Mainly scripts -->
 	<script>
-$(document).ready(function(){
-    $("#navbar").load("navbar.jsp");
-	 $("#header").load("header.html");
-	 $("#footer").load("footer.html");
-});
+
 
 /* $('#resetId').click(function(){
 	alert('reset');
 	$('#formId').trigger("reset");
 	//$('#formId').reset();
 }); */
+
+
+
+
+
 
 function checkDistrictName(){
 	var districtName = $('#districtName').val();
@@ -143,6 +151,19 @@ function checkDistrictName(){
 
     <!-- Peity -->
     <script src="resources/js/demo/peity-demo.js"></script>
-			   
+		<script type="text/javascript">
+		
+		$(document).ready(function(){
+		    $("#navbar").load("navbar.jsp");
+			 $("#header").load("header.html");
+			 $("#footer").load("footer.html");
+			   $("#txt1,#txt2").change(function () { // input on change
+			        var result = parseFloat(parseInt($("#txt1").val(), 10) * parseInt($("#txt2").val(), 10) / 100 );
+			        $('#rate').val(result || ''); //shows value in "#rate"
+			    })
+		});
+		
+		
+		</script>	   
 </body>
 </html>
