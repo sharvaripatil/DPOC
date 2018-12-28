@@ -427,6 +427,11 @@ public class ShippingDetailController {
 		}
 		return new DistrictWiseNormalLoadCapacity();
 	}
+	@RequestMapping(value="/dwnlcView")
+	public ModelAndView showDistrictWiseLoadConfigure() {
+		List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
+		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
+	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();

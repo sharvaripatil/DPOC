@@ -40,6 +40,12 @@
                <li><a href="<c:url value='normalLoadConfiguration' />"> <span class="fa fa-chevron-right submenu"></span> DistrictWise Normal Load Configuration</a></li>
                </ul>
               </li>
+              
+              <li> <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration View</span><span class="fa arrow"></span></a>
+              <ul class="nav nav-first-level collapse">
+               <li><a href="<c:url value='dwnlcView' />"> <span class="fa fa-chevron-right submenu"></span> DistrictWise Normal Load Configuration View</a></li>
+               </ul>
+              </li>
           </ul>
     </div>
   </nav>
