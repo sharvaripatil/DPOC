@@ -8,7 +8,7 @@ public class NormalLoadConfiguration {
 	private String districtName;
 	private Integer ratedLoad;
 	private String normalLoadInPer;
-	private Integer normalLoadInTonns;
+	private Double normalLoadInTonns;
 
 
 	public String getDistrictName() {
@@ -43,13 +43,14 @@ public class NormalLoadConfiguration {
 		this.normalLoadInPer = normalLoadInPer;
 	}
 
-	public Integer getNormalLoadInTonns() {
+	public Double getNormalLoadInTonns() {
 		return normalLoadInTonns;
 	}
 
-	public void setNormalLoadInTonns(Integer normalLoadInTonns) {
+	public void setNormalLoadInTonns(Double normalLoadInTonns) {
 		this.normalLoadInTonns = normalLoadInTonns;
 	}
+
 
 
 

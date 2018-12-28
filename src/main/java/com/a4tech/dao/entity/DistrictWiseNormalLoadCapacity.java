@@ -20,7 +20,9 @@ public class DistrictWiseNormalLoadCapacity {
 	 @Column(name="rated_load")
 	 private Integer ratedLoad;
 	 @Column(name="truck_over_loading")
-	 private Double truckOverLoading;
+	 private String truckOverLoading;
+	 @Column(name="truck_over_loadingtonns")
+	 private Double truckOverLoadingtonns;
 	 
 	public Integer getId() {
 		return id;
@@ -40,10 +42,21 @@ public class DistrictWiseNormalLoadCapacity {
 	public void setRatedLoad(Integer ratedLoad) {
 		this.ratedLoad = ratedLoad;
 	}
-	public Double getTruckOverLoading() {
+	public String getTruckOverLoading() {
 		return truckOverLoading;
 	}
-	public void setTruckOverLoading(Double truckOverLoading) {
+	public void setTruckOverLoading(String truckOverLoading) {
 		this.truckOverLoading = truckOverLoading;
 	}
+	public Double getTruckOverLoadingtonns() {
+		return truckOverLoadingtonns;
+	}
+	public void setTruckOverLoadingtonns(Double truckOverLoadingtonns) {
+		this.truckOverLoadingtonns = truckOverLoadingtonns;
+	}
+
+
+	
+	
+	
 }

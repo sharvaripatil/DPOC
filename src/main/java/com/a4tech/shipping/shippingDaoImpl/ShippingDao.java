@@ -631,7 +631,8 @@ public class ShippingDao implements IshippingOrderDao{
 			int updatedEntities = session.createQuery( hqlUpdate )
 					.setString("districtName", normalLoad.getDistrictName())
 			       .setInteger("ratedLoad", normalLoad.getRatedLoad())
-			        .setDouble("overLoading", normalLoad.getTruckOverLoading())
+			        .setString("overLoading", normalLoad.getTruckOverLoading())
+			        .setDouble("overloadingtonns", normalLoad.getTruckOverLoadingtonns())
 			        .executeUpdate();
 			        transaction.commit();
 

@@ -286,7 +286,8 @@ public class ShippingOrderImpl implements IShippingOrder {
      DistrictWiseNormalLoadCapacity normalLoadEntity = new DistrictWiseNormalLoadCapacity();
      normalLoadEntity.setDistrictName(normal.getDistrictName());
      normalLoadEntity.setRatedLoad(normal.getRatedLoad());
-     normalLoadEntity.setTruckOverLoading(Double.parseDouble(normal.getNormalLoad()));
+     normalLoadEntity.setTruckOverLoading(normal.getNormalLoad());
+     normalLoadEntity.setTruckOverLoadingtonns(normal.getNormalLoadInTonns());
      shippingOrderDao.saveDistrictWiseNormalLoad(normalLoadEntity);
 	}
 	@Override
@@ -294,7 +295,8 @@ public class ShippingOrderImpl implements IShippingOrder {
 		DistrictWiseNormalLoadCapacity normalLoadEntity = new DistrictWiseNormalLoadCapacity();
 	     normalLoadEntity.setDistrictName(normal.getDistrictName());
 	     normalLoadEntity.setRatedLoad(normal.getRatedLoad());
-	     normalLoadEntity.setTruckOverLoading(Double.parseDouble(normal.getNormalLoad()));
+	     normalLoadEntity.setTruckOverLoading(normal.getNormalLoad());
+	     normalLoadEntity.setTruckOverLoadingtonns(normal.getNormalLoadInTonns());
 	     shippingOrderDao.updateDistrictWiseNormalLoad(normalLoadEntity);
 	}
 	private Address getPlantAddress() {
