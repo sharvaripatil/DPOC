@@ -145,13 +145,13 @@
 												<c:choose>
 												
 													<c:when test="${not empty configureViewData}">
-														<c:forEach items="${truckHistoryList}" var="viewData"
+														<c:forEach items="${configureViewData}" var="viewData"
 															varStatus="status">
 															<tr>
 																<td>${viewData.districtName}</td>
 																<td>${viewData.ratedLoad}</td>
 																<td>${viewData.truckOverLoading}</td>
-																<td>${viewData.truckOverLoading}</td>
+																<td>${viewData.truckOverLoadingtonns}</td>
 																
 																<%-- 												<td>${historyData.lastTransactionOfNormalLoad}</td>
  --%>
