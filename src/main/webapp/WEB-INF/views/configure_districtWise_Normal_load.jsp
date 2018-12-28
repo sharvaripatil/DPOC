@@ -62,14 +62,14 @@
                                 </div>
 								 <div class="form-group"><label class="col-lg-2 control-label">Normal Load (%) :</label>
                                     <div class="col-lg-3">
-                                    <form:input path="normalLoad"  type="text" placeholder="Normal Load in percentage" class="form-control" id="txt2"/>
-                                    <form:errors path="normalLoad" class="help-block m-b-none  text-danger"></form:errors>
+                                    <form:input path="normalLoadInPer"  type="text" placeholder="Normal Load in percentage" class="form-control" id="txt2"/>
+                                    <form:errors path="normalLoadInPer" class="help-block m-b-none  text-danger"></form:errors>
 									 </div>
                                 </div>
                                 	 <div class="form-group"><label class="col-lg-2 control-label">Normal Load (Tonns):</label>
                                     <div class="col-lg-3">
-                                    <form:input path="normalLoad"  type="text" placeholder="Normal Load in tonns" class="form-control" id="rate"/>
-                                    <form:errors path="normalLoad" class="help-block m-b-none  text-danger"></form:errors>
+                                    <form:input path="normalLoadInTonns"  type="text" placeholder="Normal Load in tonns" class="form-control" id="rate"/>
+                                    <form:errors path="normalLoadInTonns" class="help-block m-b-none  text-danger"></form:errors>
 									 </div>
                                 </div>
                                 
@@ -163,6 +163,25 @@ function checkDistrictName(){
 			    })
 		});
 		
+		$(function () {        
+
+		    $("#formId").validate({
+		        rules: {
+		        	txt2: {
+		                required: true,
+		                minlength: 100
+		            },
+		            action: "required"
+		        },
+		        messages: {
+		            pName: {
+		                required: "Please enter some data",
+		                minlength: "Your data must be at least 8 characters"
+		            },
+		            action: "Please provide some data"
+		        }
+		    });
+		});
 		
 		</script>	   
 </body>
