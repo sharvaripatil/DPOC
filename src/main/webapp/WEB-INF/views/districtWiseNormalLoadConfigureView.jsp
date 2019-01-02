@@ -75,7 +75,7 @@
 						<div class="ibox float-e-margins">
 							<div class="ibox-title">
 								<h5>DistrictWise Normal Load Configure View</h5>
-								<div class="ibox-tools">
+								<!-- <div class="ibox-tools">
 									<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
 									</a> <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 										<i class="fa fa-wrench"></i>
@@ -86,7 +86,7 @@
 									</ul>
 									<a class="close-link"> <i class="fa fa-times"></i>
 									</a>
-								</div>
+								</div> -->
 							</div>
 							<div class="ibox-content">
 								<form:form action="searchByVehicleNoDistrictName">
@@ -203,26 +203,26 @@
                                 <div class="form-group"><label class="col-lg-3 control-label">District Name :</label>
 
                                     <div class="col-lg-5">
-                                    <input id="districtName" name="districtName" placeholder="District Name" type="text" class="form-control" onchange="checkDistrictName()" value="">
+                                    <input id="districtName" name="districtName" placeholder="District Name" type="text" class="form-control" onchange="checkDistrictName()" >
                                     
                                     <label id="districtError"></label>
                                     </div>
                                 </div>
                                 <div class="form-group"><label class="col-lg-3 control-label">Rated Load :</label>
                                     <div class="col-lg-5">
-                                    <input id="txt1" name="ratedLoad" placeholder="Rated Load" type="text" class="form-control" value="">
+                                    <input id="txt1" name="ratedLoad" placeholder="Rated Load" type="text" class="form-control">
                                     
 									</div>
                                 </div>
 								 <div class="form-group"><label class="col-lg-3 control-label">Normal Load (%) :</label>
                                     <div class="col-lg-5">
-                                    <input id="txt2" name="normalLoadInPer" placeholder="Normal Load in percentage" type="text" class="form-control" value="">
+                                    <input id="txt2" name="normalLoadInPer" placeholder="Normal Load in percentage" type="text" class="form-control" >
                                     
 									 </div>
                                 </div>
                                 	 <div class="form-group"><label class="col-lg-3 control-label">Normal Load (Tonns):</label>
                                     <div class="col-lg-5">
-                                    <input id="rate" name="normalLoadInTonns" placeholder="Normal Load in tonns" type="text" class="form-control" value="">
+                                    <input id="rate" name="normalLoadInTonns" placeholder="Normal Load in tonns" type="text" class="form-control">
                                     
 									 </div>
                                 </div>
@@ -255,7 +255,9 @@
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script> -->
 <script src="resources/js/jquery-2.1.1_old.js"></script>
-<script src="resources/js/bootstrap.min.js""></script>
+<script src="resources/js/bootstrap.min.js"></script>
+<script src="resources/js/jquery.form-validator.min.js"></script>
+
 <!-- Data Tables   -->
 <script src="resources/js/dataTables/truck_history_jquery-3.3.1.js"></script>
 <script src="resources/js/dataTables/jquery.dataTables.min.js"></script>
@@ -387,9 +389,9 @@ $(document).ready(function(){
 		
 		
 		
-		$(function () {        
-
+		$(function () {    
 		    $("#formId").validate({
+		    	
 		        rules: {
 		        	txt2: {
 		                required: true,
