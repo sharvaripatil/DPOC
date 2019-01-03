@@ -425,6 +425,37 @@ public class ShippingDetailController {
        model.addAttribute("update", "updateSuccess");
 		return "configure_districtWise_Normal_load";
 	}
+	
+	
+	@RequestMapping(value = "/normalLoadConfiguration1", method = RequestMethod.POST,params="add")
+	public ModelAndView addNormalLoadConfiguration1(
+			@ModelAttribute("normalLoadConfig") @Validated NormalLoadConfiguration normalLoadConfig,BindingResult result,Model model) {
+		System.out.println("add configuration");
+		if(result.hasErrors()){
+			//return "configure_districtWise_Normal_load";
+		}
+     shippingOrderService.saveDistrictWiseNormalLoad(normalLoadConfig);
+       model.addAttribute("message", "success");
+       
+       List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
+		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
+       
+		//return "configure_districtWise_Normal_load";
+	}
+	@RequestMapping(value = "/normalLoadConfiguration1", method = RequestMethod.POST,params="update")
+	public ModelAndView updateNormalLoadConfiguration1(
+			@ModelAttribute("normalLoadConfig") @Validated NormalLoadConfiguration normalLoadConfig,BindingResult result,Model model) {
+		System.out.println("Update configuration");
+		if(result.hasErrors()){
+			//return "configure_districtWise_Normal_load";
+		}
+     shippingOrderService.updateDistrictWiseNormalLoad(normalLoadConfig);
+       model.addAttribute("update", "updateSuccess");
+       List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
+		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
+		//return "configure_districtWise_Normal_load";
+	}
+	
 	@RequestMapping(value="/checkDistrictName")
 	@ResponseBody
 	public DistrictWiseNormalLoadCapacity isDistrictNameAvailable(HttpServletRequest req){
@@ -434,6 +465,11 @@ public class ShippingDetailController {
 			return districtData;
 		}
 		return new DistrictWiseNormalLoadCapacity();
+	}
+	@RequestMapping(value="/dwnlcView")
+	public ModelAndView showDistrictWiseLoadConfigure() {
+		List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
+		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
 	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {

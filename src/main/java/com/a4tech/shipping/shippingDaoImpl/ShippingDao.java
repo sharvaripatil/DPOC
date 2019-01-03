@@ -626,13 +626,13 @@ public class ShippingDao implements IshippingOrderDao{
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
 			
-			String hqlUpdate = "update DistrictWiseNormalLoadCapacity n set n.ratedLoad = :ratedLoad ,n.truckOverLoading=:overLoading where n.districtName = :districtName";
+			String hqlUpdate = "update DistrictWiseNormalLoadCapacity n set n.ratedLoad = :ratedLoad ,n.truckOverLoading=:overLoading,n.truckOverLoadingtonns=:overLoadingtonns where n.districtName = :districtName";
 			// or String hqlUpdate = "update Customer set name = :newName where name = :oldName";
 			int updatedEntities = session.createQuery( hqlUpdate )
 					.setString("districtName", normalLoad.getDistrictName())
 			       .setInteger("ratedLoad", normalLoad.getRatedLoad())
 			        .setString("overLoading", normalLoad.getTruckOverLoading())
-			        .setDouble("overloadingtonns", normalLoad.getTruckOverLoadingtonns())
+			        .setDouble("overLoadingtonns", normalLoad.getTruckOverLoadingtonns())
 			        .executeUpdate();
 			        transaction.commit();
 

@@ -110,15 +110,16 @@
 
 
 function checkDistrictName(){
+	
 	var districtName = $('#districtName').val();
 	$.ajax({
 			type : "GET",
 			url : "checkDistrictName",
 			data : "districtName=" + districtName,
 			success : function(response) {
-				
-				$('#ratedLoad').val(response.ratedLoad);
-				$('#normalLoad').val(response.truckOverLoading);
+				$('#txt1').val(response.ratedLoad);
+				$('#txt2').val(response.truckOverLoading);
+				$('#rate').val(response.truckOverLoadingtonns);
                /* if(response == true){
             	   $('#districtError').text('District name is already avaialble').css('color','red');
                } else {
