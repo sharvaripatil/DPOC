@@ -164,25 +164,14 @@ function checkDistrictName(){
 			    })
 		});
 		
-		$(function () {        
-
-		    $("#formId").validate({
-		        rules: {
-		        	txt2: {
-		                required: true,
-		                minlength: 100
-		            },
-		            action: "required"
-		        },
-		        messages: {
-		            pName: {
-		                required: "Please enter some data",
-		                minlength: "Your data must be at least 8 characters"
-		            },
-		            action: "Please provide some data"
-		        }
-		    });
-		});
+		
+		
+	/* 	document.getElementById("txt2").onkeyup=function(){
+		    var input=parseInt(this.value);
+		    if(input>100)
+		    alert("Value should be above 100");
+		    return;
+		}   */
 		
 		</script>	   
 </body>

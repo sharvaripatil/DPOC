@@ -395,6 +395,14 @@ public class ShippingDetailController {
 		/*return "configure_districtWise_Normal_load";*/
 	}
 	
+	@RequestMapping(value = "/axelWheelConfiguration", method = RequestMethod.GET)
+	public ModelAndView showAxelWheelConfiguration() {
+		return new ModelAndView("axleWheelConfig", "axelWheelConfig",
+				new NormalLoadConfiguration());
+		/*return "configure_districtWise_Normal_load";*/
+	}
+	
+	
 	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.POST,params="add")
 	public String addNormalLoadConfiguration(
 			@ModelAttribute("normalLoadConfig") @Validated NormalLoadConfiguration normalLoadConfig,BindingResult result,Model model) {
