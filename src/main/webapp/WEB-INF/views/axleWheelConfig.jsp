@@ -138,10 +138,10 @@
       <div class="row">
                 <div class="col-lg-12">
                     <div class="ibox float-e-margins">
-                        <div class="ibox-title">
+                        <div class="ibox-title" style="padding-bottom:30px !important;">
 							<div class="form-group" > <h5>Axle/Wheeler type  </h5>
 
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
 										  <select class="form-control" style="color:black">
                                         <option>4 Wheeler</option>
                                         <option>6 Wheeler</option>
@@ -155,21 +155,21 @@
 							
 					
 						
-                            <div class="ibox-tools">
+                          <!--   <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <!-- <i class="fa fa-wrench"></i> -->
+                                    <i class="fa fa-wrench"></i>
                                 </a>
-                              <!--   <ul class="dropdown-menu dropdown-user">
+                                <ul class="dropdown-menu dropdown-user">
                                     <li><a href="#">Config option 1</a>
                                     </li>
                                     <li><a href="#">Config option 2</a>
                                     </li>
                                 </ul>
- -->                                
-                            </div>
+                                
+                            </div> -->
 							
                         </div>
                         <div class="ibox-content">
@@ -266,86 +266,7 @@
         </div>
 
 
-    <div class="modal inmodal" id="configurealgo" tabindex="-1" role="dialog" aria-hidden="true">
-                                <div class="modal-dialog">
-                                <div class="modal-content animated bounceInRight">
-                                        <div class="modal-header">
-                                          
-                                        
-                                            <h4 class="modal-title">Configure IntellShip Alogrithm</h4>
-                                         
-                                        </div>
-                                        <div class="modal-body">
-                                             <table class="table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Yes</th>
-                                    <th>No</th>
-                                    
-                                   
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>Enable Plant Re-organization</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio2" id="radio3" value="option1">
-                                                    <label for="radio3">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio2" id="radio4" value="option2">
-                                                    <label for="radio4">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                  
-                                </tr>
-                                <tr>
-                                   <td>Include Warehouse Location</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio1" value="option1">
-                                                    <label for="radio1">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio2" value="option2">
-                                                    <label for="radio2">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                  
-                                </tr>
-                                <tr>
-                                    <td>Include Shipment to Warehouse</td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio01" value="option1">
-                                                    <label for="radio01">
-                                                       
-                                                    </label>
-                                                </div></td>
-                                    <td> <div class="radio">
-                                                    <input type="radio" name="radio3" id="radio02" value="option2">
-                                                    <label for="radio02">
-                                                      
-                                                    </label>
-                                                </div></td>
-                                   
-                                </tr>
-                                </tbody>
-                            </table>
-                                                 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-white btn-rounded" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary btn-rounded">Save changes</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
     <!-- Mainly scripts -->
    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
