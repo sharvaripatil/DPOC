@@ -3,6 +3,8 @@ package com.a4tech.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -20,12 +22,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-
-import org.apache.catalina.User;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -46,7 +42,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,6 +52,7 @@ import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
 import com.a4tech.service.mapper.IOrderDataMapper;
 import com.a4tech.shipping.iservice.IShippingOrder;
+import com.a4tech.shipping.model.DistrictClubOrdByPass;
 import com.a4tech.shipping.model.FileUploadBean;
 import com.a4tech.shipping.model.IntellishipModel;
 import com.a4tech.shipping.model.IntellishipModelByMaterial;
@@ -470,6 +466,40 @@ public class ShippingDetailController {
 	public ModelAndView showDistrictWiseLoadConfigure() {
 		List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
 		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
+	}
+	@RequestMapping(value="/distClubOrdByPassConfig",method = RequestMethod.GET)
+	public String districtClubOrderByPassConfigure() {
+		return "district_clubbing_order_bypass";
+		
+	}
+	@RequestMapping(value = "/distClubOrdByPassConfig", method = RequestMethod.POST)
+	public ModelAndView districtClubOrderByPassConfigure(
+			@ModelAttribute("districtByPass") @Validated DistrictClubOrdByPass districtByPass,BindingResult result,Model model,HttpServletRequest req) {
+		System.out.println("Update configuration");
+		
+		/*Date startDate = req.getAttribute("startDate");
+		Date endDate = req.getParameter("endDate");*/
+		
+		String startDateStr = req.getParameter("startDate");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+		String endDate = req.getParameter("endDate");
+		
+		//surround below line with try catch block as below code throws checked exception
+		try {
+			Date startDate = sdf.parse(startDateStr);
+			Date endDate1 = sdf.parse(endDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(result.hasErrors()){
+			//return "configure_districtWise_Normal_load";
+		}
+    
+       model.addAttribute("update", "updateSuccess");
+       List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
+		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
+		//return "configure_districtWise_Normal_load";
 	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
