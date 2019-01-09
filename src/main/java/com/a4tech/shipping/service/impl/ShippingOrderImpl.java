@@ -17,6 +17,7 @@ import com.a4tech.map.model.Address;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
 import com.a4tech.shipping.model.AxleWheelConfiguration;
+import com.a4tech.shipping.model.DistrictClubOrdByPass;
 import com.a4tech.shipping.model.NormalLoadConfiguration;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.ShippingDeliveryOrder;
@@ -326,6 +327,18 @@ public class ShippingOrderImpl implements IShippingOrder {
 		wheelEntity.setAxlewheelerid(axleWheelConfig.getAxlewheelerid());
 		wheelEntity.setAxlewheelertype(axleWheelConfig.getAxlewheelertype());
 		shippingOrderDao.saveAxleWheelConfiguration(wheelEntity);
+
+	}
+	public void saveDistrictClubOrdByPass(DistrictClubOrdByPass districtByPass) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List<DistrictClubOrdByPass> getAllDistrictClubOrdByPass() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

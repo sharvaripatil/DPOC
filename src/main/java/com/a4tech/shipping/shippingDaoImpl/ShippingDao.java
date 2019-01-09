@@ -16,8 +16,8 @@ import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.a4tech.dao.entity.AxleWheelTypeEntity;
+import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
@@ -652,6 +652,55 @@ public class ShippingDao implements IshippingOrderDao{
 			}
 		}		
 	}
+	@Override
+	public void saveDistrictClubOrdByPass(DistrictClubOrdByPassEntity byPassEnitity) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.save(byPassEnitity);
+			transaction.commit();
+			_LOGGER.info("Added bypass district configuration data has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to save bypass configuration data into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+		
+	}
+	@Override
+	public List<DistrictClubOrdByPassEntity> getAllDistrictClubOrdByPass() {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<DistrictClubOrdByPassEntity> districtByPassData = session
+					.createCriteria(DistrictClubOrdByPassEntity.class).list();
+			return districtByPassData;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get DistrictWise trucks load type from DB: "+ex.getCause());
+			
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
+	
+
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -659,6 +708,7 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
 	
 	@Override
 	public void saveAxleWheelConfiguration(AxleWheelTypeEntity wheelEntity) {
@@ -684,6 +734,7 @@ public class ShippingDao implements IshippingOrderDao{
 			}
 		}		
 	}	
+
 
 	
 }

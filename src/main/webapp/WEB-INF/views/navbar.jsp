@@ -39,6 +39,7 @@
                <ul class="nav nav-first-level collapse">
                <li><a href="<c:url value='normalLoadConfiguration' />"> <span class="fa fa-chevron-right submenu"></span> DistrictWise Normal Load Configuration</a></li>
                <li><a href="<c:url value='axelWheelConfiguration' />"> <span class="fa fa-chevron-right submenu"></span> Axel Wheel Configuration</a></li>
+                <li><a href="<c:url value='distClubOrdByPassConfig' />"> <span class="fa fa-chevron-right submenu"></span>DistrictClubbingOrderByPass</a></li>
                
                </ul>
               </li>
