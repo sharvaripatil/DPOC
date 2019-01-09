@@ -1,7 +1,7 @@
 package com.a4tech.shipping.ishippingDao;
 
 import java.util.List;
-
+import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
@@ -9,6 +9,7 @@ import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
 import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
+import com.a4tech.shipping.model.AxleWheelConfiguration;
 import com.a4tech.shipping.model.NormalLoadConfiguration;
 
 public interface IshippingOrderDao {
@@ -32,10 +33,10 @@ public interface IshippingOrderDao {
   public List<TruckHistoryDetailsEntity> getAllTrucksHistoryDetails();
   public void saveTruckdetailsEntity(TruckDetailsEntity truckEntity);
   public void saveTruckhistory(TruckHistoryDetailsEntity truckHistory);
+  public void saveAxleWheelConfiguration(AxleWheelTypeEntity wheelEntity);
   public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(String value,String type);
   public void saveDistrictClubOrdByPass(DistrictClubOrdByPassEntity byPassEnitity);
   public List<DistrictClubOrdByPassEntity> getAllDistrictClubOrdByPass();
-  
 
 
 }

@@ -63,6 +63,7 @@
 				<value>com.a4tech.dao.entity.ShippingDeliveryOrderEntity</value>
 				<value>com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity</value> 
 				<value>com.a4tech.dao.entity.TruckHistoryDetailsEntity</value>
+	            <value>com.a4tech.dao.entity.AxleWheelTypeEntity</value>
 				<value>com.a4tech.dao.entity.DistrictClubOrdByPassEntity</value>
 				
 			</list>
