@@ -143,10 +143,7 @@
 
                                     <div class="col-sm-3">
 										  <select class="form-control" style="color:black">
-                                        <option>4 Wheeler</option>
-                                        <option>6 Wheeler</option>
-                                        <option>10 Wheeler</option>
-                                        <option>12 Wheeler</option>
+                                        <option>select Axle/Wheeler type</option>
                                     </select>
 
                                        
@@ -172,84 +169,45 @@
                             </div> -->
 							
                         </div>
+                        
                         <div class="ibox-content">
 						
                         <button type="button" class="btn btn-info add-new pull-right"><i class="fa fa-plus"></i> Add New</button>
                    
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Sl.No</th>
-                                    <th>Lead from 1st order</th>
-                                    <th>Clubbing forward</th>
-                                    <th>Action</th>
-                                   
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Upto 50 kms</td>
-                                    <td>Any next order </td>
-                                    <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                                </tr>
-                                <tr>
-                                   <td>2</td>
-                                    <td>51 to 100 kms</td>
-                                    <td>20 kms</td>
-                                   <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>101 to 150 kms</td>
-                                    <td>30 kms</td>
-                                  <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                                </tr>
-									  <tr>
-                                    <td>4</td>
-                                    <td>151 to 200 kms</td>
-                                    <td>40 kms</td>
-                                  <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                                </tr>
-									  <tr>
-                                    <td>5</td>
-                                    <td>201 to 250 kms</td>
-                                    <td>50 kms</td>
-                                  <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                                </tr>
-									  <tr>
-                                    <td>6</td>
-                                    <td>252 to 300 kms</td>
-                                    <td>60 kms</td>
-                                  <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                                </tr>
-                                </tbody>
-                            </table>
+             
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#create">Create Axle/Wheel</button>
+                      
+                      
+                        
+            <div id="create" class="modal fade" role="dialog">
+	
+			<div class="modal-dialog">
+				<div class="modal-content animated bounceInRight">
+					<div class="modal-header">					
 
+
+					</div>
+					
+					<div class="modal-body">
+                     <form id="formId" class="form-horizontal m-l-md" action="axelWheelConfiguration" method="post">
+                            
+                       
+                                <div class="form-group"><label class="col-lg-3 control-label">Wheeler Type:</label>
+
+                                    <div class="col-lg-5">
+                                    <input id="axlewheelertype" name="axlewheelertype" type="text" class="form-control" >
+                                     
+                                    </div>
+                                    <div class="col-lg-5">
+                                   <button class="btn btn-sm btn-primary" name="addType" type="submit">Add</button>
+                                    </div>
+                                </div>
+                    
+                    
+    
+                         
+                         </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -259,8 +217,7 @@
       
                   
         </div>
-      <!-- <div id="footer"></div> -->
-      <%@include file="footer.html" %>
+      
 
         </div>
         </div>
@@ -361,7 +318,11 @@ $(document).ready(function(){
             });
         });
     </script>
-
+    
+    
+    
+ <!-- <div id="footer"></div> -->
+     <%--  <%@include file="footer.html" %> --%>
 </body>
 
 </html>
