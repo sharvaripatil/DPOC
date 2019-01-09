@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
@@ -320,14 +321,30 @@ public class ShippingOrderImpl implements IShippingOrder {
 	@Override
 	public void saveDistrictClubOrdByPass(DistrictClubOrdByPass districtByPass) {
 		// TODO Auto-generated method stub
-		
+		DistrictClubOrdByPassEntity distByPassEnti = new DistrictClubOrdByPassEntity();
+		distByPassEnti.setDistrictCode(districtByPass.getDistrictCode());
+		distByPassEnti.setDistrictName(districtByPass.getDistrictName());
+		distByPassEnti.setStartDate(districtByPass.getStartDate());
+		distByPassEnti.setEndDate(districtByPass.getEndDate());
+		shippingOrderDao.saveDistrictClubOrdByPass(distByPassEnti);
 	}
 
 
 	@Override
 	public List<DistrictClubOrdByPass> getAllDistrictClubOrdByPass() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<DistrictClubOrdByPassEntity> distList =  shippingOrderDao.getAllDistrictClubOrdByPass();
+		List<DistrictClubOrdByPass> districtBypassList = new ArrayList<>();
+		DistrictClubOrdByPass distObj = null;
+		for (DistrictClubOrdByPassEntity districtClubOrdByPassEntity : distList) {
+			distObj = new DistrictClubOrdByPass();
+			distObj.setDistrictName(districtClubOrdByPassEntity.getDistrictName());
+			distObj.setDistrictCode(districtClubOrdByPassEntity.getDistrictCode());
+			distObj.setStartDate(districtClubOrdByPassEntity.getStartDate());
+			distObj.setEndDate(districtClubOrdByPassEntity.getEndDate());
+			districtBypassList.add(distObj);
+		}
+		return districtBypassList;
 	}
 
 	

@@ -58,27 +58,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Kanpur</td>
-					  <td>0522</td>
-					   <td>1/1/2019</td>
-                    <td>15/1/2019</td>
-                   
-                  </tr>
-                  <tr>
-                    <td>Kanpur</td>
-					  <td>0522</td>
-					   <td>1/1/2019</td>
-                    <td>15/1/2019</td>
-                  
-                  </tr>
-                  <tr>
-                    <td>Kanpur</td>
-					  <td>0522</td>
-					   <td>1/1/2019</td>
-                    <td>15/1/2019</td>
-                  
-                  </tr>
+                 <c:forEach items="${distByPass}" var="districtByPass" varStatus="status">
+                                    <tr>
+                                    	<td>${districtByPass.districtName}</td>
+                                    	<td>${districtByPass.districtCode}</td>
+                                    	<td>${districtByPass.startDate}</td>
+                                    	<td>${districtByPass.endDate}</td>
+                                    </tr>                                  
+                                    </c:forEach>
                 </tbody>
               </table>
 				
@@ -94,7 +81,7 @@
         </div>
         </div>
 <%-- <form:form id="formId" class="form-horizontal m-l-md"  action="distClubOrdByPassConfig" method="post"> --%>
-<div class="modal" id="create" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal" id="create" tabindex="-1" data-backdrop="static" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated bounceInRight">
       <div class="modal-header">

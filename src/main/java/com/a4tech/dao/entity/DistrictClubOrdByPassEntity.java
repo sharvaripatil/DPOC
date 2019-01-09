@@ -1,6 +1,6 @@
 package com.a4tech.dao.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,17 +12,17 @@ import javax.persistence.Table;
 @Table(name="district_clubbing_ord_byPass")
 public class DistrictClubOrdByPassEntity {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	@Column(name="district_name")
 	private String districtName;
 	@Column(name="district_code")
 	private String districtCode;
 	@Column(name="start_date")
-	private Date startDate;
+	private LocalDate startDate;
 	@Column(name="end_date")
-	private Date endDate;
+	private LocalDate endDate;
 	public Integer getId() {
 		return id;
 	}
@@ -41,17 +41,18 @@ public class DistrictClubOrdByPassEntity {
 	public void setDistrictCode(String districtCode) {
 		this.districtCode = districtCode;
 	}
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
+	
 
 }

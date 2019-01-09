@@ -3,8 +3,6 @@ package com.a4tech.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -84,7 +82,7 @@ public class ShippingDetailController {
 	private IShippingOrder shippingOrderService;
 	@Autowired
 	private ShippingService shippingService;
-
+	
 	@Autowired
 	private IOrderDataMapper dataMapper;
 	
@@ -468,37 +466,20 @@ public class ShippingDetailController {
 		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
 	}
 	@RequestMapping(value="/distClubOrdByPassConfig",method = RequestMethod.GET)
-	public String districtClubOrderByPassConfigure() {
-		return "district_clubbing_order_bypass";
-		
+	public ModelAndView districtClubOrderByPassConfigure() {
+		 List<DistrictClubOrdByPass> districtByPassList = shippingOrderService.getAllDistrictClubOrdByPass();
+			return new ModelAndView("district_clubbing_order_bypass", "distByPass", districtByPassList);
 	}
 	@RequestMapping(value = "/distClubOrdByPassConfig", method = RequestMethod.POST)
 	public ModelAndView districtClubOrderByPassConfigure(
 			@ModelAttribute("districtByPass") @Validated DistrictClubOrdByPass districtByPass,BindingResult result,Model model,HttpServletRequest req) {
 		System.out.println("Update configuration");
-		
-		/*Date startDate = req.getAttribute("startDate");
-		Date endDate = req.getParameter("endDate");*/
-		
 		String startDateStr = req.getParameter("startDate");
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		String endDate = req.getParameter("endDate");
-		
-		//surround below line with try catch block as below code throws checked exception
-		try {
-			Date startDate = sdf.parse(startDateStr);
-			Date endDate1 = sdf.parse(endDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(result.hasErrors()){
-			//return "configure_districtWise_Normal_load";
-		}
-    
+      shippingService.orderDistrictByPass(districtByPass, startDateStr, endDate);
        model.addAttribute("update", "updateSuccess");
-       List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
-		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
+       List<DistrictClubOrdByPass> districtByPassList = shippingOrderService.getAllDistrictClubOrdByPass();
+		return new ModelAndView("district_clubbing_order_bypass", "distByPass", districtByPassList);
 		//return "configure_districtWise_Normal_load";
 	}
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {

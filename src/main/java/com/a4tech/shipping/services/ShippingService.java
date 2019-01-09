@@ -3,6 +3,7 @@ package com.a4tech.shipping.services;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.a4tech.map.service.MapService;
 import com.a4tech.shipping.iservice.IShippingOrder;
+import com.a4tech.shipping.model.DistrictClubOrdByPass;
 import com.a4tech.shipping.model.IntellishipModelByMaterial;
 import com.a4tech.shipping.model.OrderGroup;
 import com.a4tech.shipping.model.PlantDetails;
@@ -711,5 +713,21 @@ public class ShippingService {
 			status = "In Transit";
 		}
 		return status;
+	}
+	public void orderDistrictByPass(DistrictClubOrdByPass districtByPass,String startDate,String endDate) {
+		districtByPass.setStartDate(LocalDate.parse(startDate));
+		districtByPass.setEndDate(LocalDate.parse(endDate));
+		/*DateTimeFormatter initialFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter finalFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		String startDate1 = LocalDate.parse(startDate,initialFormatter).format(finalFormatter);
+		String endDate1 = LocalDate.parse(endDate,initialFormatter).format(finalFormatter);
+		districtByPass.setStartDate(LocalDate.parse(startDate1,finalFormatter));
+		districtByPass.setEndDate(LocalDate.parse(endDate1,finalFormatter));
+		
+		LocalDate ld = LocalDate.parse(startDate1);
+		
+		LocalDate ld123 = LocalDate.parse(endDate1);*/
+		shippingOrderService.saveDistrictClubOrdByPass(districtByPass);
+		
 	}
 }
