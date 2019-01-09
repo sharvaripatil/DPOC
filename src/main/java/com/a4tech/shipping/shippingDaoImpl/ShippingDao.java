@@ -16,7 +16,7 @@ import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
@@ -708,7 +708,33 @@ public class ShippingDao implements IshippingOrderDao{
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-		
+
+	
+	@Override
+	public void saveAxleWheelConfiguration(AxleWheelTypeEntity wheelEntity) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.save(wheelEntity);
+			transaction.commit();
+			_LOGGER.info("Added New wheel type in dbb");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to savewheeltype in db: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	}	
+
 
 	
 }

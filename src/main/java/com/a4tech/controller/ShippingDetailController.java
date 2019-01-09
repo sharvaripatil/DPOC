@@ -20,9 +20,8 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
@@ -52,6 +51,7 @@ import com.a4tech.map.model.Address;
 import com.a4tech.map.service.MapService;
 import com.a4tech.service.mapper.IOrderDataMapper;
 import com.a4tech.shipping.iservice.IShippingOrder;
+import com.a4tech.shipping.model.AxleWheelConfiguration;
 import com.a4tech.shipping.model.DistrictClubOrdByPass;
 import com.a4tech.shipping.model.FileUploadBean;
 import com.a4tech.shipping.model.IntellishipModel;
@@ -391,14 +391,7 @@ public class ShippingDetailController {
 		/*return "configure_districtWise_Normal_load";*/
 	}
 	
-	@RequestMapping(value = "/axelWheelConfiguration", method = RequestMethod.GET)
-	public ModelAndView showAxelWheelConfiguration() {
-		return new ModelAndView("axleWheelConfig", "axelWheelConfig",
-				new NormalLoadConfiguration());
-		/*return "configure_districtWise_Normal_load";*/
-	}
-	
-	
+
 	@RequestMapping(value = "/normalLoadConfiguration", method = RequestMethod.POST,params="add")
 	public String addNormalLoadConfiguration(
 			@ModelAttribute("normalLoadConfig") @Validated NormalLoadConfiguration normalLoadConfig,BindingResult result,Model model) {
@@ -467,6 +460,30 @@ public class ShippingDetailController {
 		List<DistrictWiseNormalLoadCapacity> dwnList = shippingOrderService.getAllDistrictWiseLoads();
 		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
 	}
+
+	
+	@RequestMapping(value = "/axelWheelConfiguration", method = RequestMethod.GET)
+	public ModelAndView showAxelWheelConfiguration() {
+		return new ModelAndView("axleWheelConfig", "axelWheelConfig",
+				new NormalLoadConfiguration());
+		/*return "configure_districtWise_Normal_load";*/
+	}
+	
+	
+	@RequestMapping(value = "/axelWheelConfiguration",method = RequestMethod.POST,params="addType")
+	public String createWheelerType(
+		@ModelAttribute("axleWheelConfig")  @Validated AxleWheelConfiguration axleWheelConfig,BindingResult result,Model model) {
+			
+		System.out.println("add configuration");
+		
+	    shippingOrderService.saveAxleWheelConfiguration(axleWheelConfig);
+	 
+		return "create_axlewheel_config";
+	
+	}
+
+	
+
 	@RequestMapping(value="/distClubOrdByPassConfig",method = RequestMethod.GET)
 	public String districtClubOrderByPassConfigure() {
 		return "district_clubbing_order_bypass";
@@ -501,6 +518,7 @@ public class ShippingDetailController {
 		return new ModelAndView("districtWiseNormalLoadConfigureView", "configureViewData", dwnList);
 		//return "configure_districtWise_Normal_load";
 	}
+
 	private boolean isemptyValues(Map<String, Map<List<ShippingDetails1>, List<TruckDetails>>> finalTruckDetails) {
 		for (Map.Entry<String, Map<List<ShippingDetails1>, List<TruckDetails>>> data : finalTruckDetails.entrySet()) {
 			Map<List<ShippingDetails1>, List<TruckDetails>> vals = data.getValue();

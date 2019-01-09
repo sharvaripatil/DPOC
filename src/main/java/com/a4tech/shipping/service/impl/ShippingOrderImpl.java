@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.OrderGroupEntity;
 import com.a4tech.dao.entity.ShippingDeliveryOrderEntity;
@@ -15,6 +16,7 @@ import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
 import com.a4tech.shipping.iservice.IShippingOrder;
 import com.a4tech.shipping.ishippingDao.IshippingOrderDao;
+import com.a4tech.shipping.model.AxleWheelConfiguration;
 import com.a4tech.shipping.model.DistrictClubOrdByPass;
 import com.a4tech.shipping.model.NormalLoadConfiguration;
 import com.a4tech.shipping.model.OrderGroup;
@@ -318,6 +320,15 @@ public class ShippingOrderImpl implements IShippingOrder {
 
 
 	@Override
+	public void saveAxleWheelConfiguration(
+			AxleWheelConfiguration axleWheelConfig) {
+		
+		AxleWheelTypeEntity wheelEntity=new AxleWheelTypeEntity(); 
+		wheelEntity.setAxlewheelerid(axleWheelConfig.getAxlewheelerid());
+		wheelEntity.setAxlewheelertype(axleWheelConfig.getAxlewheelertype());
+		shippingOrderDao.saveAxleWheelConfiguration(wheelEntity);
+
+	}
 	public void saveDistrictClubOrdByPass(DistrictClubOrdByPass districtByPass) {
 		// TODO Auto-generated method stub
 		
