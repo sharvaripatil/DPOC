@@ -21,6 +21,11 @@
     <link href="resources/css/style.css" rel="stylesheet">
     <link href="resources/css/icon.css" rel="stylesheet">
 	 <link href="resources/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+	    <script src="resources/js/jquery-2.1.1_old.js"></script> 
+
+    <script src="resources/js/bootstrap.min.js"></script>
+    <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <style type="text/css">
     body {
         color: #404E67;
@@ -134,48 +139,49 @@
                 </div>
             </div>
         <div class="wrapper wrapper-content animated fadeInRight">
-      
-      <div class="row">
-                <div class="col-lg-12">
+      </div>
+     
+            <div class="row">
+                <div class="col-lg-10">
+                   <form:form method="POST" action="/DropdownExample">
                     <div class="ibox float-e-margins">
-                        <div class="ibox-title" style="padding-bottom:30px !important;">
-							<div class="form-group" > <h5>Axle/Wheeler type  </h5>
+                        <div class="ibox-title">
+                     
+							<div class="form-group"> <h5>Axle/Wheeler type  </h5>
 
-                                    <div class="col-sm-3">
-										  <select class="form-control" style="color:black">
-                                        <option>select Axle/Wheeler type</option>
-                                    </select>
-
+                                    <div class="col-sm-2">
+                                    <select class="form-control"> 
+                 <%--                    <option value="Select" label="Select Axle Wheeler Type">
+                            
+                       <options items="${dropDwnList}" /> 
+                        --%>
+                        <label path = "axlewheelertype">axlewheelertype</label>
+                           <select path = "axlewheelertype">
+                     <option value = "NONE" label = "Select"/>
+                     <options items = "${dropDwnList}" />
+                  </select>        
+                                    
+					<!-- 	<option value="Junior Developer" label="Junior Developer"/>
+						<option value="Developer" label="Developer"/>
+						<option value="Senior Developer" label="Senior Developer"/>
+						<option value="Manager" label="Manager"/> -->
+         
+                                    </option>
+                                    
+                                    </select>				
                                        
                                     </div>
                                 </div>
-							
-					
-						
-                          <!--   <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#">Config option 1</a>
-                                    </li>
-                                    <li><a href="#">Config option 2</a>
-                                    </li>
-                                </ul>
-                                
-                            </div> -->
-							
+					</div>
+
                         </div>
+                        </form:form>
+                        
                         
                         <div class="ibox-content">
 						
                         <button type="button" class="btn btn-info add-new pull-right"><i class="fa fa-plus"></i> Add New</button>
-                   
-             
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#create">Create Axle/Wheel</button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#create" onClick="fnClear()">Create Axle/Wheel</button>
                       
                       
                         
@@ -195,18 +201,33 @@
                                 <div class="form-group"><label class="col-lg-3 control-label">Wheeler Type:</label>
 
                                     <div class="col-lg-5">
-                                    <input id="axlewheelertype" name="axlewheelertype" type="text" class="form-control" >
-                                     
-                                    </div>
-                                    <div class="col-lg-5">
-                                   <button class="btn btn-sm btn-primary" name="addType" type="submit">Add</button>
-                                    </div>
+                                    <input id="axlewheelertype" name="axlewheelertype" type="text" class="form-control" ><br/>
+                                     <button class="btn btn-sm btn-primary center-block" name="addType" type="submit">Add</button>
+<!--                                      <button class="btn btn-sm btn-primary pull-right" name="addType" type="button" >Reset</button>
+ -->                                    </div>
+                                   
                                 </div>
                     
                     
-    
-                         
-                         </form>
+    			 <c:choose>
+             	<c:when test="${showMessage == 'success'}">
+             	<script>
+             	$(document).ready(function(){
+             	$('#create').modal('show'); 
+             	});
+             	</script>
+             	<span style="color: green;" class="text-center" id="errExist">wheeler type is has been saved successfully</span> 
+             	</c:when>
+             	<c:when test="${showMessage == 'Error'}">
+             	 	<script>
+             	$(document).ready(function(){
+             	$('#create').modal('show');
+             	});
+             	</script>
+             	<span style="color: red;" class="text-center" id="errExist">The wheeler type is already present</span> 
+             	</c:when>
+             	</c:choose>
+                  </form>
                             
                         </div>
                     </div>
@@ -223,79 +244,24 @@
         </div>
 
 
-
-    <!-- Mainly scripts -->
-   <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous"></script> -->
-		<script>
+<script>
 		
 $(document).ready(function(){
     $("#navbar").load("navbar.jsp");
 	 $("#header").load("header.html");
 	 $("#footer").load("footer.html");
 });
-	</script>
-    <script src="resources/js/jquery-2.1.1_old.js"></script> 
-    <script type="text/javascript">
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-	var actions = $("table td:last-child").html();
-	// Append table with add row form on add new button click
-    $(".add-new").click(function(){
-		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
-        var row = '<tr>' +
-            '<td><input type="text" class="form-control" name="name" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-            '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
-			'<td>' + actions + '</td>' +
-        '</tr>';
-    	$("table").append(row);		
-		$("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-	// Add row on add button click
-	$(document).on("click", ".add", function(){
-		var empty = false;
-		var input = $(this).parents("tr").find('input[type="text"]');
-        input.each(function(){
-			if(!$(this).val()){
-				$(this).addClass("error");
-				empty = true;
-			} else{
-                $(this).removeClass("error");
-            }
-		});
-		$(this).parents("tr").find(".error").first().focus();
-		if(!empty){
-			input.each(function(){
-				$(this).parent("td").html($(this).val());
-			});			
-			$(this).parents("tr").find(".add, .edit").toggle();
-			$(".add-new").removeAttr("disabled");
-		}		
-    });
-	// Edit row on edit button click
-	$(document).on("click", ".edit", function(){		
-        $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
-		});		
-		$(this).parents("tr").find(".add, .edit").toggle();
-		$(".add-new").attr("disabled", "disabled");
-    });
-	// Delete row on delete button click
-	$(document).on("click", ".delete", function(){
-        $(this).parents("tr").remove();
-		$(".add-new").removeAttr("disabled");
-    });
-});
-</script>
 
-    
-    <script src="resources/js/bootstrap.min.js"></script>
-    <script src="resources/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+function fnClear()
+{
+$('#errExist').hide();
+}
+
+
+
+</script>
+	
+ 
 
     <!-- Peity -->
     <script src="resources/js/plugins/peity/jquery.peity.min.js"></script>
@@ -310,19 +276,6 @@ $(document).ready(function(){
     <!-- Peity -->
     <script src="resources/js/demo/peity-demo.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
-        });
-    </script>
-    
-    
-    
- <!-- <div id="footer"></div> -->
-     <%--  <%@include file="footer.html" %> --%>
 </body>
 
 </html>

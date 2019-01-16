@@ -1,6 +1,8 @@
 package com.a4tech.shipping.ishippingDao;
 
 import java.util.List;
+import java.util.Map;
+
 import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
@@ -37,6 +39,9 @@ public interface IshippingOrderDao {
   public List<TruckHistoryDetailsEntity> getSearchTrucksHistoryDetails(String value,String type);
   public void saveDistrictClubOrdByPass(DistrictClubOrdByPassEntity byPassEnitity);
   public List<DistrictClubOrdByPassEntity> getAllDistrictClubOrdByPass();
+  public AxleWheelTypeEntity getAxlewheel(String wheelType);
+  public List<AxleWheelTypeEntity> getAllAxleWheelTypeEntity();
+  public void updateTruckhistory(TruckHistoryDetailsEntity historyObj);
 
 
 }

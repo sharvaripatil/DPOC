@@ -10,6 +10,10 @@ public interface IOrderDataMapper {
 	
 	public String readTruckHistoryExcel(Workbook wb);
 
+	public String readNormalLoad(Workbook wb);
+	
+	public String updateTruckHistoryExcel(Workbook wb);
+	
 	
 }
 

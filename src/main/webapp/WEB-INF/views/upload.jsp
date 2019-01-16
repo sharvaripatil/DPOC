@@ -61,6 +61,10 @@ h4 {
              	<c:when test="${truckHistoryMessage == 'success'}">
              	<h4 style="color: green;">Truck History data has been saved successfully</h4> 
              	</c:when>
+             		<c:when test="${normalLoad == 'success'}">
+             	<h4 style="color: green;">Normal load configuration data has been saved successfully</h4> 
+             	</c:when>
+      
              	</c:choose>
         
       </form:form>

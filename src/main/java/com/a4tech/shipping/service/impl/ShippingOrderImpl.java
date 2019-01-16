@@ -2,6 +2,7 @@ package com.a4tech.shipping.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -341,7 +342,20 @@ public class ShippingOrderImpl implements IShippingOrder {
 		return null;
 	}
 
-	
+
+	@Override
+	public AxleWheelTypeEntity getAxlewheel(String wheelType) {
+		
+		return shippingOrderDao.getAxlewheel(wheelType);
+	}
+
+
+	@Override
+	public List<AxleWheelTypeEntity> getAllAxleWheelTypeEntity() {
+		// TODO Auto-generated method stub
+		return shippingOrderDao.getAllAxleWheelTypeEntity();
+	}
+
 
 
 

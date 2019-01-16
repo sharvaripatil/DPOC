@@ -20,7 +20,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -45,6 +48,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
 import com.a4tech.map.model.Address;
@@ -289,7 +293,7 @@ public class ShippingDetailController {
   @RequestMapping(value = "/uploadTruckHistoryDetails", method = RequestMethod.GET)
   public ModelAndView truckHistoryFileUpload() {
 	  FileUploadBean file = new FileUploadBean();
-     ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+     ModelAndView modelAndView = new ModelAndView("uploadAndUpdate", "command", file);
      return modelAndView;
   }
   
@@ -317,8 +321,43 @@ public class ShippingDetailController {
 			model.addAttribute("showMessage", "format");
 		}
 	  }
-	  return "upload";
+	  return "uploadAndUpdate";
   }
+
+
+
+  
+
+@RequestMapping(value="/updateTruckHistoryDetails", method = RequestMethod.POST)
+public String updateHistory(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+	  int countTruckDetailsFile=5;
+	  int numberOfCells=0;
+	  if(mfile.getFile().getSize() == 0)
+	  {
+		  model.addAttribute("showMessage", "select");
+	  }
+	  else{
+	  File file = convertMultiPartFileIntoFile(mfile.getFile());
+//		long fileSize = file.length();
+		Workbook wb = getWorkBook(file);
+		Sheet sheet = wb.getSheetAt(0);
+     //numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+		 numberOfCells=sheet.getRow(0).getLastCellNum();
+			if (numberOfCells == countTruckDetailsFile) {
+			dataMapper.readTruckHistoryExcel(wb);
+			model.addAttribute("truckHistoryMessage", "success");
+		} else {
+			model.addAttribute("showMessage", "format");
+		}
+	  }
+	  return "uploadAndUpdate";
+}
+
+
+
+
+
+
 	@RequestMapping(value = "/showTruckHistoryDetails", method = RequestMethod.GET)
 	public ModelAndView showTruckHistory() {
 		List<TruckHistoryDetailsEntity> truckHistoryList = shippingOrderService.getAllTrucksHistoryDetails();
@@ -475,14 +514,54 @@ public class ShippingDetailController {
 		@ModelAttribute("axleWheelConfig")  @Validated AxleWheelConfiguration axleWheelConfig,BindingResult result,Model model) {
 			
 		System.out.println("add configuration");
-		
-	    shippingOrderService.saveAxleWheelConfiguration(axleWheelConfig);
-	 
-		return "create_axlewheel_config";
-	
+		String wheelType = axleWheelConfig.getAxlewheelertype();
+		AxleWheelTypeEntity wheelData = shippingOrderService.getAxlewheel(wheelType);
+		if(wheelData != null){
+		model.addAttribute("showMessage", "Error");
+		}
+		else{
+		 model.addAttribute("showMessage", "success");
+		 shippingOrderService.saveAxleWheelConfiguration(axleWheelConfig);
+		}
+		return "axleWheelConfig";
 	}
-
 	
+	
+	 @RequestMapping(value = "/uploadLoadConfig", method = RequestMethod.GET)
+	   public ModelAndView uploadconfg() {
+		  FileUploadBean file = new FileUploadBean();
+	      ModelAndView modelAndView = new ModelAndView("upload", "command", file);
+	      return modelAndView;
+	   }
+	
+	 @RequestMapping(value="/uploadLoadConfig", method = RequestMethod.POST)
+	  public String processHistory1(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
+		  int countTruckDetailsFile=5;
+		  int numberOfCells=0;
+		  if(mfile.getFile().getSize() == 0)
+		  {
+			  model.addAttribute("showMessage", "select");
+		  }
+		  else{
+		  File file = convertMultiPartFileIntoFile(mfile.getFile());
+//			long fileSize = file.length();
+			Workbook wb = getWorkBook(file);
+			Sheet sheet = wb.getSheetAt(0);
+	       //numberOfCells=sheet.getRow(0).getPhysicalNumberOfCells();
+			int numberOfCells123=sheet.getRow(0).getPhysicalNumberOfCells();
+			 numberOfCells=sheet.getRow(0).getLastCellNum();
+			 String name = sheet.getSheetName();
+				if (numberOfCells == countTruckDetailsFile) {
+				dataMapper.readNormalLoad(wb);
+				model.addAttribute("normalLoad", "success");
+			} else {
+				model.addAttribute("showMessage", "format");
+			}
+		  }
+		  return "upload";
+	  }
+		
+
 
 	@RequestMapping(value="/distClubOrdByPassConfig",method = RequestMethod.GET)
 	public String districtClubOrderByPassConfigure() {
@@ -1942,4 +2021,121 @@ public class ShippingDetailController {
 		    }
 			return workBook;
 		}
+	 
+	 
+	 
+	 
+	 /*@RequestMapping(method = RequestMethod.GET)
+	    public String initForm(Model model) {
+
+		AxleWheelConfiguration axelObj = new AxleWheelConfiguration();
+
+	        //form.setHiddenMessage("JavaCodeGeek");
+
+	        model.addAttribute("axelObj", axelObj);
+
+	        initModelList(model);
+
+	        return "a";
+
+	    }
+	 private static void initModelList(Model model) {
+		         List<String> coloursList = new ArrayList<String>();
+		         coloursList.add("red");
+		         coloursList.add("green");
+		         coloursList.add("yellow");
+		         coloursList.add("pink");
+		         coloursList.add("blue");
+		  List<AxleWheelTypeEntity> axelsList=shippingOrderService.getAllAxleWheelTypeEntity();
+		         model.addAttribute("axels", axelsList);
+		     }*/
+
+	 
+	 
+	 
+ 
+		@RequestMapping("/DropdownExample")
+		public String  populateWheelDropDown(Map  model)
+		{
+			AxleWheelConfiguration wheelObj=new AxleWheelConfiguration();
+			model.put("wheelObj", wheelObj);
+		 List<AxleWheelTypeEntity> dropDwnList=shippingOrderService.getAllAxleWheelTypeEntity();
+		// model.addAttribute("dropDwnList",dropDwnList);
+			  return  "axleWheelConfig";
+		}
+		
+
+
+		
+
+		
+
+		
+		
+		
+		
+		
+		
+		
+
+	/*@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView populateWheelDropDown()
+	{
+	 List<AxleWheelTypeEntity> dropDwnList=shippingOrderService.getAllAxleWheelTypeEntity();
+		  return new ModelAndView("axleWheelConfig", "selectWheelerType", dropDwnList);
+
+	}*/
+	/*@RequestMapping(value = "/axelWheelConfigurationss",method = RequestMethod.POST)
+	public String submitForm(Model model,@ModelAttribute("axelObj") AxleWheelConfiguration axelObj,  BindingResult result) {
+
+	       //model.addAttribute("colour", colour);
+	       String returnVal = "successColour";
+	       List<AxleWheelTypeEntity> dropDwnList=shippingOrderService.getAllAxleWheelTypeEntity();
+	          initModelList(model,dropDwnList);
+	           model.addAttribute("axelObj", new AxleWheelConfiguration());
+	       return returnVal;
+
+	   }
+	*/
+
+	 
+	 
+	 /*@RequestMapping(method = RequestMethod.GET)
+		public ModelAndView showEmployeeForm() {
+		 AxleWheelConfiguration wheelObj = new AxleWheelConfiguration();
+	 
+			ModelAndView mv = new ModelAndView("wheelObj");
+			mv.addObject("axlewWheelConfig", wheelObj);
+			
+			
+			
+			 List<AxleWheelTypeEntity> dropDwnList=shippingOrderService.getAllAxleWheelTypeEntity();
+			 mv.addObject("dropDwnList", dropDwnList);
+			
+			
+			
+			
+			return mv;
+	 
+	 }*/
+	
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 }
