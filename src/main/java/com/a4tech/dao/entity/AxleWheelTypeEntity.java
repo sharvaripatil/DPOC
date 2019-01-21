@@ -13,7 +13,7 @@ import javax.persistence.Table;
 public class AxleWheelTypeEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "axlewheelerid")
 	private Integer axlewheelerid;
 	@Column(name = "axlewheelertype")

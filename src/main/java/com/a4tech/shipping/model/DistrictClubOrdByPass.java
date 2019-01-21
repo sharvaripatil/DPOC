@@ -1,5 +1,6 @@
 package com.a4tech.shipping.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,10 +10,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class DistrictClubOrdByPass {
 	private String districtName;
 	private String districtCode;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date startDate;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 
 	public String getDistrictName() {
 		return districtName;
@@ -30,20 +29,22 @@ public class DistrictClubOrdByPass {
 		this.districtCode = districtCode;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
+
+	
 
 }
