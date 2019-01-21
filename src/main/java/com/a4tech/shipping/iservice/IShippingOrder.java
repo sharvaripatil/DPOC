@@ -1,7 +1,9 @@
 package com.a4tech.shipping.iservice;
 
 import java.util.List;
+import java.util.Map;
 
+import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
@@ -37,5 +39,7 @@ public interface IShippingOrder {
   public void saveAxleWheelConfiguration(AxleWheelConfiguration axleWheelConfig);
   public void saveDistrictClubOrdByPass(DistrictClubOrdByPass districtByPass);
   public List<DistrictClubOrdByPass> getAllDistrictClubOrdByPass();
+  public AxleWheelTypeEntity getAxlewheel(String wheelType);
+  public List<AxleWheelTypeEntity> getAllAxleWheelTypeEntity();
 
 }

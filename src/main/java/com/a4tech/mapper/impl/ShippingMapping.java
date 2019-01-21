@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.a4tech.controller.ShippingDetailController;
+import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
 import com.a4tech.dao.entity.ShippingEntity;
 import com.a4tech.dao.entity.TruckDetailsEntity;
 import com.a4tech.dao.entity.TruckHistoryDetailsEntity;
@@ -429,5 +430,209 @@ public class ShippingMapping implements IOrderDataMapper{
 		
 		}
 		
+	
+	
+	@Override
+	public String readNormalLoad(Workbook wb) {
+		
+		
+		{
+
+			//	ShippingDetailController historyObj=new ShippingDetailController();
+			DistrictWiseNormalLoadCapacity loadObj=new DistrictWiseNormalLoadCapacity();
+				
+				Sheet sheet=wb.getSheetAt(0);
+				Iterator<Row> iterator = sheet.iterator();
+				Set<String>  productXids = new HashSet<String>();
+				//String TruckValue="";
+				String distNo="";
+				String rated_load="";
+				Cell xidCell = null ;
+				while (iterator.hasNext()) {
+					
+					Row nextRow = iterator.next();
+					if(nextRow.getRowNum() == ApplicationConstants.CONST_NUMBER_ZERO){
+						continue;
+					}
+					Iterator<Cell> cellIterator = nextRow.cellIterator();
+					/*if(SL_NO != null){
+						productXids.add(SL_NO);
+					}*/
+					 boolean checkXid  = false;
+					while (cellIterator.hasNext()) {
+						Cell cell = cellIterator.next();
+						int columnIndex = cell.getColumnIndex();
+						if(columnIndex  == 0){
+							 xidCell = nextRow.getCell(0);
+							 distNo = CommonUtility.getCellValueStrinOrInt(xidCell);
+							//xid = CommonUtility.getCellValueStrinOrInt(cell);
+							checkXid = true;
+						}else{
+							checkXid = false;
+						}
+						if(checkXid){
+							 if(!productXids.contains(distNo)){
+								 if(nextRow.getRowNum() != 1){
+									 //int num = postServiceImpl.postProduct(accessToken, productExcelObj,asiNumber ,batchId, environmentType);
+									// shippingOrderDao.saveTruckhistory(historyObj);
+								 }
+								    if(!productXids.contains(distNo)){
+								    	productXids.add(distNo);
+								    }
+								    loadObj=new DistrictWiseNormalLoadCapacity();
+							 }
+						}
+							switch (columnIndex + 1) {
+		
+							case 1:
+								distNo=CommonUtility.getCellValueStrinOrInt(xidCell);
+								int result = Integer.parseInt(distNo);
+							    loadObj.setId(result);
+								
+								break;	
+								
+							case 2:
+								String districtName=cell.getStringCellValue(); 
+								loadObj.setDistrictName(districtName);
+								
+								break;
+								
+							case 3:
+								 rated_load=CommonUtility.getCellValueStrinOrInt(cell);
+								int result1 = Integer.parseInt(rated_load);
+							    loadObj.setRatedLoad(result1);
+								
+								break;
 			
+							case 4:
+								String truck_loading=cell.getStringCellValue(); 
+								loadObj.setTruckOverLoading(truck_loading);
+								
+								break;
+								
+							case 5:
+								double truck_over_loadingtonns=cell.getNumericCellValue();
+								loadObj.setTruckOverLoadingtonns(truck_over_loadingtonns);
+								
+								break;
+			
+							}
+						}
+					
+					 shippingOrderDao.saveDistrictWiseNormalLoad(loadObj);
+					
+				}
+			
+			
+		}
+		
+		
+		return "Success";
+	}
+
+	
+	
+	@Override
+	public String updateTruckHistoryExcel(Workbook wb) {
+
+		{
+		//	ShippingDetailController historyObj=new ShippingDetailController();
+			TruckHistoryDetailsEntity historyObj=new TruckHistoryDetailsEntity();
+			
+			Sheet sheet=wb.getSheetAt(0);
+			Iterator<Row> iterator = sheet.iterator();
+			Set<String>  productXids = new HashSet<String>();
+			//String TruckValue="";
+			String SL_NO="";
+			Cell xidCell = null ;
+			while (iterator.hasNext()) {
+				
+				Row nextRow = iterator.next();
+				if(nextRow.getRowNum() == ApplicationConstants.CONST_NUMBER_ZERO){
+					continue;
+				}
+				Iterator<Cell> cellIterator = nextRow.cellIterator();
+				/*if(SL_NO != null){
+					productXids.add(SL_NO);
+				}*/
+				 boolean checkXid  = false;
+				while (cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					int columnIndex = cell.getColumnIndex();
+					if(columnIndex  == 0){
+						 xidCell = nextRow.getCell(0);
+						 SL_NO = CommonUtility.getCellValueStrinOrInt(xidCell);
+						//xid = CommonUtility.getCellValueStrinOrInt(cell);
+						checkXid = true;
+					}else{
+						checkXid = false;
+					}
+					if(checkXid){
+						 if(!productXids.contains(SL_NO)){
+							 if(nextRow.getRowNum() != 1){
+								 //int num = postServiceImpl.postProduct(accessToken, productExcelObj,asiNumber ,batchId, environmentType);
+								// shippingOrderDao.saveTruckhistory(historyObj);
+							 }
+							    if(!productXids.contains(SL_NO)){
+							    	productXids.add(SL_NO);
+							    }
+							    historyObj=new TruckHistoryDetailsEntity();
+						 }
+					}
+						switch (columnIndex + 1) {
+						
+				/*		case 1:
+							TruckValue=CommonUtility.getCellValueStrinOrInt(xidCell);
+							int id=Integer.parseInt(TruckValue);
+							entityObj.setTruckId(id);
+							
+							break;*/
+							
+						case 1:
+						    SL_NO=cell.getStringCellValue(); 
+						    historyObj.setTruckNo(SL_NO);
+							
+							break;	
+							
+						case 2:
+							String SP_District_Code=cell.getStringCellValue(); 
+							historyObj.setDistrictCode(SP_District_Code);
+							
+							break;
+							
+						case 3:
+							String SP_District_Name=cell.getStringCellValue(); 
+							historyObj.setDistrictName(SP_District_Name);
+							break;
+		
+						case 4:
+							Double Rated_Load=cell.getNumericCellValue();
+							int intRated_Load=Rated_Load.intValue();
+							historyObj.setRatedLoad(intRated_Load);
+							
+							break;
+		
+						case 5:
+							Double Normal_Load=cell.getNumericCellValue();
+							int intNormal_Load=Normal_Load.intValue();
+							historyObj.setNormalLoad(intNormal_Load);
+							
+							break;
+		
+						}
+					}
+				
+				 shippingOrderDao.updateTruckhistory(historyObj);
+				
+			}
+			
+			//shippingDao.saveShippingEntity(entityObj);
+
+			
+		}
+		return "Success";	
+		
+			}	
+	
+	
 }

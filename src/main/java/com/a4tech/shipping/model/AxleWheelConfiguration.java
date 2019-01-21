@@ -1,8 +1,11 @@
 package com.a4tech.shipping.model;
 
+
+
 public class AxleWheelConfiguration {
 
 	private Integer axlewheelerid;
+	
 	private String  axlewheelertype;
 	
 	

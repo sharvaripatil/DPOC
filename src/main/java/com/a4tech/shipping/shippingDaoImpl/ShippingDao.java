@@ -3,7 +3,9 @@ package com.a4tech.shipping.shippingDaoImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
@@ -16,6 +18,7 @@ import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.a4tech.dao.entity.AxleWheelTypeEntity;
 import com.a4tech.dao.entity.DistrictClubOrdByPassEntity;
 import com.a4tech.dao.entity.DistrictWiseNormalLoadCapacity;
@@ -733,8 +736,104 @@ public class ShippingDao implements IshippingOrderDao{
 				}
 			}
 		}		
-	}	
+	}
+	@Override
+	public AxleWheelTypeEntity getAxlewheel(String wheelType) {
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			Criteria criteria = session.createCriteria(AxleWheelTypeEntity.class);
+			criteria.add(Restrictions.eq("axlewheelertype", wheelType));
+			AxleWheelTypeEntity wheelData = (AxleWheelTypeEntity) criteria.uniqueResult();
+			return wheelData;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get district truck load types from DB based on date: "+ex.getCause());
+			
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return null;
+	}
+	@Override
+	public List<AxleWheelTypeEntity> getAllAxleWheelTypeEntity() {
+
+		Session session = null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<AxleWheelTypeEntity> axleWheelList = session
+					.createCriteria(AxleWheelTypeEntity.class).list();
+			return axleWheelList;
+		} catch (Exception ex) {
+			_LOGGER.error("unable to get Axle wheel data "+ex.getCause());
+			
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}
+		return new ArrayList<>();
+	
+	}
+	
+	
+	@Override
+	public void updateTruckhistory(TruckHistoryDetailsEntity historyObj) {
 
 
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			/*session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			session.update(normalLoad);
+			transaction.commit();*/
+			session = sessionFactory.openSession();
+			transaction = session.beginTransaction();
+			
+			String hqlUpdate = "update TruckHistoryDetailsEntity n set n.sr_No = :SRNO ,n.districtCode=:DISTRICTCODE,n.districtName=:NAME,n.ratedLoad=:RATEDLOAD,n.normalLoad=:NORMALLOAD ,where n.truckNo = :TRUCKNO";
+			// or String hqlUpdate = "update Customer set name = :newName where name = :oldName";
+			int updatedEntities = session.createQuery( hqlUpdate )
+					.setInteger("sr_No", historyObj.getSr_No())
+					.setString("districtCode",historyObj.getDistrictCode() )
+					.setString("districtName",historyObj.getDistrictName() )
+					.setInteger("ratedLoad", historyObj.getRatedLoad())
+					.setInteger("normalLoad", historyObj.getNormalLoad())
+
+			        .executeUpdate();
+			        transaction.commit();
+
+			        _LOGGER.info("Updated truck history data has been saved successfully in db");
+		} catch (Exception ex) {
+			_LOGGER.error("unable to Update truck history  data into DB: "+ex.getCause());
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			if (session != null) {
+				try {
+					session.close();
+				} catch (Exception ex) {
+				}
+			}
+		}		
+	
+	}
+
+	
+	
+	
+	
+	
+	
+	
 	
 }

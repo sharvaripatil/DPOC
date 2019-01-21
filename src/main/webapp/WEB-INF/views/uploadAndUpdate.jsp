@@ -43,7 +43,9 @@ h4 {
          enctype = "multipart/form-data" style="margin: 10% 0px;">
 				 <h2>Please select a file to upload  </h2> 
          <input class="btn btn-primary btn-rounded" type = "file" name = "file" />
-         <input class="btn btn-success btn-rounded" type = "submit" value = "upload" />
+         <input class="btn btn-success btn-rounded" type = "submit" value = "upload" />&nbsp &nbsp &nbsp&nbsp
+         <input class="btn btn-success btn-rounded" type = "submit" value = "update" />
+         
          
            <c:choose>
              	<c:when test="${showMessage == 'success'}">
