@@ -785,6 +785,7 @@ public class ShippingDao implements IshippingOrderDao{
 	}
 	
 	
+
 	@Override
 	public void updateTruckhistory(TruckHistoryDetailsEntity historyObj) {
 
@@ -792,21 +793,18 @@ public class ShippingDao implements IshippingOrderDao{
 		Session session = null;
 		Transaction transaction = null;
 		try {
-			/*session = sessionFactory.openSession();
-			transaction = session.beginTransaction();
-			session.update(normalLoad);
-			transaction.commit();*/
+		
 			session = sessionFactory.openSession();
 			transaction = session.beginTransaction();
-			
-			String hqlUpdate = "update TruckHistoryDetailsEntity n set n.sr_No = :SRNO ,n.districtCode=:DISTRICTCODE,n.districtName=:NAME,n.ratedLoad=:RATEDLOAD,n.normalLoad=:NORMALLOAD ,where n.truckNo = :TRUCKNO";
-			// or String hqlUpdate = "update Customer set name = :newName where name = :oldName";
+	
+			 
+			String hqlUpdate = "update TruckHistoryDetailsEntity tr set tr.districtCode = :a,tr.districtName = :b,tr.ratedLoad = :c,tr.normalLoad = :d where tr.truckNo = :e";
 			int updatedEntities = session.createQuery( hqlUpdate )
-					.setInteger("sr_No", historyObj.getSr_No())
-					.setString("districtCode",historyObj.getDistrictCode() )
-					.setString("districtName",historyObj.getDistrictName() )
-					.setInteger("ratedLoad", historyObj.getRatedLoad())
-					.setInteger("normalLoad", historyObj.getNormalLoad())
+					.setString("e", historyObj.getTruckNo())
+					.setString("a",historyObj.getDistrictCode() )
+					.setString("b",historyObj.getDistrictName() )
+					.setInteger("c", historyObj.getRatedLoad())
+					.setInteger("d", historyObj.getNormalLoad())
 
 			        .executeUpdate();
 			        transaction.commit();
