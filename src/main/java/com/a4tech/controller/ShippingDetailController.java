@@ -296,8 +296,7 @@ public class ShippingDetailController {
   }
   
 @RequestMapping(value="/uploadTruckHistoryDetails", method = RequestMethod.POST)
-@ResponseBody
-  public String processHistory(FileUploadBean mfile, ModelMap modelmap,Model model,HttpServletRequest request) throws IOException {
+  public String processHistory(FileUploadBean mfile,Model model,HttpServletRequest request) throws IOException {
 	  int countTruckDetailsFile=5;
 	  int numberOfCells=0;
 	  if(mfile.getFile().getSize() == 0)
@@ -310,25 +309,20 @@ public class ShippingDetailController {
 		Sheet sheet = wb.getSheetAt(0);
 		 numberOfCells=sheet.getRow(0).getLastCellNum();
 			if (numberOfCells == countTruckDetailsFile) {
-				
 				 if(request.getParameter("button1") != null) {
 			      dataMapper.readTruckHistoryExcel(wb);
 			      model.addAttribute("truckHistoryMessage", "success");
 				 }else {
 				  dataMapper.updateTruckHistoryExcel(wb);
 			      model.addAttribute("truckHistoryMessageUpdated", "success");
-
 				  }
-		} else {
+				} else {
 			model.addAttribute("showMessage", "format");
-		}
-	  }
+		} }
 	  return "uploadAndUpdate";
   }
 
 
-
-  
 
 /*@RequestMapping(value="/updateTruckHistoryDetails", method = RequestMethod.POST)
 public String updateHistory(FileUploadBean mfile, ModelMap modelmap,Model model) throws IOException {
