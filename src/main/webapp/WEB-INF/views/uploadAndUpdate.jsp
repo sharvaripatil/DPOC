@@ -43,8 +43,8 @@ h4 {
          enctype = "multipart/form-data" style="margin: 10% 0px;">
 				 <h2>Please select a file to upload  </h2> 
          <input class="btn btn-primary btn-rounded" type = "file" name = "file" />
-         <input class="btn btn-success btn-rounded" type = "submit" value = "upload" />&nbsp &nbsp &nbsp&nbsp
-         <input class="btn btn-success btn-rounded" type = "submit" value = "update" />
+         <input class="btn btn-success btn-rounded" type = "submit" value = "upload-New" name="button1"  />&nbsp &nbsp &nbsp&nbsp
+         <input class="btn btn-success btn-rounded" type = "submit" value = "update-Existing" name="button2"  />
          
          
            <c:choose>
@@ -63,13 +63,16 @@ h4 {
              	<c:when test="${truckHistoryMessage == 'success'}">
              	<h4 style="color: green;">Truck History data has been saved successfully</h4> 
              	</c:when>
-             		<c:when test="${normalLoad == 'success'}">
+             	<c:when test="${truckHistoryMessageUpdated == 'success'}">
+             	<h4 style="color: green;">Truck History data has been updated successfully</h4> 
+             	</c:when>
+             	<c:when test="${normalLoad == 'success'}">
              	<h4 style="color: green;">Normal load configuration data has been saved successfully</h4> 
              	</c:when>
       
              	</c:choose>
         
-      </form:form>
+       </form:form>
 						</center>
 					</div>    
                     
