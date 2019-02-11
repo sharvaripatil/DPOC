@@ -538,6 +538,20 @@ public String updateHistory(FileUploadBean mfile, ModelMap modelmap,Model model)
 	}
 	
 	
+	@RequestMapping(value = "newWheelValue")
+	public String addNewWheelValue(HttpServletRequest req)
+	{
+		
+	
+		
+		
+		return "axleWheelConfig";
+		
+	}
+	
+	
+	
+	
 	 @RequestMapping(value = "/uploadLoadConfig", method = RequestMethod.GET)
 	   public ModelAndView uploadconfg() {
 		  FileUploadBean file = new FileUploadBean();
@@ -614,7 +628,7 @@ public String updateHistory(FileUploadBean mfile, ModelMap modelmap,Model model)
 		Map<String, List<ShippingDetails1>> ordersOnDistrictMap = new HashMap<>();
 
 		for (ShippingDetails1 shippingDetails1 : shippingOrderList) {
-			String districtName = shippingDetails1.getDistrict_name();
+			String districtName = shippingDetails1.getDistrict_name();	
 			List<ShippingDetails1> ordersList = ordersOnDistrictMap.get(districtName);
 			if (ordersList != null) {
 				ordersList.add(shippingDetails1);

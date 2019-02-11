@@ -183,15 +183,15 @@
                                 </thead>
                                 <tbody id="axleWhel">
                                 <tr>
-                                   <!--  <td>1</td>
+                                   <td>1</td>
                                     <td>Upto 50 kms</td>
                                     <td>Any next order </td>
                                     <td>
 							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
                             <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
                             <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td> -->
-                                </tr>
+                       				 </td> 
+                              		  </tr>
                                     </tbody>
                             </table>
                                           
@@ -215,30 +215,13 @@
                                     <div class="col-lg-5">
                                     <input id="axlewheelertype" name="axlewheelertype" type="text" class="form-control" ><br/>
                                      <button class="btn btn-sm btn-primary center-block" name="addType" type="submit">Add</button>
-<!--                                      <button class="btn btn-sm btn-primary pull-right" name="addType" type="button" >Reset</button>
+<!--                                 <button class="btn btn-sm btn-primary pull-right" name="addType" type="button" >Reset</button>
  -->                                    </div>
                                    
                                 </div>
                     
                     
-    			 <c:choose>
-             	<c:when test="${showMessage == 'success'}">
-             	<script>
-             	$(document).ready(function(){
-             	$('#create').modal('show'); 
-             	});
-             	</script>
-             	<span style="color: green;" class="text-center" id="errExist">wheeler type is has been saved successfully</span> 
-             	</c:when>
-             	<c:when test="${showMessage == 'Error'}">
-             	 	<script>
-             	$(document).ready(function(){
-             	$('#create').modal('show');
-             	});
-             	</script>
-             	<span style="color: red;" class="text-center" id="errExist">The wheeler type is already present</span> 
-             	</c:when>
-             	</c:choose>
+    
                   </form>
                             
                         </div>
